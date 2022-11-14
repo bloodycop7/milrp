@@ -31,7 +31,7 @@ function PANEL:SetMessage(...)
 	-- set frame position and height to suit the markup
 	local shiftHeight = self.message:GetHeight()
 	self:SetHeight(shiftHeight+baseSizeH)
-	surface.PlaySound("buttons/lightswitch2.wav")
+	surface.PlaySound("buttons/button24.wav")
 end
 
 --local infotexture = Material("impulse/icons/warning-128.png")
