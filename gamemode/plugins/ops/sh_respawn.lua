@@ -4,7 +4,7 @@ local respawnCommand = {
     adminOnly = true,
     onRun = function(ply, arg, rawText)
         local name = arg[1]
-		local plyTarget = mrp.FindPlayer(name)
+		local plyTarget = mrp:FindPlayer(name)
 
 		if plyTarget then
 			plyTarget:Spawn()

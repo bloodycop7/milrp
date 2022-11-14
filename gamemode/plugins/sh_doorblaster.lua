@@ -1,21 +1,14 @@
 local blastableweapons = {
     ["weapon_shotgun"] = true,
-    ["ix_spas12"] = true,
-    ["ix_pulse_shotgun"] = true,
-    ["ix_waterpipe"] = true,
+    ["mg_romeo870"] = true,
+    ["mg_charlie725"] = true,
+    ["mg_dpapa12"] = true,
+    ["mg_oscar12"] = true
 }
 
 local ignoredamage = {
     ["weapon_crowbar"] = true,
-    ["weapon_stunstick"] = true,
-    ["ix_axe_blunt"] = true,
-    ["ix_axe"] = true,
-    ["ix_pickaxe_blunt"] = true,
-    ["ix_pickaxe"] = true,
-    ["ix_crowbar"] = true,
-    ["ix_leadpipe"] = true,
-    ["ix_tappingkit"] = true,
-    ["ix_hands"] = true,
+    ["weapon_stunstick"] = true
 }
 
 if (SERVER) then

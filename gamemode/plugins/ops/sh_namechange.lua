@@ -16,7 +16,7 @@ if SERVER then
 			return
 		end
 
-		ply:SetRPName(output, true)
+		ply:SetSyncVar(SYNC_RPNAME, output, true)
 		ply:Notify("You have changed your name to "..output..".")
 
 		ply.NameChangeForced = nil
@@ -73,7 +73,7 @@ local changeNameCommand =  {
 	adminOnly = true,
 	onRun = function(ply, arg, rawText)
         local name = arg[1]
-		local plyTarget = mrp.FindPlayer(name)
+		local plyTarget = mrp:FindPlayer(name)
 
 		if plyTarget then
 			net.Start("mrpOpsNamechange")

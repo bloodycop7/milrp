@@ -15,6 +15,7 @@ function PANEL:Init()
     end
 
     for k, v in pairs(player.GetAll()) do
+        if ( v:IsIncognito() ) then continue end
         self.panel = self.lowerPanel:Add("DPanel")
         self.panel:Dock(TOP)
         self.panel:DockMargin(0, 5, 0, 0)

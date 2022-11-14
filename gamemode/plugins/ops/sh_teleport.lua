@@ -36,7 +36,7 @@ local gotoCommand = {
     adminOnly = true,
     onRun = function(ply, arg, rawText)
         local name = arg[1]
-		local plyTarget = mrp.FindPlayer(name)
+		local plyTarget = mrp:FindPlayer(name)
 
 		if plyTarget and ply != plyTarget then
 			opsGoto(ply, plyTarget:GetPos())
@@ -97,7 +97,7 @@ local bringCommand = {
     adminOnly = true,
     onRun = function(ply, arg, rawText)
         local name = arg[1]
-		local plyTarget = mrp.FindPlayer(name)
+		local plyTarget = mrp:FindPlayer(name)
 
 		if plyTarget and ply != plyTarget then
 			if not plyTarget:Alive() then
@@ -122,7 +122,7 @@ local returnCommand = {
     adminOnly = true,
     onRun = function(ply, arg, rawText)
         local name = arg[1]
-		local plyTarget = mrp.FindPlayer(name)
+		local plyTarget = mrp:FindPlayer(name)
 
 		if plyTarget and ply != plyTarget then
 			if plyTarget.lastPos then

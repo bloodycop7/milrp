@@ -57,11 +57,6 @@ local oocCommand = {
 			return ply:Notify("OOC chat has been suspsended and will return shortly.")	
 		end
 
-		local timeout = mrp.OOCTimeouts[ply:SteamID()]
-		if timeout then
-			return ply:Notify("You have an active OOC timeout that will remain for "..string.NiceTime(timeout - CurTime())..".")
-		end
-
 		for v,k in pairs(player.GetAll()) do
 			k:SendChatClassMessage(2, rawText, ply)
 		end
@@ -106,7 +101,7 @@ local pmCommand = {
 			return ply:Notify("Invalid argument.")
 		end
 
-		local plyTarget = mrp.FindPlayer(name)
+		local plyTarget = mrp:FindPlayer(name)
 
 		if plyTarget and ply != plyTarget then
 			plyTarget:SendChatClassMessage(4, message, ply)
@@ -189,9 +184,9 @@ local radioCommand = {
 	onRun = function(ply, arg, rawText)
 		rawText = hook.Run("ChatClassMessageSend", 8, rawText, ply) or rawText
 
-		if ply:IsCP() then
+		if ply:IsSoldier() then
 			for v,k in pairs(player.GetAll()) do
-				if k:IsCP() then 
+				if k:IsSoldier() then
 					k:SendChatClassMessage(8, rawText, ply)
 				end
 			end
@@ -233,29 +228,6 @@ local itCommand = {
 }
 
 mrp.RegisterChatCommand("/it", itCommand)
-
-local advertCommand = {
-	description = "Broadcasts the advert provided.",
-	requiresArg = true,
-	requiresAlive = true,
-	onRun = function(ply, arg, rawText)
-		if not mrp.Teams.Data[ply:Team()].canAdvert or mrp.Teams.Data[ply:Team()].canAdvert == false then 
-			return ply:Notify("Your team cannot make an advert.") 
-		end
-
-		timer.Simple(15, function()
-			if IsValid(ply) and ply:IsPlayer() then
-				for v,k in pairs(player.GetAll()) do
-					k:SendChatClassMessage(12, rawText, ply)
-				end
-			end
-		end)
-
-		ply:Notify("Your advert has been sent and will be broadcast shortly.")
-	end
-}
-
-mrp.RegisterChatCommand("/advert", advertCommand)
 
 local rollCommand = {
 	description = "Generate a random number between 0 and 100.",
@@ -301,11 +273,9 @@ if CLIENT then
 	local talkCol = Color(255, 255, 100)
 	local radioCol = Color(65, 120, 200)
 	local pmCol = Color(45, 154, 6)
-	local advertCol = Color(255, 174, 66)
 	local acCol = Color(0, 235, 0, 255)
 	local eventCol = Color(255, 69, 0)
 	local fallbackRankCol = Color(211, 211, 211)
-	local groupCol = Color(148, 0, 211)
 	local rankCols = mrp.Config.RankColours
 
 	mrp.RegisterChatClass(1, function(message, speaker)
@@ -394,26 +364,5 @@ if CLIENT then
 
 	mrp.RegisterChatClass(14, function(message, speaker)
 		chat.AddText(eventCol, "[EVENT] ", message)
-	end)
-
-	mrp.RegisterChatClass(15, function(message, speaker)
-		local groupName = LocalPlayer():GetSyncVar(SYNC_GROUP_NAME, nil)
-		local groupRank = speaker:GetSyncVar(SYNC_GROUP_RANK, nil)
-
-		if not groupName or not groupRank then
-			return
-		end
-
-		local myGroup = mrp.Group.Groups[1]
-
-		if not myGroup then
-			return
-		end
-		
-		if myGroup.Color then
-			chat.AddText(myGroup.Color, "["..groupName.."] ("..groupRank..") ", speaker:Nick(), ": ", message)
-		else
-			chat.AddText(groupCol, "["..groupName.."] ("..groupRank..") ", speaker:Nick(), ": ", message)
-		end
 	end)
 end

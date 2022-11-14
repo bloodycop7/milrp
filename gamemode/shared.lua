@@ -84,6 +84,66 @@ function meta:IsCombine()
 	return self:GetModel():find("combine")
 end
 
+local blacklistNames = {
+	["ooc"] = true,
+	["shared"] = true,
+	["world"] = true,
+	["world prop"] = true,
+	["blocked"] = true,
+	["admin"] = true,
+	["server admin"] = true,
+	["mod"] = true,
+	["game moderator"] = true,
+	["adolf hitler"] = true,
+	["masked person"] = true,
+	["masked player"] = true,
+	["unknown"] = true,
+	["nigger"] = true,
+	["tyrone jenson"] = true
+}
+
+function mrp.SafeString(str)
+    local pattern = "[^0-9a-zA-Z%s]+"
+    local clean = tostring(str)
+    local first, last = string.find(str, pattern)
+
+    if first != nil and last != nil then
+        clean = string.gsub(clean, pattern, "") -- remove bad sequences
+    end
+
+    return clean
+end
+
+function mrp.CanUseName(name)
+	if name:len() >= 24 then
+		return false, "Name too long. (max. 24)" 
+	end
+
+	name = name:Trim()
+	name = mrp.SafeString(name)
+
+	if name:len() <= 6 then
+		return false, "Name too short. (min. 6)"
+	end
+
+	if name == "" then
+		return false, "No name was provided."
+	end
+
+
+	local numFound = string.match(name, "%d") -- no numerics
+
+	if numFound then
+		return false, "Name contains numbers."
+	end
+	
+	if blacklistNames[name:lower()] then
+		return false, "Blacklisted/reserved name."	
+	end
+
+	return true, name
+end
+
 function mrp:FindPlayer(searchKey)
     if not searchKey or searchKey == "" then return nil end
     local searchPlayers = player.GetAll()
@@ -105,6 +165,58 @@ function mrp:FindPlayer(searchKey)
         end
     end
     return nil
+end
+
+function mrp.IsEmpty(vector, ignore) -- findpos and isempty are from darkrp
+    ignore = ignore or {}
+
+    local point = util.PointContents(vector)
+    local a = point ~= CONTENTS_SOLID
+        and point ~= CONTENTS_MOVEABLE
+        and point ~= CONTENTS_LADDER
+        and point ~= CONTENTS_PLAYERCLIP
+        and point ~= CONTENTS_MONSTERCLIP
+    if not a then return false end
+
+    local b = true
+
+    for _, v in ipairs(ents.FindInSphere(vector, 35)) do
+        if (v:IsNPC() or v:IsPlayer() or v:GetClass() == "prop_physics" or v.NotEmptyPos) and not table.HasValue(ignore, v) then
+            b = false
+            break
+        end
+    end
+
+	return a and b
+end
+
+function mrp.FindEmptyPos(pos, ignore, distance, step, area)
+    if mrp.IsEmpty(pos, ignore) and mrp.IsEmpty(pos + area, ignore) then
+        return pos
+    end
+
+    for j = step, distance, step do
+        for i = -1, 1, 2 do -- alternate in direction
+            local k = j * i
+
+            -- Look North/South
+            if mrp.IsEmpty(pos + Vector(k, 0, 0), ignore) and mrp.IsEmpty(pos + Vector(k, 0, 0) + area, ignore) then
+                return pos + Vector(k, 0, 0)
+            end
+
+            -- Look East/West
+            if mrp.IsEmpty(pos + Vector(0, k, 0), ignore) and mrp.IsEmpty(pos + Vector(0, k, 0) + area, ignore) then
+                return pos + Vector(0, k, 0)
+            end
+
+            -- Look Up/Down
+            if mrp.IsEmpty(pos + Vector(0, 0, k), ignore) and mrp.IsEmpty(pos + Vector(0, 0, k) + area, ignore) then
+                return pos + Vector(0, 0, k)
+            end
+        end
+    end
+
+    return pos
 end
 
 function meta:Notify(message)
@@ -148,4 +260,12 @@ function meta:GetPlayersInRadius(radius)
 	end
 
 	return ent
+end
+
+function meta:IsSoldier()
+	return ( self:Team() == TEAM_SOLDIER )
+end
+
+function meta:IsTerrorist()
+	return ( self:Team() == TEAM_TERRORIST )
 end
