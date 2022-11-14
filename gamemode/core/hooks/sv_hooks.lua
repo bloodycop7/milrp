@@ -216,6 +216,9 @@ net.Receive("milMainMenuSpawn", function(len, ply)
     ply:SetLadderClimbSpeed(100)
     ply:SetCrouchedWalkSpeed(0.6)
 	ply:SetupHands(ply)
+	if ( timer.Exists(ply:SteamID64().."Bleed") ) then
+		timer.Remove(ply:SteamID64().."Bleed")
+	end
 end)
 
 util.AddNetworkString("milMainMenuChangeName")
@@ -310,6 +313,9 @@ function GM:PlayerSpawn(ply, transition)
     ply:SetLadderClimbSpeed(100)
     ply:SetCrouchedWalkSpeed(0.6)
 	ply:SetupHands(ply)
+	if ( timer.Exists(ply:SteamID64().."Bleed") ) then
+		timer.Remove(ply:SteamID64().."Bleed")
+	end
 end
 
 util.AddNetworkString("mrpSetTeamIndex")
@@ -341,11 +347,13 @@ util.AddNetworkString("mrpNotify")
 
 function GM:PlayerCanPickupItem(ply, ent)
 	if ( ent:GetClass() == "item_healthkit" or ent:GetClass() == "item_healthvial" ) then
-		ply:SetSyncVar(SYNC_BLEEDING, false, true)
-		ply:Notify("You have stopped bleeding!")
+		if ( ply:GetSyncVar(SYNC_BLEEDING, false) ) then
+			ply:SetSyncVar(SYNC_BLEEDING, false, true)
+			ply:Notify("You have stopped bleeding!")
 
-		if ( timer.Exists(ply:SteamID64().."Bleed") ) then
-			timer.Remove(ply:SteamID64().."Bleed")
+			if ( timer.Exists(ply:SteamID64().."Bleed") ) then
+				timer.Remove(ply:SteamID64().."Bleed")
+			end
 		end
 	end
 

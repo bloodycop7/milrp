@@ -33,4 +33,7 @@ function GM:PlayerLoadout(ply)
     ply:SetLadderClimbSpeed(100)
     ply:SetCrouchedWalkSpeed(0.6)
 	ply:SetupHands(ply)
+    if ( timer.Exists(ply:SteamID64().."Bleed") ) then
+        timer.Remove(ply:SteamID64().."Bleed")
+    end
 end
