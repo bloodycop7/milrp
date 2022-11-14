@@ -1,50 +1,18 @@
 for i = 15, 300 do
     surface.CreateFont("mrp-Font"..tostring(i), {
-        font = "BF_Modernista",
+        font = "Eurostile",
         size = i,
         antialias = true,
         shadow = true,
+        weight = 500,
         blursize = 0.5,
     })
-
-    surface.CreateFont("mrp-Elements"..tostring(i), {
-        font = "BF_Modernista",
-        size = i,
-        antialias = true,
-        shadow = true,
-        blursize = 0.5,
-    })
-
-    surface.CreateFont("mrp-Chat"..tostring(i), {
-        font = "BF_Modernista",
-        size = i,
-        antialias = true,
-        shadow = true,
-        blursize = 0.5,
-    })
-
-
-
+    
     surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
-        font = "BF_Modernista",
+        font = "Eurostile",
         size = i,
         antialias = true,
-        shadow = true,
-        blursize = 0.5,
-    })
-
-    surface.CreateFont("mrp-Elements"..tostring(i).."-Shadow", {
-        font = "BF_Modernista",
-        size = i,
-        antialias = true,
-        shadow = true,
-        blursize = 0.5,
-    })
-
-    surface.CreateFont("mrp-Chat"..tostring(i).."-Shadow", {
-        font = "BF_Modernista",
-        size = i,
-        antialias = true,
+        weight = 500,
         shadow = true,
         blursize = 0.5,
     })

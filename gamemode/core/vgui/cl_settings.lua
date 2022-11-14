@@ -33,7 +33,7 @@ function PANEL:Init()
 
 		local settingLabel = vgui.Create("DLabel", settingBase)
 		settingLabel:SetText(k.name)
-		settingLabel:SetFont("mrp-Elements18")
+		settingLabel:SetFont("mrp-Font18")
 		settingLabel:SizeToContents()
 		settingLabel:CenterVertical()
 		settingLabel:SetPos(5, settingLabel.y)

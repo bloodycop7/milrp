@@ -22,7 +22,7 @@ function PANEL:AddLog(message, isMe, timestamp)
 	end
 
 	-- Encode message into markup
-	local msg = "<font=mrp-Elements16-Shadow>"
+	local msg = "<font=mrp-Font16-Shadow>"
 
 	for k, v in ipairs(message) do
 		if type(v) == "table" then
@@ -59,7 +59,7 @@ function PANEL:AddLog(message, isMe, timestamp)
 		stamp.timestamp = timestamp
 		stamp:SetText(string.NiceTime(CurTime() - timestamp).." ago")
 		stamp:SetSize(120, 12)
-		stamp:SetFont("mrp-Elements14-Shadow")
+		stamp:SetFont("mrp-Font14-Shadow")
 		stamp:SetPos(2, 2)
 
 		function stamp:Think()
@@ -96,7 +96,7 @@ function PANEL:SetupUI()
 	end
 
 	self.title = vgui.Create("DLabel", self)
-	self.title:SetFont("mrp-Elements27-Shadow")
+	self.title:SetFont("mrp-Font27-Shadow")
 	self.title:SetPos(10, 30)
 
 	local sendText = "Submit"
@@ -112,7 +112,7 @@ function PANEL:SetupUI()
 
 	if curReport then
 		self.warn = vgui.Create("DLabel", self)
-		self.warn:SetFont("mrp-Elements14-Shadow")
+		self.warn:SetFont("mrp-Font14-Shadow")
 		self.warn:SetPos(10 + self.title:GetWide() + 3, 40)
 		self.warn:SetText("Please note: All reports are recorded for quality control purposes.")
 		self.warn:SizeToContents()
@@ -134,21 +134,21 @@ function PANEL:SetupUI()
 		local darkText = Color(150, 150, 150, 210)
 		local lbl = self.log:Add("DLabel")
 		lbl:SetText("No report history here yet")
-		lbl:SetFont("mrp-Elements19-Shadow")
+		lbl:SetFont("mrp-Font19-Shadow")
 		lbl:Dock(TOP)
 		lbl:SetContentAlignment(5)
 		lbl:SetTextColor(darkText)
 
 		local lbl = self.log:Add("DLabel")
 		lbl:SetText("Once you submit a report you'll see the report history and additional report information here.")
-		lbl:SetFont("mrp-Elements14-Shadow")
+		lbl:SetFont("mrp-Font14-Shadow")
 		lbl:Dock(TOP)
 		lbl:SetContentAlignment(5)
 		lbl:SetTextColor(darkText)
 
 		local lbl = self.log:Add("DLabel")
 		lbl:SetText("How to submit a report")
-		lbl:SetFont("mrp-Elements19-Shadow")
+		lbl:SetFont("mrp-Font19-Shadow")
 		lbl:Dock(TOP)
 		lbl:SetTall(60)
 		lbl:SetContentAlignment(2)
@@ -156,7 +156,7 @@ function PANEL:SetupUI()
 
 		local lbl = self.log:Add("DLabel")
 		lbl:SetText("If you'd like to submit a report please enter a description in the box below and click submit.\nReports with invalid descriptions may be rejected.\nIf you forget anything or the circumtances of your report changes, just open this menu and update us.")
-		lbl:SetFont("mrp-Elements14-Shadow")
+		lbl:SetFont("mrp-Font14-Shadow")
 		lbl:Dock(TOP)
 		lbl:SetTall(45)
 		lbl:SetContentAlignment(8)
@@ -164,7 +164,7 @@ function PANEL:SetupUI()
 
 		local lbl = self.log:Add("DLabel")
 		lbl:SetText("We'll respond as soon as possible")
-		lbl:SetFont("mrp-Elements19-Shadow")
+		lbl:SetFont("mrp-Font19-Shadow")
 		lbl:Dock(TOP)
 		lbl:SetTall(60)
 		lbl:SetContentAlignment(2)
@@ -172,7 +172,7 @@ function PANEL:SetupUI()
 
 		local lbl = self.log:Add("DLabel")
 		lbl:SetText("When your report is submitted it will be put into the queue, please note this queue can be large.\nIt may some take time for a game moderator to become available.\nWhile waiting check the report log to see the status of your report and avoid asking in OOC.")
-		lbl:SetFont("mrp-Elements14-Shadow")
+		lbl:SetFont("mrp-Font14-Shadow")
 		lbl:Dock(TOP)
 		lbl:SetTall(50)
 		lbl:SetContentAlignment(8)
@@ -180,7 +180,7 @@ function PANEL:SetupUI()
 	end
 
 	self.lbl = vgui.Create("DLabel", self)
-	self.lbl:SetFont("mrp-Elements18-Shadow")
+	self.lbl:SetFont("mrp-Font18-Shadow")
 	self.lbl:SetPos(10, 355)
 	self.lbl:SetText("Message:")
 	self.lbl:SizeToContents()
@@ -190,7 +190,7 @@ function PANEL:SetupUI()
 	self.entry:SetSize(585, 50)
 	self.entry:SetMultiline(true)
 	self.entry:SetEnterAllowed(false)
-	self.entry:SetFont("mrp-Elements16")
+	self.entry:SetFont("mrp-Font16")
 	self.entry:SetValue(text)
 
 	self.sendBtn = vgui.Create("DButton", self)

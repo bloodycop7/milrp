@@ -17,7 +17,7 @@ local hitgroups = {
 hook.Add("HUDPaint", "mrpOpsHUD", function()
 	if LocalPlayer():IsAdmin() and LocalPlayer():GetMoveType() == MOVETYPE_NOCLIP and !LocalPlayer():InVehicle() then
 
-		draw.SimpleText("OBSERVER MODE", "mrp-Elements19-Shadow", 20, 10, col)
+		draw.SimpleText("OBSERVER MODE", "mrp-Font19-Shadow", 20, 10, col)
 
 		local staffOn = 0
 
@@ -27,13 +27,13 @@ hook.Add("HUDPaint", "mrpOpsHUD", function()
 			end
 		end
 
-		draw.SimpleText(staffOn.." STAFF ONLINE", "mrp-Elements18-Shadow", ScrW() * .5, 10, col, TEXT_ALIGN_CENTER)
+		draw.SimpleText(staffOn.." STAFF ONLINE", "mrp-Font18-Shadow", ScrW() * .5, 10, col, TEXT_ALIGN_CENTER)
 
 		if OPS_LIGHT then
-			draw.SimpleText("LIGHT ON", "mrp-Elements18-Shadow", ScrW() * .5, 30, col, TEXT_ALIGN_CENTER)
+			draw.SimpleText("LIGHT ON", "mrp-Font18-Shadow", ScrW() * .5, 30, col, TEXT_ALIGN_CENTER)
 		end
 
-		draw.SimpleText("TOTAL REPORTS: " ..#mrp.Ops.Reports, "mrp-Elements16-Shadow", 20, 30, col)
+		draw.SimpleText("TOTAL REPORTS: " ..#mrp.Ops.Reports, "mrp-Font16-Shadow", 20, 30, col)
 
 		local totalClaimed = 0
 		for v,k in pairs(mrp.Ops.Reports) do
@@ -42,19 +42,19 @@ hook.Add("HUDPaint", "mrpOpsHUD", function()
 
 				if k[3] == LocalPlayer() then
 					if IsValid(k[1]) then
-						draw.SimpleText("REPORTEE: "..k[1]:Nick().." ("..k[1]:Name()..")", "mrp-Elements16-Shadow", 20, 80, green)
+						draw.SimpleText("REPORTEE: "..k[1]:Nick().." ("..k[1]:Name()..")", "mrp-Font16-Shadow", 20, 80, green)
 					else
-						draw.SimpleText("REPORTEE IS INVALID! CLOSE THIS REPORT.", "mrp-Elements16-Shadow", 20, 80, green)
+						draw.SimpleText("REPORTEE IS INVALID! CLOSE THIS REPORT.", "mrp-Font16-Shadow", 20, 80, green)
 					end
 				end
 			end
 		end
 
-		draw.SimpleText("CLAIMED REPORTS: " ..totalClaimed, "mrp-Elements16-Shadow", 20, 50, col)
+		draw.SimpleText("CLAIMED REPORTS: " ..totalClaimed, "mrp-Font16-Shadow", 20, 50, col)
 
 		if LocalPlayer():IsAdmin() then
-			draw.SimpleText("ENTCOUNT: "..#ents.GetAll(), "mrp-Elements16-Shadow", 20, 100, col)
-			draw.SimpleText("PLAYERCOUNT: "..#player.GetAll(), "mrp-Elements16-Shadow", 20, 120, col)
+			draw.SimpleText("ENTCOUNT: "..#ents.GetAll(), "mrp-Font16-Shadow", 20, 100, col)
+			draw.SimpleText("PLAYERCOUNT: "..#player.GetAll(), "mrp-Font16-Shadow", 20, 120, col)
 
 			local y = 160
 
@@ -66,12 +66,12 @@ hook.Add("HUDPaint", "mrpOpsHUD", function()
 
 
 				if k:IsAdmin() and k:GetMoveType() == MOVETYPE_NOCLIP and k:GetNoDraw() then
-					draw.SimpleText("** In Observer Mode **", "mrp-Elements18-Shadow", pos.x, pos.y, Color(255, 0, 0), TEXT_ALIGN_CENTER)
+					draw.SimpleText("** In Observer Mode **", "mrp-Font18-Shadow", pos.x, pos.y, Color(255, 0, 0), TEXT_ALIGN_CENTER)
 				else
-					draw.SimpleText(k:Name(), "mrp-Elements18-Shadow", pos.x, pos.y, col, TEXT_ALIGN_CENTER)
+					draw.SimpleText(k:Name(), "mrp-Font18-Shadow", pos.x, pos.y, col, TEXT_ALIGN_CENTER)
 				end
 
-				draw.SimpleText(k:Nick(), "mrp-Elements16-Shadow", pos.x, pos.y + 15, mrp.Config.InteractColour, TEXT_ALIGN_CENTER)
+				draw.SimpleText(k:Nick(), "mrp-Font16-Shadow", pos.x, pos.y + 15, mrp.Config.InteractColour, TEXT_ALIGN_CENTER)
 			end
 		end
 
@@ -80,21 +80,21 @@ hook.Add("HUDPaint", "mrpOpsHUD", function()
 			mrp.Ops.Snapshots[CUR_SNAPSHOT].VictimNeatName = mrp.Ops.Snapshots[CUR_SNAPSHOT].VictimNeatName or ((IsValid(snapData.Victim) and snapData.Victim:IsPlayer()) and (snapData.VictimNick.." ("..snapData.Victim:Nick()..")") or snapData.VictimID)
 			mrp.Ops.Snapshots[CUR_SNAPSHOT].InflictorNeatName = mrp.Ops.Snapshots[CUR_SNAPSHOT].InflictorNeatName or ((IsValid(snapData.Inflictor) and snapData.Inflictor:IsPlayer()) and (snapData.InflictorNick.." ("..snapData.Inflictor:Nick()..")") or snapData.InflictorID)
 
-			draw.SimpleText("VIEWING SNAPSHOT #"..CUR_SNAPSHOT.." (CLOSE WITH F2)", "mrp-Elements16-Shadow", 250, 100, col)
-			draw.SimpleText("VICTIM: "..snapData.VictimNeatName.." ["..snapData.VictimID.."]", "mrp-Elements16-Shadow", 250, 120, Color(255, 0, 0))
-			draw.SimpleText("ATTACKER: "..snapData.InflictorNeatName.." ["..snapData.InflictorID.."]", "mrp-Elements16-Shadow", 250, 140, Color(0, 255, 0))
+			draw.SimpleText("VIEWING SNAPSHOT #"..CUR_SNAPSHOT.." (CLOSE WITH F2)", "mrp-Font16-Shadow", 250, 100, col)
+			draw.SimpleText("VICTIM: "..snapData.VictimNeatName.." ["..snapData.VictimID.."]", "mrp-Font16-Shadow", 250, 120, Color(255, 0, 0))
+			draw.SimpleText("ATTACKER: "..snapData.InflictorNeatName.." ["..snapData.InflictorID.."]", "mrp-Font16-Shadow", 250, 140, Color(0, 255, 0))
 
 			for v,k in pairs(mrp.Ops.SnapshotEnts) do
 				local pos = (k:GetPos() + k:OBBCenter()):ToScreen()
 				local col = k:GetColor()
 
-				draw.SimpleText(k.IsVictim and snapData.VictimNeatName or snapData.InflictorNeatName, "mrp-Elements18-Shadow", pos.x, pos.y, col, TEXT_ALIGN_CENTER)
+				draw.SimpleText(k.IsVictim and snapData.VictimNeatName or snapData.InflictorNeatName, "mrp-Font18-Shadow", pos.x, pos.y, col, TEXT_ALIGN_CENTER)
 
 				if not k.IsVictim then
-					draw.SimpleText("WEP: "..snapData.AttackerClass, "mrp-Elements18-Shadow", pos.x, pos.y + 20, col, TEXT_ALIGN_CENTER)
-					draw.SimpleText("HP: "..snapData.InflictorHealth, "mrp-Elements18-Shadow", pos.x, pos.y + 40, col, TEXT_ALIGN_CENTER)
+					draw.SimpleText("WEP: "..snapData.AttackerClass, "mrp-Font18-Shadow", pos.x, pos.y + 20, col, TEXT_ALIGN_CENTER)
+					draw.SimpleText("HP: "..snapData.InflictorHealth, "mrp-Font18-Shadow", pos.x, pos.y + 40, col, TEXT_ALIGN_CENTER)
 				else
-					draw.SimpleText("HITGROUP: "..hitgroups[snapData.VictimHitGroup], "mrp-Elements18-Shadow", pos.x, pos.y + 20, col, TEXT_ALIGN_CENTER)
+					draw.SimpleText("HITGROUP: "..hitgroups[snapData.VictimHitGroup], "mrp-Font18-Shadow", pos.x, pos.y + 20, col, TEXT_ALIGN_CENTER)
 				end
 			end
 		end
@@ -110,7 +110,7 @@ hook.Add("HUDPaint", "mrpOpsHUD", function()
 				end
 			end
 
-			draw.SimpleText(symb.." LIVE (CURRENT SEQUENCE: "..mrp.Ops.EventManager.GetSequence()..")", "mrp-Elements18-Shadow", ScrW() - 20, 20, red, TEXT_ALIGN_RIGHT)
+			draw.SimpleText(symb.." LIVE (CURRENT SEQUENCE: "..mrp.Ops.EventManager.GetSequence()..")", "mrp-Font18-Shadow", ScrW() - 20, 20, red, TEXT_ALIGN_RIGHT)
 		end
 
 		local y = 160

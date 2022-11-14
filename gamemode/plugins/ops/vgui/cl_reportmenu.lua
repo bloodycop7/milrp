@@ -17,8 +17,8 @@ function PANEL:Init()
 	self.status:Dock(TOP)
 
 	function self.status:Paint()
-		draw.SimpleText(panel.Status, "mrp-Elements24-Shadow", 5, 5, panel.StatusCol)
-		draw.SimpleText("Report queue:", "mrp-Elements16", 5, 30, color_white)
+		draw.SimpleText(panel.Status, "mrp-Font24-Shadow", 5, 5, panel.StatusCol)
+		draw.SimpleText("Report queue:", "mrp-Font16", 5, 30, color_white)
 
 		return true
 	end
@@ -194,7 +194,7 @@ function PANEL:ReloadReports()
 			surface.SetDrawColor(Color(70, 70, 70))
 			surface.DrawRect(0, 0, w, h)
 
-			draw.SimpleText("#"..self.id, "mrp-Elements16", 3, 4, color_white)
+			draw.SimpleText("#"..self.id, "mrp-Font16", 3, 4, color_white)
 
 			if self.data[3] then
 				local claimerName = "disconnected, close me!"
@@ -208,12 +208,12 @@ function PANEL:ReloadReports()
 					end
 				end
 
-				draw.SimpleText("Claimed by: "..claimerName, "mrp-Elements16", 25, 4, col)
+				draw.SimpleText("Claimed by: "..claimerName, "mrp-Font16", 25, 4, col)
 			else
 				if self.data[4] then
-					draw.SimpleText("Unclaimed (Dale replied)", "mrp-Elements17", 25, 3, newReportCol)
+					draw.SimpleText("Unclaimed (Dale replied)", "mrp-Font17", 25, 3, newReportCol)
 				else
-					draw.SimpleText("Unclaimed", "mrp-Elements17", 25, 3, newReportCol)
+					draw.SimpleText("Unclaimed", "mrp-Font17", 25, 3, newReportCol)
 				end
 			end
 
@@ -222,8 +222,8 @@ function PANEL:ReloadReports()
 				reporteeName = self.data[1]:Nick().." ("..self.data[1]:Nick()..")"
 			end 
 
-			draw.SimpleText("Submitted by: "..reporteeName, "mrp-Elements16", 25, 19, color_white)
-			draw.SimpleText("Message: "..self.data[2], "mrp-Elements16", 3, 36, color_white)
+			draw.SimpleText("Submitted by: "..reporteeName, "mrp-Font16", 25, 19, color_white)
+			draw.SimpleText("Message: "..self.data[2], "mrp-Font16", 3, 36, color_white)
 
 			return true
 		end

@@ -39,7 +39,7 @@ else
 		local newName = vgui.Create("DLabel", panel)
 		newName:SetPos(15, 85)
 		newName:SetText("New name:")
-		newName:SetFont("mrp-Elements18-Shadow")
+		newName:SetFont("mrp-Font18-Shadow")
 		newName:SizeToContents()
 
 		local entry = vgui.Create("DTextEntry", panel)
