@@ -112,5 +112,12 @@ hook.Add("HUDPaint", "mrpOpsHUD", function()
 
 			draw.SimpleText(symb.." LIVE (CURRENT SEQUENCE: "..mrp.Ops.EventManager.GetSequence()..")", "mrp-Elements18-Shadow", ScrW() - 20, 20, red, TEXT_ALIGN_RIGHT)
 		end
+
+		local y = 160
+
+		for v,k in pairs(mrp.Teams.Stored) do
+			draw.SimpleText(team.GetName(v)..": "..#team.GetPlayers(v), "mrp-Font18", 20, y, col)
+			y = y + 20
+		end
 	end
 end)

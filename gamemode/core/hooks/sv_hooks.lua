@@ -55,10 +55,12 @@ function GM:Think()
 
 				if not ( v.isPlayingSound ) then
 					v:EmitSound("player/breathe1.wav")
+					v:EmitSound("player/heartbeat1.wav")
 					v.isPlayingSound = true
 
 					timer.Simple(SoundDuration("player/breathe1.wav"), function()
 						v:StopSound("player/breathe1.wav")
+						v:StopSound("player/heartbeat1.wav")
 						v.isPlayingSound = false
 					end)
 				end
@@ -319,3 +321,33 @@ net.Receive("mrpSetTeamIndex", function(len, ply)
 
 	hook.Run("PlayerLoadout", ply)
 end)
+
+function GM:PlayerHurt(ply, attacker, health, damage)
+	if not ( ply:GetSyncVar(SYNC_BLEEDING, false) ) then
+		ply:SetSyncVar(SYNC_BLEEDING, true, true)
+		ply:Notify("You have started bleeding!")
+		if not ( timer.Exists(ply:SteamID64().."Bleed") ) then
+			timer.Create(ply:SteamID64().."Bleed", math.random(10, 25), 0, function()
+				if ( ply:Health() > 40 ) then
+					ply:SetHealth(ply:Health() - 10)
+					ply:EmitSound("player/pl_pain5.wav")
+				end
+			end)
+		end
+	end
+end
+
+util.AddNetworkString("mrpNotify")
+
+function GM:PlayerCanPickupItem(ply, ent)
+	if ( ent:GetClass() == "item_healthkit" or ent:GetClass() == "item_healthvial" ) then
+		ply:SetSyncVar(SYNC_BLEEDING, false, true)
+		ply:Notify("You have stopped bleeding!")
+
+		if ( timer.Exists(ply:SteamID64().."Bleed") ) then
+			timer.Remove(ply:SteamID64().."Bleed")
+		end
+	end
+
+	return true
+end

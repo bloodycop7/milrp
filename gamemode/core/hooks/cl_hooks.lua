@@ -81,3 +81,13 @@ function GM:PlayerStartVoice(ply)
         g_VoicePanelList:Remove()
     end
 end
+
+net.Receive("mrpNotify", function(len)
+	local message = net.ReadString()
+
+	if not LocalPlayer() or not LocalPlayer().Notify then
+		return
+	end
+	
+	LocalPlayer():Notify(message)
+end)

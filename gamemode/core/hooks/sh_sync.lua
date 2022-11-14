@@ -212,5 +212,6 @@ SYNC_RPNAME = mrp.Sync.RegisterVar(SYNC_STRING)
 SYNC_CALLSIGN = mrp.Sync.RegisterVar(SYNC_STRING)
 SYNC_INCOGNITO = mrp.Sync.RegisterVar(SYNC_BOOL)
 SYNC_COLLISIONS = mrp.Sync.RegisterVar(SYNC_BOOL)
+SYNC_BLEEDING = mrp.Sync.RegisterVar(SYNC_BOOL)
 
 hook.Run("CreateSyncVars")

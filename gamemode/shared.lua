@@ -237,10 +237,6 @@ function mrp.FindEmptyPos(pos, ignore, distance, step, area)
     return pos
 end
 
-function meta:Notify(message)
-	self:ChatPrint(message)
-end
-
 meta.steamName = meta.steamName or meta.Name
 function meta:SteamName()
 	return self.steamName(self)
