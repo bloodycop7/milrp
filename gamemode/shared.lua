@@ -8,15 +8,33 @@ mrp.Config.BaseColor = Color(255, 166, 0)
 
 meta = meta or FindMetaTable("Player")
 
-function mrp.Notify(message, col, ply)
+if ( SERVER ) then
+	util.AddNetworkString("mrpLogPlayer")
+else
+	net.Receive("mrpLogPlayer", function(len)
+		local msg = net.ReadString()
+		local col = net.ReadColor()
+
+		MsgC(Color(0, 105, 255), "[Military RP] > ", col, msg)
+	end)
+end
+
+function mrp.Log(message, col, ply)
 	if not ( ply ) then
 		if ( SERVER ) then
-			return MsgC(Color(0, 105, 255), "[Military RP] > ", col or color_white, message.."\n")
+			return MsgC(Color(0, 105, 255), "[Military RP] > ", col or color_white, message.."\n" or "Add Message\n")
 		end
 
-		return MsgC(Color(0, 105, 255), "[Military RP] > ", col or color_white, message.."\n")
+		return MsgC(Color(0, 105, 255), "[Military RP] > ", col or color_white, message.."\n" or "Add Message\n")
 	else
-		ply:SendLua([[MsgC(Color(0, 105, 255), "[Military RP] > ", col or color_white, message.."\n")]])
+		if ( SERVER ) then
+			if ( IsValid(ply) ) then
+				net.Start("mrpLogPlayer")
+					net.WriteString(message.."\n" or "Add Message\n")
+					net.WriteColor(col or color_white)
+				net.Send(ply)
+			end
+		end
 	end
 end
 
@@ -53,7 +71,7 @@ function mrp.LoadFile(fileName)
 		_G[string.sub(fileName, 26, string.len(fileName) - 4)] = include(fileName)
 	end
 
-	mrp.Notify("Loaded File: "..fileName)
+	mrp.Log("Loaded File: "..fileName)
 end
 
 function mrp.IncludeDir(directory, hookMode, variable, uid)

@@ -133,6 +133,6 @@ for v, dir in ipairs(plugins) do
 		continue
 	end
 	
-	mrp.Notify("Loading Plugin "..dir)
+	mrp.Log("Loading Plugin "..dir)
 	mrp.LoadPlugin("milrp/gamemode/plugins/"..dir, dir)
 end

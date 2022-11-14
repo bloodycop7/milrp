@@ -12,12 +12,11 @@ local ignoredamage = {
 }
 
 if (SERVER) then
-    hook.Add("EntityTakeDamage", "dkadad", function(target, dmginfo) 
-        if dmginfo:GetAttacker():IsPlayer() and dmginfo:GetInflictor():IsPlayer() then
-            if ignoredamage[dmginfo:GetAttacker():GetActiveWeapon()] == nil then
-                if target:GetClass() == "prop_door_rotating" and IsValid(dmginfo:GetInflictor()) and dmginfo:IsBulletDamage() then
-                    if dmginfo:GetInflictor():GetPos():Distance( target:GetPos() ) <= 150 then
-                        
+    hook.Add("EntityTakeDamage", "mrpDoorBlast", function(target, dmginfo) 
+        if ( dmginfo:GetAttacker():IsPlayer() ) then
+            if ( ignoredamage[dmginfo:GetAttacker():GetActiveWeapon()] == nil ) then
+                if ( target:GetClass() == "prop_door_rotating" and IsValid(dmginfo:GetInflictor()) and dmginfo:IsBulletDamage() ) then
+                    if ( dmginfo:GetInflictor():GetPos():Distance( target:GetPos() ) <= 150 ) then
                         local matrix = target:GetBoneMatrix(0)
                         local originpos = matrix:GetTranslation()
                         local hindge1 = originpos + (target:GetUp() * 34)
@@ -27,9 +26,9 @@ if (SERVER) then
                         local matrix = target:GetBoneMatrix(handle)
                         local handlepos = matrix:GetTranslation()
                         local distance = dampos:Distance(handlepos)
-                        dmginfo:GetInflictor():SetName(dmginfo:GetInflictor():UniqueID()..CurTime())
+                        dmginfo:GetInflictor():SetName(dmginfo:GetInflictor():MapCreationID()..CurTime())
 
-                        if blastableweapons[dmginfo:GetAttacker():GetActiveWeapon():GetClass()] then
+                        if ( blastableweapons[dmginfo:GetAttacker():GetActiveWeapon():GetClass()] ) then
                             local effect = EffectData()
                                 effect:SetStart(dampos)
                                 effect:SetOrigin(dampos)
@@ -44,7 +43,7 @@ if (SERVER) then
                             Door:SetCollisionGroup(0)
                             Door:SetRenderMode(RENDERMODE_TRANSALPHA)
                             target:Fire("unlock")
-                            target:Fire("openawayfrom", dmginfo:GetInflictor():UniqueID()..CurTime())
+                            target:Fire("openawayfrom", dmginfo:GetInflictor():MapCreationID()..CurTime())
                             target:SetCollisionGroup( 20 )
                             target:SetRenderMode( 10 )
                             Door:Spawn()
@@ -66,10 +65,10 @@ if (SERVER) then
                         
                         
                         -- shooting lock
-                        elseif distance <= 3 then
+                        elseif ( distance <= 3 ) then
                             target:Fire("setspeed", 350)
                             target:Fire("unlock")
-                            target:Fire("openawayfrom", dmginfo:GetInflictor():UniqueID()..CurTime())
+                            target:Fire("openawayfrom", dmginfo:GetInflictor():MapCreationID()..CurTime())
                             target:EmitSound( "/physics/wood/wood_crate_break"..math.random(1, 4)..".wav" , 150, 50, 1)
                             local effect = EffectData()
                                 effect:SetStart(handlepos)
@@ -88,7 +87,7 @@ if (SERVER) then
                         
 
                         -- shooting hindges
-                        elseif (dampos:Distance(hindge1) <= 3 * 1.5) then
+                        elseif ( dampos:Distance(hindge1) <= 3 * 1.5 ) then
                             target.bHindge1 = true
                             local effect = EffectData()
                                 effect:SetStart(hindge1)
@@ -96,7 +95,7 @@ if (SERVER) then
                                 effect:SetScale(2)
                             util.Effect("GlassImpact", effect, true, true)
                             target:EmitSound( "/physics/wood/wood_crate_break"..math.random(1, 4)..".wav" , 150, 50, 1)
-                        elseif (dampos:Distance(hindge2) <= 3 * 1.5) then
+                        elseif ( dampos:Distance(hindge2) <= 3 * 1.5 ) then
                             target.bHindge2 = true
                             local effect = EffectData()
                                 effect:SetStart(hindge2)
@@ -106,7 +105,7 @@ if (SERVER) then
                             target:EmitSound( "/physics/wood/wood_crate_break"..math.random(1, 4)..".wav" , 150, 50, 1)
                         end
 
-                        if (target.bHindge1 and target.bHindge2) then
+                        if ( target.bHindge1 and target.bHindge2 ) then
                             local Door = ents.Create("prop_physics")
                             Door:SetAngles(target:GetAngles())
                             Door:SetPos(target:GetPos() + target:GetUp())
@@ -115,7 +114,7 @@ if (SERVER) then
                             Door:SetCollisionGroup(0)
                             Door:SetRenderMode(RENDERMODE_TRANSALPHA)
                             target:Fire("unlock")
-                            target:Fire("openawayfrom", dmginfo:GetInflictor():UniqueID()..CurTime())
+                            target:Fire("openawayfrom", dmginfo:GetInflictor():MapCreationID()..CurTime())
                             target:SetCollisionGroup( 20 )
                             target:SetRenderMode( 10 )
                             Door:Spawn()
