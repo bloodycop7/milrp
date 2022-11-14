@@ -49,7 +49,6 @@ if (SERVER) then
                             Door:Spawn()
                             Door:EmitSound( "/physics/wood/wood_crate_break"..math.random(1, 4)..".wav" , 150, 50, 1)
                             Door:GetPhysicsObject():ApplyForceCenter( Door:GetForward() * 1000 )
-                            target.canbeshot = false
                             target:SetPos(target:GetPos() + Vector(0,0,-1000))
                             timer.Simple(60, function()
                                 target:SetCollisionGroup( 0 )
@@ -59,7 +58,6 @@ if (SERVER) then
                                 target:SetPos(target:GetPos() - Vector(0,0,-1000))
                                 if (Door) then
                                     Door:Remove()
-                                    target.canbeshot = true
                                 end
                             end)
                         
@@ -75,14 +73,10 @@ if (SERVER) then
                                 effect:SetOrigin(handlepos)
                                 effect:SetScale(2)
                             util.Effect("GlassImpact", effect, true, true)
-                            target.canbeshot = false
                             timer.Simple(0.5, function()
                                 if (IsValid(target)) then
                                     target:Fire("setspeed", 100)
                                 end
-                            end)
-                            timer.Simple(2, function()
-                                target.canbeshot = true
                             end)
                         
 
@@ -118,7 +112,6 @@ if (SERVER) then
                             target:SetCollisionGroup( 20 )
                             target:SetRenderMode( 10 )
                             Door:Spawn()
-                            target.canbeshot = false
                             target:SetPos(target:GetPos() + Vector(0,0,-1000))
                             timer.Simple(60, function()
                                 target:SetCollisionGroup( 0 )
@@ -128,7 +121,6 @@ if (SERVER) then
                                 target:SetPos(target:GetPos() - Vector(0,0,-1000))
                                 if (Door) then
                                     Door:Remove()
-                                    target.canbeshot = true
                                 end
                             end)
                         end
