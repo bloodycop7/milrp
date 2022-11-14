@@ -1,0 +1,7 @@
+"milrp"
+{
+	"base"		"sandbox"
+	"title"		"Mil RP"
+	"author"	"Drobcho"
+	"menusystem"	"1"
+}

@@ -1,0 +1,1 @@
+mrp.relationships = mrp.relationships or {}
