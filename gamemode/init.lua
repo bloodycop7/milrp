@@ -9,7 +9,7 @@ resource.AddFile("resource/fonts/eurostile.ttf")
 
 function GM:PlayerLoadout(ply)
     if ( ply:Team() == 0 ) then
-        ply:SetTeam(TEAM_TERRORIST)
+        ply:SetTeam(TEAM_SOLDIER)
     end
     
     local modelr

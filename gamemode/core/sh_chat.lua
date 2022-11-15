@@ -190,6 +190,12 @@ local radioCommand = {
 					k:SendChatClassMessage(8, rawText, ply)
 				end
 			end
+		elseif ( ply:IsTerrorist() ) then
+			for v,k in pairs(player.GetAll()) do
+				if k:IsTerrorist() then
+					k:SendChatClassMessage(8, rawText, ply)
+				end
+			end
 		else
 			hook.Run("RadioMessageFallback", ply, rawText)
 		end

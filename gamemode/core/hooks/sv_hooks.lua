@@ -184,7 +184,7 @@ util.AddNetworkString("milMainMenuSpawn")
 
 net.Receive("milMainMenuSpawn", function(len, ply)
 	if ( ply:Team() == 0 ) then
-        ply:SetTeam(TEAM_TERRORIST)
+        ply:SetTeam(TEAM_SOLDIER)
     end
 
 	local name = net.ReadString()
@@ -289,7 +289,7 @@ end
 
 function GM:PlayerSpawn(ply, transition)
 	if ( ply:Team() == 0 ) then
-        ply:SetTeam(TEAM_TERRORIST)
+        ply:SetTeam(TEAM_SOLDIER)
     end
 
 	local modelr
@@ -346,7 +346,7 @@ end
 util.AddNetworkString("mrpNotify")
 
 function GM:PlayerCanPickupItem(ply, ent)
-	if ( ent:GetClass() == "item_healthkit" or ent:GetClass() == "item_healthvial" ) then
+	if ( ent:GetClass() == "item_healthkit" or ent:GetClass() == "item_healthvial" or ent:GetModel() == "models/grub_nugget_small.mdl" or ent:GetModel() == "models/grub_nugget_medium.mdl" or ent:GetModel() == "models/grub_nugget_large.mdl" ) then
 		if ( ply:GetSyncVar(SYNC_BLEEDING, false) ) then
 			ply:SetSyncVar(SYNC_BLEEDING, false, true)
 			ply:Notify("You have stopped bleeding!")
