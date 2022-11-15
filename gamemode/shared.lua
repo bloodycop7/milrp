@@ -96,6 +96,15 @@ function GM:OnReloaded()
 	mrp.IncludeDir("milrp/gamemode/core/hooks")
 	mrp.IncludeDir("milrp/gamemode/plugins")
 	mrp.IncludeDir("milrp/gamemode/teams")
+
+	if ( SERVER ) then
+		for k, v in ipairs(file.Find("resource/fonts/*", "GAME")) do -- Unoptimized but just to make sure
+			if ( v:find("montserrat") ) then
+				resource.AddFile("resource/fonts/"..v)
+				mrp.Log(v, color_white)
+			end
+		end
+	end
 end
 
 function meta:IsCombine()

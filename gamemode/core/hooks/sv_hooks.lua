@@ -21,6 +21,11 @@ function GM:Think()
 				v.isLazy = false
 			end
 
+			if ( v:Health() < 40 ) then
+				v.runspeed = 90
+				v.walkspeed = 90
+			end
+
 			local wep = v:GetActiveWeapon()
 
 			if ( IsValid(wep) ) then
@@ -366,4 +371,18 @@ function GM:PlayerCanHearPlayersVoice(listener, talker)
 			return true
 		end
 	end
+end
+
+function GM:PlayerSpawnedSENT(ply, ent)
+	if ( ent:GetClass() == "hb_extended_missile_moskit" or ent:GetClass() == "hb_extended_main_mk82" or ent:GetClass() == "hb_extended_main_t12" ) then
+		print(ent, "Set mass to 75")
+		ent:GetPhysicsObject():SetMass(75)
+	end
+end
+
+local count = 0
+function GM:PlayerSpawnedRagdoll(pl, mdl, ent)
+	count = count + 1
+
+	mrp.Log(count)
 end
