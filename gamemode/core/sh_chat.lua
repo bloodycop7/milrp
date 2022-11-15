@@ -68,6 +68,86 @@ local oocCommand = {
 mrp.RegisterChatCommand("/ooc", oocCommand)
 mrp.RegisterChatCommand("//", oocCommand)
 
+local radiocommand = {
+	description = "Set your Radio Channel",
+	requiresArg = true,
+	onRun = function(ply, arg, rawText)
+		local number = tonumber(math.Clamp(math.Round(arg[1], 1), 0, 999))
+
+		if ( number ) then
+			ply:SetSyncVar(SYNC_RCHANNEL, number, true)
+			ply:Notify("You changed your TAC to "..number)
+		end
+	end,
+}
+
+mrp.RegisterChatCommand("/src", radiocommand)
+mrp.RegisterChatCommand("/setrc", radiocommand)
+
+mrp.RegisterChatCommand("/radiotoggle", {
+	description = "Turn on/off your radio.",
+	requiresArg = false,
+	onRun = function(ply, arg, rawText)
+		ply:SetSyncVar(SYNC_RADIOENABLED, (!ply:GetSyncVar(SYNC_RADIOENABLED, false)), true)
+
+		if ( ply.nextRadioAttempt or 0 ) < CurTime() then
+			if ( ply:GetSyncVar(SYNC_RADIOENABLED, false) ) then
+				ply:Notify("You have turned your radio on!")
+			else
+				ply:Notify("You have turned your radio off!")
+			end
+		end
+	end
+})
+
+mrp.RegisterChatCommand("/forceradiooff", {
+	description = "Turn off someone's radio.",
+	requiresArg = true,
+	adminOnly = true,
+	onRun = function(ply, arg, rawText)
+        if not ( ply:IsAdmin() ) then return end
+		local trg = mrp:FindPlayer(arg[1])
+		local time = tonumber(arg[2])
+		local mtime
+        time = math.Clamp(time, 1, 10)
+		if ( time ) then
+			mtime = time * 60 -- 1 = 60 seconds
+		end
+		if ( ply:IsAdmin() ) then
+			if ( IsValid(trg) ) then
+				trg.radioOn = false
+
+				if ( time ) then
+					ply:Notify("You have turned "..trg:Nick().."'s radio off for "..time.. " minutes!")
+					trg.nextRadioAttempt = CurTime() + mtime
+					trg:Notify("Your radio was turned off for "..time.. " minutes!")
+				else
+					ply:Notify("You have turned "..trg:Nick().."'s radio off!")
+					trg:Notify("Your radio was turned off!")
+				end
+			end
+		end
+	end
+})
+
+mrp.RegisterChatCommand("/forcechangetac", {
+	description = "Change someone's Tac.",
+	requiresArg = true,
+	superAdminOnly = true,
+	onRun = function(ply, arg, rawText)
+        if not ( ply:IsSuperAdmin() ) then return end
+
+		local trg = mrp:FindPlayer(arg[1])
+		local tac = tonumber(arg[2])
+        if ( IsValid(trg) ) then
+            trg:SetSyncVar(SYNC_RCHANNEL, tac)
+
+            ply:Notify("You have changed "..trg:Nick().."'s TAC to "..tac.."!")
+            trg:Notify("Your TAC was changed to "..tac.."!")
+        end
+	end
+})
+
 local loocCommand = {
 	description = "Talk out of character locally.",
 	requiresArg = true,
@@ -186,13 +266,13 @@ local radioCommand = {
 
 		if ply:IsSoldier() then
 			for v,k in pairs(player.GetAll()) do
-				if k:IsSoldier() then
+				if ( k:GetSyncVar(SYNC_RCHANNEL, 0) == ply:GetSyncVar(SYNC_RCHANNEL, 0) ) then
 					k:SendChatClassMessage(8, rawText, ply)
 				end
 			end
 		elseif ( ply:IsTerrorist() ) then
 			for v,k in pairs(player.GetAll()) do
-				if k:IsTerrorist() then
+				if ( k:GetSyncVar(SYNC_RCHANNEL, 0) == ply:GetSyncVar(SYNC_RCHANNEL, 0) ) then
 					k:SendChatClassMessage(8, rawText, ply)
 				end
 			end

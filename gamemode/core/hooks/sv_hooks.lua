@@ -359,3 +359,11 @@ function GM:PlayerCanPickupItem(ply, ent)
 
 	return true
 end
+
+function GM:PlayerCanHearPlayersVoice(listener, talker)
+	if ( talker:GetSyncVar(SYNC_RADIOENABLED, false) ) then
+		if ( listener:GetSyncVar(SYNC_RCHANNEL, 0) == talker:GetSyncVar(SYNC_RCHANNEL, 0) ) then
+			return true
+		end
+	end
+end
