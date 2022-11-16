@@ -1,6 +1,5 @@
 Discord: https://discord.gg/WQzr5KJm8V
 
-About:
 Military RP / Realism Gamemode including:
       Team System
       Quick Slide Addon integrated
