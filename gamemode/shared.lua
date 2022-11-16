@@ -97,6 +97,9 @@ function GM:OnReloaded()
 	mrp.IncludeDir("milrp/gamemode/plugins")
 	mrp.IncludeDir("milrp/gamemode/teams")
 
+	table.Empty(mrp.Settings)
+	hook.Run("DefineSettings")
+
 	if ( SERVER ) then
 		for k, v in ipairs(file.Find("resource/fonts/*", "GAME")) do -- Unoptimized but just to make sure
 			if ( v:find("montserrat") ) then

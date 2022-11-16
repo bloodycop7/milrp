@@ -99,6 +99,16 @@ function GM:Think()
     end
 end
 
+function GM:PlayerDisconnected(ply)
+	if ( timer.Exists(ply:SteamID64().."RunTimer") ) then
+		timer.Remove(ply:SteamID64().."RunTimer")
+	end
+
+	if ( timer.Exists(ply:SteamID64().."Bleed") ) then
+		timer.Remove(ply:SteamID64().."Bleed")
+	end
+end
+
 function GM:PlayerInitialSpawn(ply)
     timer.Simple(1, function()
         ply:KillSilent()
@@ -336,7 +346,7 @@ end)
 function GM:PlayerHurt(ply, attacker, health, damage)
 	if not ( ply:GetSyncVar(SYNC_BLEEDING, false) ) then
 		ply:SetSyncVar(SYNC_BLEEDING, true, true)
-		ply:Notify("You have started bleeding!")
+		ply:Notify("You have started bleeding!", Color(255, 0, 0, 255))
 		if not ( timer.Exists(ply:SteamID64().."Bleed") ) then
 			timer.Create(ply:SteamID64().."Bleed", math.random(10, 25), 0, function()
 				if ( ply:Health() > 40 ) then
@@ -354,7 +364,7 @@ function GM:PlayerCanPickupItem(ply, ent)
 	if ( ent:GetClass() == "item_healthkit" or ent:GetClass() == "item_healthvial" or ent:GetModel() == "models/grub_nugget_small.mdl" or ent:GetModel() == "models/grub_nugget_medium.mdl" or ent:GetModel() == "models/grub_nugget_large.mdl" ) then
 		if ( ply:GetSyncVar(SYNC_BLEEDING, false) ) then
 			ply:SetSyncVar(SYNC_BLEEDING, false, true)
-			ply:Notify("You have stopped bleeding!")
+			ply:Notify("You have stopped bleeding!", Color(0, 255, 0, 255))
 
 			if ( timer.Exists(ply:SteamID64().."Bleed") ) then
 				timer.Remove(ply:SteamID64().."Bleed")
@@ -378,11 +388,4 @@ function GM:PlayerSpawnedSENT(ply, ent)
 		print(ent, "Set mass to 75")
 		ent:GetPhysicsObject():SetMass(75)
 	end
-end
-
-local count = 0
-function GM:PlayerSpawnedRagdoll(pl, mdl, ent)
-	count = count + 1
-
-	mrp.Log(count)
 end

@@ -9,11 +9,12 @@ function PANEL:Init()
 	self.endTime = CurTime() + 7.5
 end
 
-function PANEL:SetMessage(...)
+function PANEL:SetMessage(l, scol)
+	self.Col = scol or color_white
 	-- Encode message into markup
 	local msg = "<font=mrp-Font19>"
 
-	for k, v in ipairs({...}) do
+	for k, v in ipairs({l}) do
 		if type(v) == "table" then
 			msg = msg.."<color="..v.r..","..v.g..","..v.b..">"
 		elseif type(v) == "Player" then
@@ -41,26 +42,19 @@ local lightCol = Color(20,20,20,80)
 local hudBlackGrad = Color(40,40,40,120)
 local lifetime = 10
 
-function PANEL:Paint(w,h)
-	surface.SetDrawColor(darkCol)
-	surface.DrawRect(0,0,w,h)
-	surface.SetDrawColor(darkCol)
-	surface.SetMaterial(gradient)
-	surface.DrawTexturedRect(0,0,w,h)
-	surface.SetDrawColor(0,0,51, 150)
-	surface.DrawOutlinedRect( 0,0,w,h,1)
+function PANEL:Paint(w, h)
+	surface.SetDrawColor(Color(41, 41, 41, 255))
+	surface.DrawRect(0, 0, w, h)
 
-	--surface.SetDrawColor(color_white)
-	--surface.SetMaterial(infotexture)
-	--surface.DrawTexturedRect(0,0,30,30)
-
-	-- draw message
 	self.message:Draw(10,10, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 
 	-- draw timebar
 	local w2 = math.TimeFraction(self.startTime, self.endTime, CurTime()) * w
 	surface.SetDrawColor(Color(255,255,255))
-	surface.DrawRect(w2, h-2, w - w2, 6)
+	surface.DrawRect(w2, h - 2, w - 5 - w2, 6)
+
+	surface.SetDrawColor(self.Col)
+	surface.DrawRect(w - 5, 0, 5, h)
 end
 
 vgui.Register("mrpNotify", PANEL, "DPanel")

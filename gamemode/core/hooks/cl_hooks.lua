@@ -54,10 +54,29 @@ end
 
 net.Receive("mrpNotify", function(len)
 	local message = net.ReadString()
+    local col = net.ReadColor()
 
 	if not LocalPlayer() or not LocalPlayer().Notify then
 		return
 	end
 	
-	LocalPlayer():Notify(message)
+	LocalPlayer():Notify(message, col)
 end)
+
+function GM:OnContextMenuOpen()
+	if LocalPlayer():Team() == 0 or not LocalPlayer():Alive() then return end
+
+    if IsValid(g_ContextMenu) and not g_ContextMenu:IsVisible() then
+        g_ContextMenu:Open()
+        menubar.ParentTo(g_ContextMenu)
+
+        hook.Call("ContextMenuOpened", self)
+    end
+end
+
+function GM:OnContextMenuClose()
+	if IsValid(g_ContextMenu) then 
+		g_ContextMenu:Close()
+		hook.Call("ContextMenuClosed", self)
+	end
+end
