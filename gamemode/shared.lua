@@ -99,14 +99,6 @@ function GM:OnReloaded()
 
 	table.Empty(mrp.Settings)
 	hook.Run("DefineSettings")
-
-	if ( SERVER ) then
-		for k, v in ipairs(file.Find("resource/fonts/*", "GAME")) do -- Unoptimized but just to make sure
-			if ( v:find("montserrat") ) then
-				resource.AddFile("resource/fonts/"..v)
-			end
-		end
-	end
 end
 
 function meta:IsCombine()
