@@ -59,6 +59,8 @@ hook.Add("HUDPaint", "DisableStuff", function()
 
 	if not ( ply ) then return end
 
+	if ( IsValid(mrp.gui.mainMenu) ) then return end
+
 	hp = Lerp(0.01, hp, ply:Health())
 	armor = Lerp(0.01, armor, ply:Armor())
 

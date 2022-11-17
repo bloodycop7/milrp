@@ -35,23 +35,18 @@ function PANEL:SetMessage(l, scol)
 	surface.PlaySound("buttons/button24.wav")
 end
 
---local infotexture = Material("impulse/icons/warning-128.png")
-local gradient = Material("vgui/gradient-r")
-local darkCol = Color(30, 30, 30, 190)
-local lightCol = Color(20,20,20,80)
-local hudBlackGrad = Color(40,40,40,120)
-local lifetime = 10
-
 function PANEL:Paint(w, h)
-	surface.SetDrawColor(Color(41, 41, 41, 255))
-	surface.DrawRect(0, 0, w, h)
-
 	self.message:Draw(10,10, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 
-	-- draw timebar
+	surface.SetDrawColor(Color(30, 30, 30, 100))
+	surface.DrawRect(0, 0, w, h)
+
 	local w2 = math.TimeFraction(self.startTime, self.endTime, CurTime()) * w
-	surface.SetDrawColor(Color(255,255,255))
+	surface.SetDrawColor(Color(235, 235, 235, 140))
 	surface.DrawRect(w2, h - 2, w - 5 - w2, 6)
+
+	surface.SetDrawColor(Color(50, 50, 50, 255))
+	surface.DrawOutlinedRect(0, 0, w, h)
 
 	surface.SetDrawColor(self.Col)
 	surface.DrawRect(w - 5, 0, 5, h)

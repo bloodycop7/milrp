@@ -79,3 +79,94 @@ function GM:DefineSettings()
 		RunConsoleCommand("r_dynamic", v)
 	end})
 end
+
+local entMeta = FindMetaTable("Entity")
+
+function entMeta:IsLocked()
+	if (self:IsVehicle()) then
+		local datatable = self:GetSaveTable()
+
+		if (datatable) then
+			return datatable.VehicleLocked
+		end
+	else
+		local datatable = self:GetSaveTable()
+		
+		if (datatable) then
+			return datatable.m_bLocked
+		end
+	end
+
+	return false
+end
+
+if ( SERVER ) then
+    util.AddNetworkString("PlayerActionBar")
+end
+
+function meta:DoAction(text, time, OnFinished, freeze)
+    if ( CLIENT ) then
+        if not ( ( mrpactiveActionBar or false ) ) then
+            local actionvgui = vgui.Create("mrpActionBar")
+            actionvgui:SetEndTime(CurTime() + time)
+
+            if text then
+                actionvgui:SetText(text)
+            end
+            
+            if OnFinished then
+                actionvgui.OnEnd = OnFinished
+            end
+
+            if freeze then
+                actionvgui:MakePopup()
+            end
+        end
+    else
+        if not ( ( mrpactiveActionBar or false ) ) then
+            mrpactiveActionBar = true
+            net.Start("PlayerActionBar")
+                if ( text ) then
+                    net.WriteString(text)
+                else
+                    net.WriteString("")
+                end
+
+                if ( freeze ) then
+                    net.WriteBool(true)
+                else
+                    net.WriteBool(false)
+                end
+
+                if ( time ) then
+                    net.WriteUInt(time, 32)
+                else
+                    net.WriteUInt(5, 32)
+                end
+            net.Send(self)
+
+            timer.Simple(time or 5, function()
+                mrpactiveActionBar = false
+            end)
+        end
+    end
+end
+
+if ( CLIENT ) then
+    net.Receive("PlayerActionBar", function()
+        local text = net.ReadString()
+        local freeze = net.ReadBool()
+        local time = net.ReadUInt(32)
+
+        local actionvgui = vgui.Create("mrpActionBar")
+        actionvgui:SetEndTime(CurTime() + time)
+
+        if text then
+            actionvgui:SetText(text)
+        end
+        
+        if freeze then
+            actionvgui:MakePopup()
+        end
+    end)
+end

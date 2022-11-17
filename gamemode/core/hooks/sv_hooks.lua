@@ -73,21 +73,25 @@ function GM:Think()
 			
 			if not ( timer.Exists(v:SteamID64().."RunTimer") ) then
 				timer.Create(v:SteamID64().."RunTimer", 0, 0, function()
-					if ( v.runspeed > 300 ) then
-						v.isLazy = true
-						timer.Simple(5, function()
-							v.isLazy = false
-						end)
+					if not ( v:GetMoveType() == MOVETYPE_NOCLIP ) then
+						if ( v.runspeed > 300 ) then
+							v.isLazy = true
+							timer.Simple(5, function()
+								v.isLazy = false
+							end)
+						end
 					end
 				end)
 			else
 				timer.Remove(v:SteamID64().."RunTimer")
 				timer.Create(v:SteamID64().."RunTimer", 0, 0, function()
-					if ( v.runspeed > 300 ) then
-						v.isLazy = true
-						timer.Simple(5, function()
-							v.isLazy = false
-						end)
+					if not ( v:GetMoveType() == MOVETYPE_NOCLIP ) then
+						if ( v.runspeed > 300 ) then
+							v.isLazy = true
+							timer.Simple(5, function()
+								v.isLazy = false
+							end)
+						end
 					end
 				end)
 			end
@@ -385,7 +389,6 @@ end
 
 function GM:PlayerSpawnedSENT(ply, ent)
 	if ( ent:GetClass() == "hb_extended_missile_moskit" or ent:GetClass() == "hb_extended_main_mk82" or ent:GetClass() == "hb_extended_main_t12" ) then
-		print(ent, "Set mass to 75")
 		ent:GetPhysicsObject():SetMass(75)
 	end
 end

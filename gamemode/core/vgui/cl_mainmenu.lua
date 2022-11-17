@@ -6,6 +6,8 @@ function PANEL:Init()
     self:SetSize(1920, 1080)
     self:MakePopup()
 
+    mrp.gui.mainMenu = self
+
     self.playbutton = self:Add("DButton")
     self.playbutton:SetPos(ScrW() / 2 - 100, 200)
     self.playbutton:SetSize(200, 100)
@@ -25,6 +27,7 @@ function PANEL:Init()
                 net.SendToServer()
 
                 firstMainMenuJoin = false
+                mrp.gui.mainMenu = nil
             end)
             
         end
@@ -36,12 +39,13 @@ function PANEL:Init()
         self.playbutton:SetText("Play")
         self.playbutton.DoClick = function()
             self:Remove()
+            mrp.gui.mainMenu = nil
         end
         self.playbutton.Paint = function(s, w, h)
             surface.SetDrawColor(0, 0, 0, 170)
             surface.DrawRect(0, 0, w, h)
         end
-        self.playbutton:SetTextColor(color_white)
+        self.playbutton:SetTextColor(color_white) 
     end
 
     self.leavebutton = self:Add("DButton")
@@ -140,6 +144,8 @@ vgui.Register("MilMainMenu", PANEL, "DPanel")
 
 hook.Add("PlayerButtonDown", "close", function(ply, btn)
     if ( btn == KEY_F1 ) then
-        vgui.Create("MilMainMenu")
+        if not ( mrp.gui.mainMenu ) then
+            mrp.gui.mainMenu = vgui.Create("MilMainMenu")
+        end
     end
 end)

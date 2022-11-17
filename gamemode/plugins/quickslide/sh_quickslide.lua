@@ -169,7 +169,6 @@ if CLIENT then
     local qslide_view = CreateClientConVar("cl_qslide_view", 1)
 
     hook.Add("CalcView", "qslideView", function(ply, origin, angles, fov)
-        if not qslide_view:GetBool() then return end
         local sliding = ply:GetSliding()
 
         if not ply:ShouldDrawLocalPlayer() and sliding or lastz ~= 0 then

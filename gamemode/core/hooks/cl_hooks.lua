@@ -20,6 +20,10 @@ for i = 15, 300 do
     })
 end
 
+function notification.AddLegacy(text, otherone, _othertwo)
+    LocalPlayer():Notify(tostring(text))
+end
+
 net.Receive("mrpChatNetMessage", function(len)
 	local id = net.ReadUInt(8)
 	local message = net.ReadString()

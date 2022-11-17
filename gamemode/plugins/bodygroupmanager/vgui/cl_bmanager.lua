@@ -37,6 +37,10 @@ function PANEL:Display(target)
             net.WriteTable(bodygroups)
         net.SendToServer()
     end
+    self.saveButton.Paint = function(s, w, h)
+        surface.SetDrawColor(155, 155, 155, 54)
+        surface.DrawRect(0, 0, w, h)
+    end
 
     self.model = self:Add("DAdjustableModelPanel")
     self.model:SetSize(pWidth * 1/2, pHeight)
@@ -122,14 +126,22 @@ function PANEL:PopulateBodygroupOptions()
             self.bodygroupBox[v.id]:Dock(TOP)
             self.bodygroupBox[v.id]:DockMargin(20, 20, 20, 0)
             self.bodygroupBox[v.id]:SetHeight(50)
+            self.bodygroupBox[v.id].Paint = function(s, w, h)
+                surface.SetDrawColor(0, 0, 0, 255)
+                surface.DrawRect(0, 0, w, h)
+            end
 
             self.bodygroupName[v.id] = self.bodygroupBox[v.id]:Add("DLabel")
             self.bodygroupName[v.id].index = v.id
             self.bodygroupName[v.id]:SetText(v.name:gsub("^%l", string.upper))
-            self.bodygroupName[v.id]:SetFont("mrpMediumFont")
+            self.bodygroupName[v.id]:SetFont("mrp-Font23")
             self.bodygroupName[v.id]:Dock(LEFT)
             self.bodygroupName[v.id]:DockMargin(30, 0, 0, 0)
             self.bodygroupName[v.id]:SetWidth(200)
+            self.bodygroupName[v.id].Paint = function(s, w, h)
+                surface.SetDrawColor(0, 0, 0, 255)
+                surface.DrawRect(0, 0, w, h)
+            end
 
             self.bodygroupNext[v.id] = self.bodygroupBox[v.id]:Add("DButton")
             self.bodygroupNext[v.id].index = v.id
@@ -150,9 +162,13 @@ function PANEL:PopulateBodygroupOptions()
             self.bodygroupIndex[v.id].index = v.id
             self.bodygroupIndex[v.id].value = self.target:GetBodygroup(index)
             self.bodygroupIndex[v.id]:SetText(self.bodygroupIndex[v.id].value)
-            self.bodygroupIndex[v.id]:SetFont("mrpMediumFont")
+            self.bodygroupIndex[v.id]:SetFont("mrp-Font23")
             self.bodygroupIndex[v.id]:Dock(RIGHT)
             self.bodygroupIndex[v.id]:SetContentAlignment(5)
+            self.bodygroupIndex[v.id].Paint = function(s, w, h)
+                surface.SetDrawColor(0, 0, 0, 255)
+                surface.DrawRect(0, 0, w, h)
+            end
 
             self.bodygroupPrevious[v.id] = self.bodygroupBox[v.id]:Add("DButton")
             self.bodygroupPrevious[v.id].index = v.id
@@ -166,7 +182,6 @@ function PANEL:PopulateBodygroupOptions()
                 self.bodygroupIndex[index].value = self.bodygroupIndex[index].value - 1
                 self.bodygroupIndex[index]:SetText(self.bodygroupIndex[index].value)
                 self.model.Entity:SetBodygroup(index, self.bodygroupIndex[index].value)
-
             end
 
             self.model.Entity:SetBodygroup(index, self.target:GetBodygroup(index))
