@@ -84,3 +84,10 @@ function GM:OnContextMenuClose()
 		hook.Call("ContextMenuClosed", self)
 	end
 end
+
+net.Receive("PlayerMoreFPS", function()
+    RunConsoleCommand("mat_queue_mode", "-1")
+    RunConsoleCommand("cl_threaded_bone_setup", "1")
+    RunConsoleCommand("r_shadows", v)
+    RunConsoleCommand("r_dynamic", v)
+end)

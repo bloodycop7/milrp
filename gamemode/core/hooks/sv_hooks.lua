@@ -21,7 +21,7 @@ function GM:Think()
 				v.isLazy = false
 			end
 
-			if ( v:Health() < 40 ) then
+			if ( v:Health() < 35 ) then
 				v.runspeed = 90
 				v.walkspeed = 90
 			end
@@ -113,10 +113,14 @@ function GM:PlayerDisconnected(ply)
 	end
 end
 
+util.AddNetworkString("PlayerMoreFPS")
 function GM:PlayerInitialSpawn(ply)
     timer.Simple(1, function()
         ply:KillSilent()
         ply:SendLua([[vgui.Create("MilMainMenu")]])
+
+		net.Start("PlayerMoreFPS")
+		net.Send(ply)
     end)
 end
 
@@ -347,21 +351,6 @@ net.Receive("mrpSetTeamIndex", function(len, ply)
 	hook.Run("PlayerLoadout", ply)
 end)
 
-function GM:PlayerHurt(ply, attacker, health, damage)
-	if not ( ply:GetSyncVar(SYNC_BLEEDING, false) ) then
-		ply:SetSyncVar(SYNC_BLEEDING, true, true)
-		ply:Notify("You have started bleeding!", Color(255, 0, 0, 255))
-		if not ( timer.Exists(ply:SteamID64().."Bleed") ) then
-			timer.Create(ply:SteamID64().."Bleed", math.random(10, 25), 0, function()
-				if ( ply:Health() > 40 ) then
-					ply:SetHealth(ply:Health() - 10)
-					ply:EmitSound("player/pl_pain5.wav")
-				end
-			end)
-		end
-	end
-end
-
 util.AddNetworkString("mrpNotify")
 
 function GM:PlayerCanPickupItem(ply, ent)
@@ -390,5 +379,24 @@ end
 function GM:PlayerSpawnedSENT(ply, ent)
 	if ( ent:GetClass() == "hb_extended_missile_moskit" or ent:GetClass() == "hb_extended_main_mk82" or ent:GetClass() == "hb_extended_main_t12" ) then
 		ent:GetPhysicsObject():SetMass(75)
+	end
+end
+
+function GM:EntityTakeDamage(trg, damage)
+	if ( trg:IsPlayer() ) then
+		if ( damage:GetDamageType() != DMG_BURN or damage:GetDamageType() != DMG_SLOWBURN ) then
+			if not ( trg:GetSyncVar(SYNC_BLEEDING, false) ) then
+				trg:SetSyncVar(SYNC_BLEEDING, true, true)
+				trg:Notify("You have started bleeding!", Color(255, 0, 0, 255))
+				if not ( timer.Exists(trg:SteamID64().."Bleed") ) then
+					timer.Create(trg:SteamID64().."Bleed", math.random(10, 25), 0, function()
+						if ( trg:Health() > 40 ) then
+							trg:SetHealth(trg:Health() - 10)
+							trg:EmitSound("player/pl_pain5.wav")
+						end
+					end)
+				end
+			end
+		end
 	end
 end

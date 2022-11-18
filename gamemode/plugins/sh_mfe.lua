@@ -71,7 +71,7 @@ if CLIENT then
 
     function MFCreate(pos, ang, ...)
         local kickfov = (100 - LocalPlayer():GetFOV()) / 5
-        local speed = GetConVar("1"):GetFloat()
+        local speed = 1
         local model = "models/c_vmaniplegs.mdl"
 
         pos = ang
@@ -219,7 +219,7 @@ if CLIENT then
         LocalPlayer().MFDrawTime = 0
         
         hook.Add("StartCommand", "MFMoveHook", function(ply, cmd)
-            local stopmove = GetConVar("0"):GetInt()
+            local stopmove = 0
             local time = ply.MFKickTime + (0.6 / 1)
             if stopmove >= 0 and time > CurTime() then
                 if stopmove == 2 then
@@ -234,13 +234,12 @@ if CLIENT then
 end
 
 function MFEffect(trace)
-    if GetConVar("1"):GetBool() then
-        local fx = EffectData()
-        fx:SetStart(trace.HitPos)
-        fx:SetOrigin(trace.HitPos)
-        fx:SetNormal(trace.HitNormal)
-        util.Effect("mf_groundhit", fx)
-    end
+    local fx = EffectData()
+    fx:SetStart(trace.HitPos)
+    fx:SetOrigin(trace.HitPos)
+    fx:SetNormal(trace.HitNormal)
+    util.Effect("mf_groundhit", fx)
+
 end
 
 function MFHit(ply)
@@ -378,7 +377,7 @@ function MFHit(ply)
                     trace.Entity:Fire("SetSpeed", tostring(oldSpeed * 5), 0)
                     trace.Entity:Fire(opentype, "kickingpl" .. ply:EntIndex(), 0)
 
-                    if trace.Entity:GetClass() == "func_door_rotating" and GetConVar("0"):GetBool() then
+                    if trace.Entity:GetClass() == "func_door_rotating" then
                         trace.Entity:SetKeyValue("dmg", oldSpeed*5)
                         timer.Simple(0.1, function()
                             trace.Entity:SetKeyValue("dmg", oldDmg)
@@ -467,7 +466,7 @@ function MFDoorBust(Door, attacker, amount, force)
             timer.Remove("MFDoorBust" .. ent:EntIndex())
         end)
 
-        timer.Create("MFDoorTimer" .. ent:EntIndex(), GetConVar("25"):GetFloat(), 1, function()
+        timer.Create("MFDoorTimer" .. ent:EntIndex(), 25, 1, function()
             if Door:IsValid() then
                 Door:SetNotSolid(false)
                 Door:SetNoDraw(false)
@@ -480,7 +479,7 @@ function MFDoorBust(Door, attacker, amount, force)
             timer.Remove("MFDoorTimer" .. ent:EntIndex())
         end)
 
-        ent:GetPhysicsObject():ApplyForceCenter(force * GetConVar("1"):GetFloat())
+        ent:GetPhysicsObject():ApplyForceCenter(force * 1)
     end
 end
 

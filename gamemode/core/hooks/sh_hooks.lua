@@ -58,28 +58,6 @@ function meta:Notify(message, col)
     end
 end
 
-function GM:DefineSettings()
-	mrp.DefineSetting("perf_mcore", {name="Multi-core rendering enabled", category="Performance", type="tickbox", default=false, onChanged = function(newValue)
-		RunConsoleCommand("gmod_mcore_test", tostring(tonumber(newValue)))
-
-		if newValue == 1 then
-			RunConsoleCommand("mat_queue_mode", "-1")
-			RunConsoleCommand("cl_threaded_bone_setup", "1")
-		else
-			RunConsoleCommand("cl_threaded_bone_setup", "0")
-		end
-	end})
-	mrp.DefineSetting("perf_dynlight", {name="Dynamic light rendering enabled", category="Performance", type="tickbox", default=true, onChanged = function(newValue)
-		local v = 0
-		if newValue == 1 then
-			v = 1
-		end
-
-		RunConsoleCommand("r_shadows", v)
-		RunConsoleCommand("r_dynamic", v)
-	end})
-end
-
 local entMeta = FindMetaTable("Entity")
 
 function entMeta:IsLocked()
