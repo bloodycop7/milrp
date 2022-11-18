@@ -21,7 +21,7 @@ function GM:Think()
 				v.isLazy = false
 			end
 
-			if ( v:Health() < 35 ) then
+			if ( v:Health() < 10 ) then
 				v.runspeed = 90
 				v.walkspeed = 90
 			end
@@ -231,6 +231,7 @@ net.Receive("milMainMenuSpawn", function(len, ply)
     ply:Give("weapon_bsmod_punch")
     ply:SetModel(modelr or "models/bread/cod/characters/milsim/shadow_company.mdl")
     ply:Give("ix_rappel")
+	ply:SetArmor(100)
 	ply:SetRunSpeed(200)
     ply:SetWalkSpeed(100)
     ply:SetJumpPower(160)
@@ -242,6 +243,9 @@ net.Receive("milMainMenuSpawn", function(len, ply)
 	if ( timer.Exists(ply:SteamID64().."Bleed") ) then
 		timer.Remove(ply:SteamID64().."Bleed")
 	end
+
+	net.Start("PlayerMoreFPS")
+	net.Send(ply)
 end)
 
 util.AddNetworkString("milMainMenuChangeName")
@@ -330,6 +334,7 @@ function GM:PlayerSpawn(ply, transition)
     ply:Give("ix_rappel")
 	ply:SetRunSpeed(200)
     ply:SetWalkSpeed(100)
+	ply:SetArmor(100)
     ply:SetJumpPower(160)
     ply:SetDuckSpeed(0.5)
     ply:SetUnDuckSpeed(0.5)
@@ -339,6 +344,9 @@ function GM:PlayerSpawn(ply, transition)
 	if ( timer.Exists(ply:SteamID64().."Bleed") ) then
 		timer.Remove(ply:SteamID64().."Bleed")
 	end
+
+	net.Start("PlayerMoreFPS")
+	net.Send(ply)
 end
 
 util.AddNetworkString("mrpSetTeamIndex")
@@ -384,7 +392,7 @@ end
 
 function GM:EntityTakeDamage(trg, damage)
 	if ( trg:IsPlayer() ) then
-		if ( damage:GetDamageType() != DMG_BURN or damage:GetDamageType() != DMG_SLOWBURN ) then
+		if not ( damage:GetDamageType() == DMG_BURN or damage:GetDamageType() == DMG_SLOWBURN or damage:GetDamageType() == DMG_SHOCK ) then
 			if not ( trg:GetSyncVar(SYNC_BLEEDING, false) ) then
 				trg:SetSyncVar(SYNC_BLEEDING, true, true)
 				trg:Notify("You have started bleeding!", Color(255, 0, 0, 255))

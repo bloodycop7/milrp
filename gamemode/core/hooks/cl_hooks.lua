@@ -88,6 +88,6 @@ end
 net.Receive("PlayerMoreFPS", function()
     RunConsoleCommand("mat_queue_mode", "-1")
     RunConsoleCommand("cl_threaded_bone_setup", "1")
-    RunConsoleCommand("r_shadows", v)
-    RunConsoleCommand("r_dynamic", v)
+    RunConsoleCommand("r_shadows", "1")
+    RunConsoleCommand("r_dynamic", "1")
 end)
