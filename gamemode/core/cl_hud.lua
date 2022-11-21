@@ -52,8 +52,30 @@ function GM:HUDDrawTargetID()
 	return false
 end
 
+function mrp.DrawCrosshair(x, y, radius, quality, color)
+    x = x or 0
+    y = y or 0
+    radius = radius or 3
+    quality = quality or 50
+    color = color or color_white
+    local circle = {}
+    local temp = 0
+    for i = 1, quality do
+        temp = math.rad(i*360)/quality
+        circle[i] = {
+            x = x + math.cos(temp) * radius/2,
+            y = y + math.sin(temp) * radius/2
+        }
+    end
+    
+    surface.SetDrawColor(color)
+    draw.NoTexture()
+    surface.DrawPoly(circle)
+end
+
 local hp = 100
 local armor = 0
+local crosshaircolor = Color(255, 255, 255, 255)
 hook.Add("HUDPaint", "DisableStuff", function()
 	local ply = LocalPlayer()
 
@@ -64,13 +86,7 @@ hook.Add("HUDPaint", "DisableStuff", function()
 	hp = Lerp(0.01, hp, ply:Health())
 	armor = Lerp(0.01, armor, ply:Armor())
 
-	--[[draw.RoundedBox(7, 50, ScrH() - 15 - 200, 8.5, 200, Color(20, 20, 20, 200))
-	draw.RoundedBox(7, 50, ScrH() - 15 - hp * 2, 8.5, hp * 2, Color(255, 0, 0))
-
-	draw.RoundedBox(7, 70, ScrH() - 15 - 200, 8.5, 200, Color(20, 20, 20, 200))
-	if ( ply:Armor() > 0 ) then
-		draw.RoundedBox(7, 70, ScrH() - 15 - armor * 2, 8.5, armor * 2, Color(0, 90, 255))
-	end]]
+	local wep = ply:GetActiveWeapon()
 
 	for k, v in pairs(ply:GetPlayersInRadius(120)) do
 		if ( IsValid(v) ) then
@@ -99,6 +115,26 @@ hook.Add("HUDPaint", "DisableStuff", function()
 			draw.DrawText(v:GetSyncVar(SYNC_CALLSIGN, "UNDEFINED-0"), "mrp-Font18", pos.x + 53, pos.y + 43, color_white, TEXT_ALIGN_LEFT)
 		end
 	end
+
+	if ( IsValid(wep) ) then
+		local clip = wep:Clip1()
+		local ammo = ply:GetAmmoCount(wep:GetPrimaryAmmoType())
+
+		if not ( clip == 0 or clip == -1 ) then
+			draw.DrawText(clip, "mrp-Font60", ScrW() - 15, ScrH() - 70, color_white, TEXT_ALIGN_RIGHT)
+		end
+	end
+
+	if ( wep.GetToggleAim ) then
+		if not ( wep:GetToggleAim() ) then
+			crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 255)
+		else
+			crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 0)
+		end
+	else
+		crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 255)
+	end
+	mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3, 50, crosshaircolor)
 end)
 
 function GM:HUDPaintBackground()

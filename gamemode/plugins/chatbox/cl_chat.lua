@@ -161,8 +161,8 @@ function mrp.chatBox.buildBox()
  							end
  						end
  
-						draw.DrawText(k.." - "..v.description, "mrp-Font21", 10, 10 + i, c, TEXT_ALIGN_LEFT)
-						i = i + (15)
+						draw.DrawText(k.." - "..v.description, "mrp-Font30", 10, 10 + i, c, TEXT_ALIGN_LEFT)
+						i = i + (25)
 						showing = showing + 1
 
 						if showing > 24 then
@@ -181,13 +181,13 @@ function mrp.chatBox.buildBox()
 
 	local say = vgui.Create("DLabel", mrp.chatBox.frame)
 	say:SetText("")
-	surface.SetFont("mrp-Font23")
+	surface.SetFont("mrp-Font21")
 	local w, h = surface.GetTextSize( text )
 	say:SetSize( w + 5, 20 )
 	say:SetPos( 5, mrp.chatBox.frame:GetTall() - mrp.chatBox.entry:GetTall() - 5 )
 	
 	say.Paint = function( self, w, h )
-		draw.DrawText( text, "mrp-Font23", 2, 1, color_white )
+		draw.DrawText( text, "mrp-Font21", 2, 1, color_white )
 	end
 
 	say.Think = function( self )

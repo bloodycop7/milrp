@@ -10,7 +10,7 @@ function GM:PlayerLoadout(ply)
         ply:SetTeam(TEAM_SOLDIER)
     end
     
-    local modelr
+    local modelr = "models/bread/cod/characters/milsim/shadow_company.mdl"
 	if ( isstring(mrp.Teams.Stored[ply:Team()].model) ) then
 		modelr = mrp.Teams.Stored[ply:Team()].model
 	elseif ( istable(mrp.Teams.Stored[ply:Team()].model) ) then
@@ -21,7 +21,7 @@ function GM:PlayerLoadout(ply)
     ply:Give("weapon_physgun")
     ply:Give("mrp_hands")
     ply:Give("weapon_bsmod_punch")
-    ply:SetModel(modelr or "models/bread/cod/characters/milsim/shadow_company.mdl")
+    ply:SetModel(modelr)
     ply:Give("ix_rappel")
 	ply:SetRunSpeed(200)
     ply:SetArmor(100)

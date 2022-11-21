@@ -11,7 +11,7 @@ function PANEL:Init()
     self.playbutton = self:Add("DButton")
     self.playbutton:SetPos(ScrW() / 2 - 100, 200)
     self.playbutton:SetSize(200, 100)
-    self.playbutton:SetFont("mrp-Font40")
+    self.playbutton:SetFont("mrp-Font60")
 
     if ( firstMainMenuJoin ) then
         self.playbutton:SetText("Play")
@@ -32,8 +32,15 @@ function PANEL:Init()
             
         end
         self.playbutton.Paint = function(s, w, h)
-            surface.SetDrawColor(0, 0, 0, 170)
+            surface.SetDrawColor(0, 0, 0, 0)
             surface.DrawRect(0, 0, w, h)
+        end
+    
+        self.playbutton.OnCursorEntered = function(s)
+            s:SetTextColor(mrp.Config.BaseColor)
+        end
+        self.playbutton.OnCursorExited = function(s)
+            s:SetTextColor(color_white)
         end
     else
         self.playbutton:SetText("Play")
@@ -42,8 +49,15 @@ function PANEL:Init()
             mrp.gui.mainMenu = nil
         end
         self.playbutton.Paint = function(s, w, h)
-            surface.SetDrawColor(0, 0, 0, 170)
+            surface.SetDrawColor(0, 0, 0, 0)
             surface.DrawRect(0, 0, w, h)
+        end
+    
+        self.playbutton.OnCursorEntered = function(s)
+            s:SetTextColor(mrp.Config.BaseColor)
+        end
+        self.playbutton.OnCursorExited = function(s)
+            s:SetTextColor(color_white)
         end
         self.playbutton:SetTextColor(color_white) 
     end
@@ -53,14 +67,21 @@ function PANEL:Init()
     self.leavebutton:SetPos(ScrW() / 2 - 100, 320)
     self.leavebutton:SetText("Leave")
     self.leavebutton:SetSize(200, 100)
-    self.leavebutton:SetFont("mrp-Font40")
+    self.leavebutton:SetFont("mrp-Font60")
     self.leavebutton.DoClick = function()
         self:Remove()
         LocalPlayer():ConCommand("disconnect")
     end
     self.leavebutton.Paint = function(s, w, h)
-        surface.SetDrawColor(0, 0, 0, 170)
+        surface.SetDrawColor(0, 0, 0, 0)
         surface.DrawRect(0, 0, w, h)
+    end
+
+    self.leavebutton.OnCursorEntered = function(s)
+        s:SetTextColor(mrp.Config.BaseColor)
+    end
+    self.leavebutton.OnCursorExited = function(s)
+        s:SetTextColor(color_white)
     end
 
     self.optionsbutton = self:Add("DButton")
@@ -68,23 +89,30 @@ function PANEL:Init()
     self.optionsbutton:SetTextColor(color_white)
     self.optionsbutton:SetText("Settings")
     self.optionsbutton:SetSize(200, 100)
-    self.optionsbutton:SetFont("mrp-Font40")
+    self.optionsbutton:SetFont("mrp-Font60")
     self.optionsbutton.DoClick = function()
         vgui.Create("mrpSettings")
     end
     self.optionsbutton.Paint = function(s, w, h)
-        surface.SetDrawColor(0, 0, 0, 170)
+        surface.SetDrawColor(0, 0, 0, 0)
         surface.DrawRect(0, 0, w, h)
     end
 
+    self.optionsbutton.OnCursorEntered = function(s)
+        s:SetTextColor(mrp.Config.BaseColor)
+    end
+    self.optionsbutton.OnCursorExited = function(s)
+        s:SetTextColor(color_white)
+    end
+
     self.changename = self:Add("DButton")
-    self.changename:SetPos(ScrW() / 2 - 130, 560)
+    self.changename:SetPos(ScrW() / 2 - 200, 560)
     self.changename:SetText("Change RP Name")
     self.changename:SetTextColor(color_white)
-    surface.SetFont("mrp-Font40")
+    surface.SetFont("mrp-Font60")
     local w, h = surface.GetTextSize("Change RP Name")
     self.changename:SetSize(w, 100)
-    self.changename:SetFont("mrp-Font40")
+    self.changename:SetFont("mrp-Font60")
     self.changename.DoClick = function()
         Derma_StringRequest("Name", "RP Name", "John Doe", function(str)
             if not ( str ) then return end
@@ -96,40 +124,61 @@ function PANEL:Init()
         end)
     end
     self.changename.Paint = function(s, w, h)
-        surface.SetDrawColor(0, 0, 0, 170)
+        surface.SetDrawColor(0, 0, 0, 0)
         surface.DrawRect(0, 0, w, h)
+    end
+
+    self.changename.OnCursorEntered = function(s)
+        s:SetTextColor(mrp.Config.BaseColor)
+    end
+    self.changename.OnCursorExited = function(s)
+        s:SetTextColor(color_white)
     end
 
     self.changecallsign = self:Add("DButton")
     self.changecallsign:SetTextColor(color_white)
-    self.changecallsign:SetPos(ScrW() / 2 - 120, 680)
+    self.changecallsign:SetPos(ScrW() / 2 - 180, 680)
     self.changecallsign:SetText("Change Callsign")
-    surface.SetFont("mrp-Font40")
+    surface.SetFont("mrp-Font60")
     local w, h = surface.GetTextSize("Change Callsign")
     self.changecallsign:SetSize(w, 100)
-    self.changecallsign:SetFont("mrp-Font40")
+    self.changecallsign:SetFont("mrp-Font60")
     self.changecallsign.DoClick = function()
         vgui.Create("mrpCallsignSelect")
     end
     self.changecallsign.Paint = function(s, w, h)
-        surface.SetDrawColor(0, 0, 0, 170)
+        surface.SetDrawColor(0, 0, 0, 0)
         surface.DrawRect(0, 0, w, h)
+    end
+
+    self.changecallsign.OnCursorEntered = function(s)
+        s:SetTextColor(mrp.Config.BaseColor)
+    end
+    self.changecallsign.OnCursorExited = function(s)
+        s:SetTextColor(color_white)
     end
 
     self.teamMenu = self:Add("DButton")
     self.teamMenu:SetTextColor(color_white)
-    self.teamMenu:SetPos(ScrW() / 2 - 100, 800)
+    self.teamMenu:SetPos(ScrW() / 2 - 150, 800)
     self.teamMenu:SetText("Change Team")
-    surface.SetFont("mrp-Font40")
+    surface.SetFont("mrp-Font60")
     local w, h = surface.GetTextSize("Change Team")
     self.teamMenu:SetSize(w, 100)
-    self.teamMenu:SetFont("mrp-Font40")
+    self.teamMenu:SetFont("mrp-Font60")
     self.teamMenu.DoClick = function()
         vgui.Create("mrpTeamMenu")
     end
     self.teamMenu.Paint = function(s, w, h)
-        surface.SetDrawColor(0, 0, 0, 170)
+        surface.SetDrawColor(0, 0, 0, 0)
         surface.DrawRect(0, 0, w, h)
+    end
+
+    self.teamMenu.OnCursorEntered = function(s)
+        s:SetTextColor(mrp.Config.BaseColor)
+    end
+    self.teamMenu.OnCursorExited = function(s)
+        s:SetTextColor(color_white)
     end
 end
 

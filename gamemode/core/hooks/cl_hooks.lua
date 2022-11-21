@@ -1,6 +1,6 @@
 for i = 15, 300 do
     surface.CreateFont("mrp-Font"..tostring(i), {
-        font = "Montserrat",
+        font = "Roboto Thin",
         size = i,
         antialias = true,
         shadow = true,
@@ -10,7 +10,7 @@ for i = 15, 300 do
     })
 
     surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
-        font = "Montserrat",
+        font = "Roboto Thin",
         size = i,
         antialias = true,
         weight = 500,
