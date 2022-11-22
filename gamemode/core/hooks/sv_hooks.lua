@@ -175,7 +175,7 @@ function GM:PlayerSay(ply, text, teamChat, newChat)
 
 		for v,k in pairs(player.GetAll()) do
 			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (300 ^ 2) then
-				k:SendChatClassMessage(1, text, ply)
+				k:AddCaption(ply:Nick(), text)
 			end
 		end
 
@@ -360,6 +360,7 @@ net.Receive("mrpSetTeamIndex", function(len, ply)
 end)
 
 util.AddNetworkString("mrpNotify")
+util.AddNetworkString("mrpCaptionAdd")
 
 function GM:PlayerCanPickupItem(ply, ent)
 	if ( ent:GetClass() == "item_healthkit" or ent:GetClass() == "item_healthvial" or ent:GetModel() == "models/grub_nugget_small.mdl" or ent:GetModel() == "models/grub_nugget_medium.mdl" or ent:GetModel() == "models/grub_nugget_large.mdl" ) then

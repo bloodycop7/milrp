@@ -1,4 +1,3 @@
-
 mrp.chatCommands = mrp.chatCommands or {}
 mrp.chatClasses = mrp.chatClasses or {}
 
@@ -152,10 +151,6 @@ local loocCommand = {
 	description = "Talk out of character locally.",
 	requiresArg = true,
 	onRun = function(ply, arg, rawText)
-		if ply.hasOOCTimeout then
-			return ply:Notify("You have an active OOC timeout that will remain for "..string.NiceTime(ply.hasOOCTimeout - CurTime())..".")
-		end
-
 		for v,k in pairs(player.GetAll()) do
 			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (300 ^ 2) then 
 				k:SendChatClassMessage(3, rawText, ply)
@@ -223,40 +218,6 @@ local replyCommand = {
 
 mrp.RegisterChatCommand("/reply", replyCommand)
 
-local yellCommand = {
-	description = "Yell in character.",
-	requiresArg = true,
-	requiresAlive = true,
-	onRun = function(ply, arg, rawText)
-		rawText = hook.Run("ChatClassMessageSend", 6, rawText, ply) or rawText
-
-		for v,k in pairs(player.GetAll()) do
-			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (550 ^ 2) then 
-				k:SendChatClassMessage(6, rawText, ply)
-			end
-		end
-	end
-}
-
-mrp.RegisterChatCommand("/y", yellCommand)
-
-local whisperCommand = {
-	description = "Whisper in character.",
-	requiresArg = true,
-	requiresAlive = true,
-	onRun = function(ply, arg, rawText)
-		rawText = hook.Run("ChatClassMessageSend", 7, rawText, ply) or rawText
-
-		for v,k in pairs(player.GetAll()) do
-			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (90 ^ 2) then 
-				k:SendChatClassMessage(7, rawText, ply)
-			end
-		end
-	end
-}
-
-mrp.RegisterChatCommand("/w", whisperCommand)
-
 local radioCommand = {
 	description = "Send a radio message to all units.",
 	requiresArg = true,
@@ -285,21 +246,6 @@ local radioCommand = {
 mrp.RegisterChatCommand("/radio", radioCommand)
 mrp.RegisterChatCommand("/r", radioCommand)
 
-local meCommand = {
-	description = "Preform an action in character.",
-	requiresArg = true,
-	requiresAlive = true,
-	onRun = function(ply, arg, rawText)
-		for v,k in pairs(player.GetAll()) do
-			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (300 ^ 2) then 
-				k:SendChatClassMessage(9, rawText, ply)
-			end
-		end
-	end
-}
-
-mrp.RegisterChatCommand("/me", meCommand)
-
 local itCommand = {
 	description = "Perform an action from a third party.",
 	requiresArg = true,
@@ -314,22 +260,6 @@ local itCommand = {
 }
 
 mrp.RegisterChatCommand("/it", itCommand)
-
-local rollCommand = {
-	description = "Generate a random number between 0 and 100.",
-	requiresAlive = true,
-	onRun = function(ply, arg, rawText)
-		local rollResult = (tostring(math.random(1,100)))
-
-		for v,k in pairs(player.GetAll()) do
-			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (300 ^ 2) then 
-				k:SendChatClassMessage(11, rollResult, ply)
-			end
-		end
-	end
-}
-
-mrp.RegisterChatCommand("/roll", rollCommand)
 
 local eventCommand = {
 	description = "Sends a global chat message to all players. Only for use in events.",
@@ -367,88 +297,56 @@ if CLIENT then
 	mrp.RegisterChatClass(1, function(message, speaker)
 		message = hook.Run("ProcessICChatMessage", speaker, message) or message
 
-		chat.AddText(speaker, talkCol, " says: ", message)
+		--chat.AddText(speaker, talkCol, " says: ", message)
+
+        speaker:AddCaption(speaker:Nick(), message, Color(0, 175, 255), color_white)
 	end)
 
 	local strFind = string.find
 	mrp.RegisterChatClass(2, function(message, speaker)
 		mrp.customChatPlayer = speaker
 
-		if LocalPlayer and IsValid(LocalPlayer()) then
-			local tag = "@"..LocalPlayer():Nick()
-			local findStart, findEnd = strFind(string.lower(message), string.lower(tag), 1, true)
-
-			if findStart then
-				local pre = string.sub(message, 1, findStart - 1)
-				local post = string.sub(message, findEnd + 1)
-
-				if mrp.GetSetting("chat_pmpings") then
-					surface.PlaySound("buttons/blip1.wav")
-				end
-
-				chat.AddText(oocTagCol, "[OOC] ", (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), speaker:Nick(), oocCol, ": ", pre, infoCol, tag, oocCol, post)
-				return
-			end
-		end
-
-		chat.AddText(oocTagCol, "[OOC] ", (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), speaker:Nick(), oocCol, ": ", message)
+		--chat.AddText(oocTagCol, "[OOC] ", (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), speaker:Nick(), oocCol, ": ", message)
+        speaker:AddCaption("[OOC] "..speaker:Nick(), message, (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), oocCol)
 	end)
 
 	mrp.RegisterChatClass(3, function(message, speaker)
 		mrp.customChatPlayer = speaker
-		chat.AddText(oocTagCol, "[LOOC] ", (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", oocCol, ": ",  message)
+		--chat.AddText(oocTagCol, "[LOOC] ", (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", oocCol, ": ",  message)
+
+        speaker:AddCaption("[LOOC] "..speaker:Nick(), message, (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), fallbackRankCol)
 	end)
 
 	mrp.RegisterChatClass(4, function(message, speaker)
-		
-		chat.AddText(pmCol, "[PM] ", speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", pmCol, ": ", message)
+		--chat.AddText(pmCol, "[PM] ", speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", pmCol, ": ", message)
+
+        speaker:AddCaption("[PM] "..speaker:Nick(), message, pmCol, pmCol)
 	end)
 
 	mrp.RegisterChatClass(5, function(message, speaker)
 		surface.PlaySound("buttons/blip1.wav")
-		chat.AddText(pmCol, "[PM SENT] ", speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", pmCol, ": ", message)
-	end)
-
-	mrp.RegisterChatClass(6, function(message, speaker)
-		message = hook.Run("ProcessICChatMessage", speaker, message) or message
-
-		mrp.customChatFont = "mrp-Font30"
-		chat.AddText(speaker, yellCol, " yells: ", message)
-	end)
-
-	mrp.RegisterChatClass(7, function(message, speaker)
-		message = hook.Run("ProcessICChatMessage", speaker, message) or message
-		
-		mrp.customChatFont = "mrp-Font18"
-		chat.AddText(speaker, whisperCol, " whispers: ", message)
+		--chat.AddText(pmCol, "[PM SENT] ", speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", pmCol, ": ", message)
+        speaker:AddCaption("[PM SENT] "..speaker:Nick(), message, pmCol, pmCol)
 	end)
 
 	mrp.RegisterChatClass(8, function(message, speaker)
-		mrp.customChatFont = "mrp-Font20" 
-		chat.AddText(radioCol, "[RADIO] ", speaker:Name(), ": ", message)
-	end)
-
-	mrp.RegisterChatClass(9, function(message, speaker)
-		chat.AddText(talkCol, speaker:KnownName(), " ", message)
+		--mrp.customChatFont = "mrp-Font20" 
+		--chat.AddText(radioCol, "[RADIO] ", speaker:Name(), ": ", message)
+        speaker:AddCaption("[RADIO] "..speaker:Nick(), message, radioCol, radioCol)
 	end)
 
 	mrp.RegisterChatClass(10, function(message, speaker)
-		chat.AddText(infoCol, "** ", message)
-	end)
-
-	mrp.RegisterChatClass(11, function(message, speaker)
-		chat.AddText(speaker, yellCol, " rolled ", message)
-	end)
-
-	mrp.RegisterChatClass(12, function(message, speaker)
-		chat.AddText(advertCol, "[ADVERT] ", speaker:Name(), ": ", message)
+		--chat.AddText(infoCol, "** ", message)
+        speaker:AddCaption("", message, Color(255, 255, 255, 0), infoCol)
 	end)
 
 	mrp.RegisterChatClass(13, function(message, speaker)
-		chat.AddText(acCol, "[Admin Chat] ", speaker:Nick(), ": ", acCol, message)
+		--chat.AddText(acCol, "[Admin Chat] ", speaker:Nick(), ": ", acCol, message)
+        speaker:AddCaption("[Admin Chat]"..speaker:Nick(), message, acCol, color_white)
 	end)
 
 	mrp.RegisterChatClass(14, function(message, speaker)
-		chat.AddText(eventCol, "[EVENT] ", message)
+		--chat.AddText(eventCol, "[EVENT] ", message)
+        speaker:AddCaption("[EVENT]", message, eventCol, eventCol)
 	end)
 end

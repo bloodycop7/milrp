@@ -58,6 +58,58 @@ function meta:Notify(message, col)
     end
 end
 
+mrp.captions = mrp.captions or {}
+
+local function OrganizeCaptions(i)
+    local scrW = ScrW()
+    local lastHeight = ScrH() - 100
+
+    for k, v in ipairs(mrp.captions) do
+        local height = lastHeight - v:GetTall() + 15
+        v:MoveTo(scrW - (v:GetWide()), height + 50, 0.15, (k / #mrp.captions) * 0.25, nil)
+        lastHeight = height
+    end
+end
+
+function meta:AddCaption(speaker, message, col, msgcol)
+    local col = col or Color(0, 175, 255)
+    local msgcol = msgcol or color_white
+    if CLIENT then
+        local notice = vgui.Create("mrpSub")
+        local i = table.insert(mrp.captions, notice)
+
+        notice:SetMessage(speaker, message, col, msgcol)
+        notice:SetPos(ScrW(), ScrH() - (i - 1) * (notice:GetTall() + 4) + 4) -- needs to be recoded to support variable heights
+        notice:MoveToFront() 
+        OrganizeCaptions(i)
+
+        timer.Simple(7.5, function()
+            if IsValid(notice) then
+                notice:AlphaTo(0, 1, 0, function() 
+                    notice:Remove()
+
+                    for v,k in pairs(mrp.captions) do
+                        if k == notice then
+                            table.remove(mrp.captions, v)
+                        end
+                    end
+
+                    OrganizeCaptions(i)
+                end)
+            end
+        end)
+
+        MsgC(col, speaker..": ", color_white, message.."\n")
+    else
+        net.Start("mrpCaptionAdd")
+            net.WriteString(speaker)
+            net.WriteString(message)
+            net.WriteColor(col)
+            net.WriteColor(msgcol)
+        net.Send(self)
+    end
+end
+
 local entMeta = FindMetaTable("Entity")
 
 function entMeta:IsLocked()

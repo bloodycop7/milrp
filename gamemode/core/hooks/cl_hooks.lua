@@ -1,21 +1,19 @@
 for i = 15, 300 do
     surface.CreateFont("mrp-Font"..tostring(i), {
-        font = "Roboto Thin",
+        font = "Roboto",
         size = i,
-        antialias = true,
+        --antialias = true,
         shadow = true,
-        weight = 500,
-        additive = true,
+        --additive = true,
         blursize = 0.5,
     })
 
     surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
-        font = "Roboto Thin",
+        font = "Roboto",
         size = i,
-        antialias = true,
-        weight = 500,
+        --antialias = true,
         shadow = true,
-        additive = true,
+        --additive = true,
         blursize = 0.5,
     })
 end
@@ -65,6 +63,19 @@ net.Receive("mrpNotify", function(len)
 	end
 	
 	LocalPlayer():Notify(message, col)
+end)
+
+net.Receive("mrpCaptionAdd", function(len)
+    local speaker = net.ReadString()
+	local message = net.ReadString()
+    local col = net.ReadColor()
+    local msgcol = net.ReadColor()
+
+	if not LocalPlayer() or not LocalPlayer().AddCaption then
+		return
+	end
+	
+	LocalPlayer():AddCaption(speaker, message, col, msgcol)
 end)
 
 function GM:OnContextMenuOpen()

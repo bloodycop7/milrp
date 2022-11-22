@@ -19,7 +19,7 @@ SWEP.UseHands = true
 
 SWEP.Spawnable = true
 SWEP.AdminOnly = true
-SWEP.Category = "Military RP"
+SWEP.Category = "Military"
 
 SWEP.Sound = Sound("physics/wood/wood_box_impact_hard3.wav")
 

@@ -20,15 +20,15 @@ function mrp.chatBox.buildBox()
 	mrp.chatBox.frame:SetMinWidth( 300 )
 	mrp.chatBox.frame:SetMinHeight( 100 )
 	mrp.chatBox.frame:SetPopupStayAtBack(true)
-	mrp.chatBox.frame.Paint = function( self, w, h )
+	/*mrp.chatBox.frame.Paint = function( self, w, h )
 		draw.RoundedBox( 0, 0, 0, w, h, Color( 30, 30, 30, 200 ) )
 		
 		draw.RoundedBox( 0, 0, 0, w, 25, Color( 0,110,255) )
 
 		surface.SetDrawColor(0,0,51, 100)
 		surface.DrawOutlinedRect(0,0,w,h,1)
-	end
-	mrp.chatBox.oldPaint = mrp.chatBox.frame.Paint
+	end*/
+	--mrp.chatBox.oldPaint = mrp.chatBox.frame.Paint
 	mrp.chatBox.frame.Think = function()
 		if input.IsKeyDown( KEY_ESCAPE ) then
 			mrp.chatBox.hideBox()
@@ -42,12 +42,8 @@ function mrp.chatBox.buildBox()
 	mrp.chatBox.entry:SetDrawBorder( false )
 	mrp.chatBox.entry:SetDrawBackground( false )
 	mrp.chatBox.entry:SetCursorColor( color_white )
-	mrp.chatBox.entry:SetHighlightColor( Color(52, 152, 219) )
+	--mrp.chatBox.entry:SetHighlightColor( Color(52, 152, 219) )
 	mrp.chatBox.entry:SetPos( 45, mrp.chatBox.frame:GetTall() - mrp.chatBox.entry:GetTall() - 5 )
-	mrp.chatBox.entry.Paint = function( self, w, h )
-		draw.RoundedBox( 0, 0, 0, w, h, Color( 30, 30, 30, 100 ) )
-		derma.SkinHook( "Paint", "TextEntry", self, w, h )
-	end
 
 	mrp.chatBox.entry.OnTextChanged = function( self )
 		if self and self.GetText then 

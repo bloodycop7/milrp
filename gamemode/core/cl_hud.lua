@@ -82,11 +82,15 @@ hook.Add("HUDPaint", "DisableStuff", function()
 	if not ( ply ) then return end
 
 	if ( IsValid(mrp.gui.mainMenu) ) then return end
+	if not ( ply:Alive() ) then return end
+	if not ( IsValid(ply) ) then return end
 
 	hp = Lerp(0.01, hp, ply:Health())
 	armor = Lerp(0.01, armor, ply:Armor())
 
 	local wep = ply:GetActiveWeapon()
+
+	
 
 	for k, v in pairs(ply:GetPlayersInRadius(120)) do
 		if ( IsValid(v) ) then
@@ -123,22 +127,68 @@ hook.Add("HUDPaint", "DisableStuff", function()
 		if not ( clip == 0 or clip == -1 ) then
 			draw.DrawText(clip, "mrp-Font60", ScrW() - 15, ScrH() - 70, color_white, TEXT_ALIGN_RIGHT)
 		end
+
+		if ( wep.GetToggleAim ) then
+			if ( wep:GetToggleAim() ) then
+				canRestoreCrosshair = false
+				crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 0)
+			else
+				canRestoreCrosshair = true
+			end
+		elseif ( wep.GetIsHolstering ) then
+			if ( wep:GetIsHolstering() ) then
+				canRestoreCrosshair = false
+				crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 0)
+			else
+				canRestoreCrosshair = true
+			end	
+		end
 	end
 
-	if ( wep.GetToggleAim ) then
-		if not ( wep:GetToggleAim() ) then
-			crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 255)
-		else
-			crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 0)
-		end
-	else
+	if ( canRestoreCrosshair or false ) then
 		crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 255)
 	end
+
 	mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3, 50, crosshaircolor)
 end)
 
+function meta:GetHPColor()
+	if ( self:Health() >= 60 ) then
+        return Color(170, 100, 0)
+    elseif ( self:Health() >= 50 ) then
+        return Color(190, 90, 0)
+    elseif ( self:Health() >= 45 ) then
+        return Color(200, 70, 0)
+    elseif ( self:Health() >= 40 ) then
+        return Color(200, 60, 0)
+    elseif ( self:Health() >= 35 ) then
+        return Color(200, 50, 0)
+    elseif ( self:Health() >= 30 ) then
+        return  Color(200, 40, 0)
+    elseif ( self:Health() >= 20 ) then
+        return Color(200, 30, 0)
+    elseif ( self:Health() >= 15 ) then
+        return Color(200, 20, 0)
+    elseif ( self:Health() >= 10 ) then
+        return Color(200, 10, 0)
+    elseif ( self:Health() >= 5 ) then
+        return Color(200, 0, 0)
+    elseif ( self:Health() >= 1 ) then
+        return Color(255, 0, 0)
+	end
+end
+
 function GM:HUDPaintBackground()
-	surface.SetDrawColor(color_black)
+	if ( IsValid(mrp.gui.mainMenu) ) then return end
+	if not ( LocalPlayer():Alive() ) then return end
+	if not ( IsValid(LocalPlayer()) ) then return end
+	local col = color_black
+
+	if ( LocalPlayer():Health() <= 60 ) then
+		col = LocalPlayer():GetHPColor()
+	end
+
+	surface.SetDrawColor(col or color_black)
 	surface.SetMaterial(Material("helix/gui/vignette.png"))
 	surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 end
