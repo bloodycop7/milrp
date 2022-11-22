@@ -111,12 +111,12 @@ hook.Add("HUDPaint", "DisableStuff", function()
 			mrp.DrawBox({
 				x = pos.x + 50,
 				y = pos.y + 40,
-				w = cw - 6,
+				w = cw + 2,
 				h = 25,
 				col = Color(0, 120, 255)
 			})
 			draw.DrawText(v:Nick(), "mrp-Font20", pos.x + 53, pos.y + 3, color_white, TEXT_ALIGN_LEFT)
-			draw.DrawText(v:GetSyncVar(SYNC_CALLSIGN, "UNDEFINED-0"), "mrp-Font18", pos.x + 53, pos.y + 43, color_white, TEXT_ALIGN_LEFT)
+			draw.DrawText(v:GetSyncVar(SYNC_CALLSIGN, "UNDEFINED-0"), "mrp-Font19", pos.x + 53, pos.y + 43, color_white, TEXT_ALIGN_LEFT)
 		end
 	end
 
