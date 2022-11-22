@@ -90,8 +90,6 @@ hook.Add("HUDPaint", "DisableStuff", function()
 
 	local wep = ply:GetActiveWeapon()
 
-	
-
 	for k, v in pairs(ply:GetPlayersInRadius(120)) do
 		if ( IsValid(v) ) then
 			if ( v == LocalPlayer() ) then continue end
@@ -149,7 +147,12 @@ hook.Add("HUDPaint", "DisableStuff", function()
 		crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 255)
 	end
 
-	mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3, 50, crosshaircolor)
+	if ( mrp.GetSetting("bodycam_mode", false) ) then
+		local p = LocalPlayer():GetEyeTrace().HitPos:ToScreen()
+		mrp.DrawCrosshair(p.x, p.y, 3, 50, crosshaircolor)
+	else
+		mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3, 50, crosshaircolor)
+	end
 end)
 
 function meta:GetHPColor()

@@ -12,15 +12,17 @@ local optX = {["tickbox"] = true}
 function mrp.GetSetting(name)
 	local settingData = mrp.Settings[name]
 
-	if optX[settingData.type] then
-		if settingData.value == nil then
-			return settingData.default
+	if ( settingData ) then
+		if optX[settingData.type] then
+			if settingData.value == nil then
+				return settingData.default
+			end
+
+			return toBool(settingData.value)
 		end
-
-		return toBool(settingData.value)
+		
+		return settingData.value or settingData.default
 	end
-
-	return settingData.value or settingData.default
 end
 
 function mrp.LoadSettings()
@@ -105,6 +107,5 @@ concommand.Add("mrp_resetsettings", function()
 	end
 	print("[mrp] Settings reset!")
 end)
-
 
 hook.Run("DefineSettings")

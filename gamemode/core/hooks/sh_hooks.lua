@@ -200,3 +200,8 @@ if ( CLIENT ) then
         end
     end)
 end
+
+function GM:DefineSettings()
+    mrp.DefineSetting("nightvision_enabled", {name="Enable Nightvision", category="HUD", type="tickbox", default=false})
+    mrp.DefineSetting("bodycam_mode", {name="Body Cam Mode Enabled", category="HUD", type="tickbox", default=false})
+end

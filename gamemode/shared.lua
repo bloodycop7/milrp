@@ -87,14 +87,12 @@ end
 mrp.IncludeDir("milrp/gamemode/core")
 mrp.IncludeDir("milrp/gamemode/core/vgui")
 mrp.IncludeDir("milrp/gamemode/core/hooks")
-mrp.IncludeDir("milrp/gamemode/plugins")
 mrp.IncludeDir("milrp/gamemode/teams")
 
 function GM:OnReloaded()
 	mrp.IncludeDir("milrp/gamemode/core")
 	mrp.IncludeDir("milrp/gamemode/core/vgui")
 	mrp.IncludeDir("milrp/gamemode/core/hooks")
-	mrp.IncludeDir("milrp/gamemode/plugins")
 	mrp.IncludeDir("milrp/gamemode/teams")
 
 	table.Empty(mrp.Settings)
