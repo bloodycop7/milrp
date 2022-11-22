@@ -1,16 +1,20 @@
 for i = 15, 300 do
     surface.CreateFont("mrp-Font"..tostring(i), {
-        font = "Segoe UI Light",
+        font = "Neusa Next Pro Light",
         size = i,
         shadow = true,
-        weight = 700,
+        antialias = true,
+        outline = true,
+        extended = true
     })
 
     surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
-        font = "Segoe UI Light",
+        font = "Neusa Next Pro Light",
         size = i,
         shadow = true,
-        weight = 700,
+        antialias = true,
+        outline = true,
+        extended = true
     })
 end
 
