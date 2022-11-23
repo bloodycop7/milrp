@@ -119,9 +119,6 @@ function mrp.LoadPlugin(path, name)
     mrp.IncludeDir(path.."/vgui", true, "PLUGIN", name)
     mrp.LoadEntites(path.."/entities")
     mrp.IncludeDir(path.."/hooks", true, "PLUGIN", name)
-    --mrp.IncludeDir(path.."/items", true, "PLUGIN", name)
-    --mrp.IncludeDir(path.."/buyables", true, "PLUGIN", name)
-    --mrp.IncludeDir(path.."/vendors", true, "PLUGIN", name)
 end
 
 local files, plugins = file.Find("milrp/gamemode/plugins/*", "LUA")
