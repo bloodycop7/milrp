@@ -56,12 +56,9 @@ function mrp.Ops.ReportNew(ply, arg, rawText)
             net.WriteUInt(reportId, 16)
             net.WriteUInt(1, 4)
             net.Send(ply)
-
-            opsSlackLog(":warning: *[NEW REPORT]* [#"..reportId.."] ".. ply:Nick().. " (".. ply:Name().. ") ("..ply:SteamID().."): ```"..rawText.."```")
             return
         else
             ply:Notify("Unfortunately, no game moderators are currently available to review your report. Please goto mrp-community.com and submit a ban request.")
-            opsSlackLog(":exclamation: *A user is requesting help but no moderators are online!* Report: ```".. rawText.."```")
         end
     else
         if string.len(mrp.Ops.Reports[reportId][2]) > 3000 then
@@ -81,7 +78,6 @@ function mrp.Ops.ReportNew(ply, arg, rawText)
         end
 
         mrp.Ops.Reports[reportId][2] = mrp.Ops.Reports[reportId][2].." + "..rawText
-        opsSlackLog(":speech_balloon: *[REPORT UPDATE]* [#"..reportId.."] ".. ply:Nick().. " (".. ply:Name().. ") ("..ply:SteamID().."): ```".. rawText.."```")
 
         net.Start("opsReportMessage")
         net.WriteUInt(reportId, 16)
@@ -132,8 +128,6 @@ function mrp.Ops.ReportClaim(ply, arg, rawText)
                 net.Send(k)
             end
         end
-        opsSlackLog(":passport_control: *[REPORT CLAIMED]* [#"..reportId.."] claimed by "..ply:Nick().." ("..ply:SteamID()..")")
-
         net.Start("opsReportMessage")
         net.WriteUInt(reportId, 16)
         net.WriteUInt(3, 4)
@@ -207,8 +201,6 @@ function mrp.Ops.ReportClose(ply, arg, rawText)
         if not IsValid(ply) or not ply:IsPlayer() then
             return
         end
-
-        opsSlackLog(":no_entry: *[REPORT CLOSED]* [#"..reportId.."] closed by "..ply:Nick().." ("..ply:SteamID()..")")
     else
         ply:AddChatText(claimedReportCol, "Report #"..reportId.." does not exist.")
     end

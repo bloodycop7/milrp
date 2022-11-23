@@ -220,3 +220,20 @@ function meta:GetEntityInFront(radius)
         return target
     end
 end
+
+if SERVER then
+	util.AddNetworkString("GM-ColoredMessage")
+
+	function meta:AddChatText(...)
+		local package = {...}
+		net.Start("GM-ColoredMessage")
+            net.WriteTable(package)
+        net.Send(self)
+	end
+else
+    net.Receive("GM-ColoredMessage", function()
+        local package = net.ReadTable()
+        
+        chat.AddText(unpack(package))
+    end)
+end
