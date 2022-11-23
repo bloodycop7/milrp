@@ -113,14 +113,10 @@ function GM:PlayerDisconnected(ply)
 	end
 end
 
-util.AddNetworkString("PlayerMoreFPS")
 function GM:PlayerInitialSpawn(ply)
     timer.Simple(1, function()
         ply:KillSilent()
         ply:SendLua([[vgui.Create("MilMainMenu")]])
-
-		net.Start("PlayerMoreFPS")
-		net.Send(ply)
     end)
 end
 
@@ -243,9 +239,6 @@ net.Receive("milMainMenuSpawn", function(len, ply)
     if ( timer.Exists(ply:SteamID64().."Bleed") ) then
         timer.Remove(ply:SteamID64().."Bleed")
     end
-
-	net.Start("PlayerMoreFPS")
-	net.Send(ply)
 end)
 
 util.AddNetworkString("milMainMenuChangeName")
@@ -344,9 +337,6 @@ function GM:PlayerSpawn(ply, transition)
     if ( timer.Exists(ply:SteamID64().."Bleed") ) then
         timer.Remove(ply:SteamID64().."Bleed")
     end
-
-	net.Start("PlayerMoreFPS")
-	net.Send(ply)
 end
 
 util.AddNetworkString("mrpSetTeamIndex")

@@ -126,27 +126,9 @@ hook.Add("HUDPaint", "DisableStuff", function()
 		if not ( clip == 0 or clip == -1 ) then
 			draw.DrawText(clip, "mrp-Font60", ScrW() - 15, ScrH() - 70, color_white, TEXT_ALIGN_RIGHT)
 		end
-
-		if ( wep.GetToggleAim ) then
-			if ( wep:GetToggleAim() ) then
-				canRestoreCrosshair = false
-				crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 0)
-			else
-				canRestoreCrosshair = true
-			end
-		elseif ( wep.GetIsHolstering ) then
-			if ( wep:GetIsHolstering() ) then
-				canRestoreCrosshair = false
-				crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 0)
-			else
-				canRestoreCrosshair = true
-			end	
-		end
 	end
 
-	if ( canRestoreCrosshair or false ) then
-		crosshaircolor.a = Lerp(0.1, crosshaircolor.a, 255)
-	end
+	crosshaircolor.a = hook.Run("GetCrosshairAlpha", ply, wep, crosshaircolor, crosshaircolor.a)
 
 	if ( mrp.GetSetting("bodycam_mode", false) ) then
 		local p = LocalPlayer():GetEyeTrace().HitPos:ToScreen()
@@ -155,6 +137,20 @@ hook.Add("HUDPaint", "DisableStuff", function()
 		mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3, 50, crosshaircolor)
 	end
 end)
+
+function GM:GetCrosshairAlpha(ply, wep, color, alpha)
+	if ( wep.GetToggleAim ) then
+		if ( wep:GetToggleAim() ) then
+			return Lerp(0.1, alpha, 0)
+		end
+	elseif ( wep.GetIsHolstering ) then
+		if ( wep:GetIsHolstering() ) then
+			return Lerp(0.1, alpha, 0)
+		end
+	end
+
+	return Lerp(0.1, alpha, 255)
+end
 
 function meta:GetHPColor()
 	if ( self:Health() >= 60 ) then

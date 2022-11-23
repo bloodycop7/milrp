@@ -202,9 +202,21 @@ if ( CLIENT ) then
 end
 
 function meta:IsRunning()
-    if ( self:IsSprinting() and self:GetVelocity():Length() != 0 ) then
+    if ( self:IsSprinting() and self:GetVelocity():Length() != 0 or ( self:GetActiveWeapon().GetIsSprinting and self:GetActiveWeapon():GetIsSprinting() ) ) then
         return true
     end
 
     return false
+end
+
+function meta:GetEntityInFront(radius)
+    local data = {}
+        data.start = self:GetShootPos()
+        data.endpos = data.start + self:GetAimVector() * (radius or 96)
+        data.filter = self
+    local target = util.TraceLine(data).Entity
+
+    if ( target and IsValid(target) ) then
+        return target
+    end
 end

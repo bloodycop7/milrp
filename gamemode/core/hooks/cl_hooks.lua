@@ -4,7 +4,6 @@ for i = 15, 300 do
         size = i,
         shadow = true,
         antialias = true,
-        outline = true,
         extended = true
     })
 
@@ -13,7 +12,6 @@ for i = 15, 300 do
         size = i,
         shadow = true,
         antialias = true,
-        outline = true,
         extended = true
     })
 end
@@ -95,13 +93,6 @@ function GM:OnContextMenuClose()
 		hook.Call("ContextMenuClosed", self)
 	end
 end
-
-net.Receive("PlayerMoreFPS", function()
-    RunConsoleCommand("mat_queue_mode", "-1")
-    RunConsoleCommand("cl_threaded_bone_setup", "1")
-    RunConsoleCommand("r_shadows", "1")
-    RunConsoleCommand("r_dynamic", "1")
-end)
 
 function GM:DefineSettings()
     mrp.DefineSetting("nightvision_enabled", {name="Enable Nightvision", category="HUD", type="tickbox", default=false})

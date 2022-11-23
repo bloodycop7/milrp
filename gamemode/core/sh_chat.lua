@@ -299,7 +299,7 @@ if CLIENT then
 
 		--chat.AddText(speaker, talkCol, " says: ", message)
 
-        speaker:AddCaption(speaker:Nick(), message, Color(0, 175, 255), color_white)
+        speaker:AddCaption(speaker:Nick().." LOOL", message, Color(0, 175, 255), color_white)
 	end)
 
 	local strFind = string.find

@@ -94,6 +94,16 @@ function GM:OnReloaded()
 	mrp.IncludeDir("milrp/gamemode/core/vgui")
 	mrp.IncludeDir("milrp/gamemode/core/hooks")
 	mrp.IncludeDir("milrp/gamemode/teams")
+
+	RunConsoleCommand("mat_queue_mode", "-1")
+	RunConsoleCommand("cl_threaded_bone_setup", "1")
+	RunConsoleCommand("r_shadows", "1")
+	RunConsoleCommand("r_dynamic", "1")
+
+	RunConsoleCommand("bsmod_kick_enabled", "0")
+	RunConsoleCommand("bsmod_killmove_anytime", "1")
+	RunConsoleCommand("bsmod_killmove_anytime_behind", "1")
+	RunConsoleCommand("bsmod_killmove_glow", "0")
 end
 
 function meta:IsCombine()

@@ -7,7 +7,7 @@ hook.Add("CalcView", "ViewBobPlugin", function(ply, pos, ang, fov)
     local view = {}
     view.origin = pos-(ang:Forward()*2) + (ang:Right() * 13)
     view.angles = ang
-    view.fov = fov
+    view.fov = 85
 
     if ( ply:Crouching() ) then
         view.origin = pos-(ang:Forward()*2) + (ang:Right() * 13) + (ang:Up() * 14)

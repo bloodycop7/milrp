@@ -16,16 +16,16 @@ hook.Add("DoAnimationEvent", "THJINGY", function(ply)
     end
 end)
 
-hook.Add("OnPlayerHitGround", "daodahjd", function(ply, inWater, onFloater, speed)
-    if (ply.rappelling and ply.rappelPos.z - ply:GetPos().z > 64) then
-        EndRappel(ply)
+hook.Add("PlayerButtonDown", "rappelstop", function(ply, btn)
+    if ( ply:KeyDown(IN_WALK) ) then
+        if ( btn == KEY_E ) then
+            if (ply.rappelling) then
+                EndRappel(ply)
 
-        if ( SERVER ) then
-            ply:EmitSound("npc/combine_soldier/zipline_hitground" .. math.random(2) .. ".wav")
-        end
-
-        if (speed >= 196) then
-            ply:ViewPunch(Angle(7, 0, 0))
+                if ( SERVER ) then
+                    ply:EmitSound("npc/combine_soldier/zipline_hitground" .. math.random(2) .. ".wav")
+                end
+            end
         end
     end
 end)
@@ -60,13 +60,14 @@ hook.Add("Move", "noadad", function(ply, moveData)
         if (!ply:OnGround() and (ply:EyePos().z) < ply.rappelPos.z) then
             rappelFalling = true
 
-            if (moveData:KeyDown(IN_WALK)) then
-                moveData:SetForwardSpeed(0)
-                moveData:SetSideSpeed(0)
-
-                vel.z = math.max(vel.z - 16, -128)
+            if ( moveData:KeyDown(IN_WALK) ) then
+                vel.z = math.max(vel.z - 16, -160)
+            elseif (moveData:KeyDown(IN_DUCK)) then
+                vel.z = math.max(vel.z - 16, -236)
+            elseif ( moveData:KeyDown(IN_JUMP) ) then
+                vel.z = math.max(vel.z - 16, 236)
             else
-                vel.z = math.max(vel.z - 16, -256)
+                vel.z = 4.5
             end
         end
 
@@ -78,12 +79,6 @@ hook.Add("Move", "noadad", function(ply, moveData)
 
                 if (sequence != -1) then
                     ply:SetPData("forcedSequence", sequence)
-                end
-
-                if (!ply.oneTimeRappelSound) then
-                    ply.oneTimeRappelSound = true
-
-                    ply:EmitSound("npc/combine_soldier/zipline" .. math.random(2) .. ".wav")
                 end
             end
 
