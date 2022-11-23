@@ -102,3 +102,13 @@ net.Receive("PlayerMoreFPS", function()
     RunConsoleCommand("r_shadows", "1")
     RunConsoleCommand("r_dynamic", "1")
 end)
+
+function GM:DefineSettings()
+    mrp.DefineSetting("nightvision_enabled", {name="Enable Nightvision", category="HUD", type="tickbox", default=false})
+    mrp.DefineSetting("bodycam_mode", {name="Body Cam Mode Enabled", category="HUD", type="tickbox", default=false})
+end
+
+hook.Add("OnReloaded", "SettingsReset", function()
+    table.Empty(mrp.Settings)
+    hook.Run("DefineSettings")
+end)

@@ -201,7 +201,10 @@ if ( CLIENT ) then
     end)
 end
 
-function GM:DefineSettings()
-    mrp.DefineSetting("nightvision_enabled", {name="Enable Nightvision", category="HUD", type="tickbox", default=false})
-    mrp.DefineSetting("bodycam_mode", {name="Body Cam Mode Enabled", category="HUD", type="tickbox", default=false})
+function meta:IsRunning()
+    if ( self:IsSprinting() and self:GetVelocity():Length() != 0 ) then
+        return true
+    end
+
+    return false
 end

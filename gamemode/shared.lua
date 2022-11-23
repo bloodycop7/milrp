@@ -94,9 +94,6 @@ function GM:OnReloaded()
 	mrp.IncludeDir("milrp/gamemode/core/vgui")
 	mrp.IncludeDir("milrp/gamemode/core/hooks")
 	mrp.IncludeDir("milrp/gamemode/teams")
-
-	table.Empty(mrp.Settings)
-	hook.Run("DefineSettings")
 end
 
 function meta:IsCombine()
