@@ -1,8 +1,6 @@
 AddCSLuaFile()
 
-util.PrecacheModel("models/weapons/tfa_kick.mdl")
 util.PrecacheModel("models/c_vmaniplegs.mdl")
-util.PrecacheModel("models/weapons/c_legs_apex.mdl")
 
 local tick = engine.TickInterval()
 
@@ -67,7 +65,6 @@ if CLIENT then
 
     net.Receive("EngageMF", MFEngaged)
     local kickvmoffset = Vector()
-    local legtable = {"models/weapons/tfa_kick.mdl", "models/c_vmaniplegs.mdl", "models/weapons/c_legs_apex.mdl"}
 
     function MFCreate(pos, ang, ...)
         local kickfov = (100 - LocalPlayer():GetFOV()) / 5
@@ -76,8 +73,8 @@ if CLIENT then
 
         pos = ang
 
-        if model == -1 then legmodel = legtable[math.random(#legtable)] end
-        if !util.IsValidModel(legmodel) then legmodel = "models/weapons/tfa_kick.mdl" end
+        if model == -1 then legmodel = "models/c_vmaniplegs.mdl" end
+        if !util.IsValidModel(legmodel) then legmodel = "models/c_vmaniplegs.mdl" end
 
         for k, v in pairs(player.GetAll()) do
             -- print(k)
@@ -88,8 +85,8 @@ if CLIENT then
                 off:Rotate(CalcPlayerModelsAngle(v))
                 local trace = v:GetEyeTraceNoCursor()
 
-                if not IsValid(v.MFRig) and util.IsValidModel(legmodel) then
-                    v.MFRig = ClientsideModel(legmodel, RENDERGROUP_TRANSLUCENT)
+                if not IsValid(v.MFRig) and util.IsValidModel("models/c_vmaniplegs.mdl") then
+                    v.MFRig = ClientsideModel("models/c_vmaniplegs.mdl", RENDERGROUP_TRANSLUCENT)
                     v.MFRig:Spawn()
                     v.MFRig:UseClientSideAnimation()
                     v.MFRig:SetPos(pos + off)
@@ -99,18 +96,15 @@ if CLIENT then
                     v.MFRig:DrawModel()
                     v.MFRig:SetCycle(0)
 
-                    --print(kickfov)
-                    -- AT LEAST TRY TO MAKE SENSE WHEN YOU FUCK WITH THIS
-                    if legmodel == legtable[2] then
-                        v.MFRig:SetPlaybackRate(0.5)
 
-                        if KickState == 3 then
-                            v.MFRig:SetSequence("dropkick")
-                            kickvmoffset = Vector(kickfov, 0, -4)
-                        else
-                            v.MFRig:SetSequence("standkick")
-                            kickvmoffset = Vector(kickfov, -2, -6)
-                        end
+                    v.MFRig:SetPlaybackRate(0.5)
+
+                    if KickState == 3 then
+                        v.MFRig:SetSequence("dropkick")
+                        kickvmoffset = Vector(kickfov, 0, -4)
+                    else
+                        v.MFRig:SetSequence("standkick")
+                        kickvmoffset = Vector(kickfov, -2, -6)
                     end
 
                     v.MFRig:SetPlaybackRate(v.MFRig:GetPlaybackRate() * speed)
