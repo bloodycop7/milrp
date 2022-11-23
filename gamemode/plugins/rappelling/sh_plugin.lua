@@ -1,7 +1,7 @@
 
 local PLUGIN = PLUGIN
 
-function StartRappel(ply, rappelpoint)
+function StartRappel(ply)
     ply.rappelling = true
     ply.rappelPos = ply:GetPos()
 

@@ -49,4 +49,8 @@ function RemoveRope(ply)
     if (sequence != 1 and ply:GetPData("forcedSequence") == sequence) then
         ply:SetPData("forcedSequence", nil)
     end
+    
+    ply.vehicleRappel = false
+    
+    hook.Remove("Think", "HelicopterPosUpdate")
 end

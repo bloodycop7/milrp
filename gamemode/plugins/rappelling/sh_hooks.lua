@@ -17,13 +17,15 @@ hook.Add("DoAnimationEvent", "THJINGY", function(ply)
 end)
 
 hook.Add("PlayerButtonDown", "rappelstop", function(ply, btn)
-    if ( ply:KeyDown(IN_WALK) ) then
-        if ( btn == KEY_E ) then
-            if (ply.rappelling) then
-                EndRappel(ply)
+    if ( ( ply.canRappel or false ) ) then
+        if ( ply:KeyDown(IN_WALK) ) then
+            if ( btn == KEY_E ) then
+                if (ply.rappelling) then
+                    EndRappel(ply)
 
-                if ( SERVER ) then
-                    ply:EmitSound("npc/combine_soldier/zipline_hitground" .. math.random(2) .. ".wav")
+                    if ( SERVER ) then
+                        ply:EmitSound("npc/combine_soldier/zipline_hitground" .. math.random(2) .. ".wav")
+                    end
                 end
             end
         end
@@ -50,7 +52,7 @@ hook.Add("Move", "noadad", function(ply, moveData)
     if (ply.rappelling) then
         local vel = moveData:GetVelocity()
 
-        local dir = (ply.rappelPos - ply:GetPos()) * 0.5
+        local dir = (ply.rappelPos - ply:GetPos()) * 0.1
 
         vel.x = (vel.x + dir.x) * 0.95
         vel.y = (vel.y +  dir.y) * 0.95
@@ -96,8 +98,10 @@ hook.Add("Move", "noadad", function(ply, moveData)
 
             local origin = moveData:GetOrigin()
 
-            if (math.Distance(origin.x, origin.y, ply.rappelPos.x, ply.rappelPos.y) > 256) then
-                EndRappel(ply)
+            if not ( ply.vehicleRappel ) then 
+                if (math.Distance(origin.x, origin.y, ply.rappelPos.x, ply.rappelPos.y) > 256) then
+                    EndRappel(ply)
+                end
             end
         end
     end
