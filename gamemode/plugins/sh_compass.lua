@@ -3,28 +3,23 @@
 mrp.Compass = mrp.Compass or {}
 mrp.Compass_Settings = {}
 
--- Enables/Disables compass for everyone in the entire server
 mrp.Compass_Settings.Compass_Enabled = true
-mrp.Compass_Settings.Force_Server_Style = false -- Force the below compass settings on the client.
-mrp.Compass_Settings.Use_FastDL = true -- Auto download the nessesary content for clients.
 
 mrp.Compass_Settings.Style_Selected = "squad"
-mrp.Compass_Settings.Allow_Entity_Spotting = false -- Not yet working.
-mrp.Compass_Settings.Spot_Duration = 10 -- In seconds
 
 mrp.Compass_Settings.Styles = {
 	["squad"] = {
-		heading = true,		-- Whether or not the precise bearing is displayed. (Default: true)
-		compassX = 0.5,		-- This value is multiplied by users screen width. (Default: 0.5)
-		compassY = 0.9,		-- This value is multiplied by users screen height. (Default: 0.9)
-		width = 0.25,		-- This value is multiplied by users screen width. (Default: 0.25)
-		height = 0.03,		-- This value is multiplied by users screen height. (Default: 0.03)
-		spacing = 2,		-- This value changes the spacing between lines. (Default: 2.5)
-		ratio = 1.8,		-- The is the ratio of the size of the letters and numbers text. (Default: 1.8)
-		offset = 0,			-- The number of degrees the compass will offset by. (Default: 0)
-		maxMarkerSize = 1,	-- Maximum size of the marker, note that this affects scaling (Default: 1)
-		minMarkerSize = 0.5, -- Minimum size of the marker, note that this affects scaling (Default: 0.5)
-		color = Color(255, 255, 255) -- The color of the compass.
+		heading = true,
+		compassX = 0.5,
+		compassY = 0.9,
+		width = 0.25,
+		height = 0.03,
+		spacing = 2,
+		ratio = 1.8,
+		offset = 0,
+		maxMarkerSize = 1,
+		minMarkerSize = 0.5,
+		color = Color(255, 255, 255)
 	}
 }
 
@@ -33,113 +28,12 @@ mrp.Compass_Settings.Styles = {
 --------------------------------------------------------------
 
 if SERVER then
-
-	util.AddNetworkString("mrp.Compass_AddMarker")
-	util.AddNetworkString("mrp.Compass_RemoveMarker")
-
-	local MarkerTable = MarkerTable or {}
-
-	function mrp.Compass_AddMarker(ply, pos, players, time, color, icon, name)
-		name = name or ""
-		icon = icon or ""
-		color = color or Color(255, 0, 0)
-		players = players or (ply and ply:IsPlayer()) and team.GetPlayers(ply:Team())
-
-		local id = #MarkerTable + 1
-		if players then
-			for k, v in pairs(players) do
-				net.Start("mrp.Compass_AddMarker")
-					net.WriteInt(id, 4)
-					net.WriteBool(false) -- IsEntity
-					net.WriteVector(pos)
-					net.WriteFloat(time)
-					net.WriteColor(color)
-					net.WriteString(icon)
-					net.WriteString(name)
-				net.Send(v)
-			end
-		else
-			net.Start("mrp.Compass_AddMarker")
-				net.WriteInt(id, 4)
-				net.WriteBool(false) -- IsEntity
-				net.WriteVector(pos)
-				net.WriteFloat(time)
-				net.WriteColor(color)
-				net.WriteString(icon)
-				net.WriteString(name)
-			net.Broadcast()
-		end
-		table.insert(MarkerTable, {id, pos, time, color, icon, name})
-		return id
-	end
-
-	function mrp.Compass_AddEntityMarker(ply, ent, players, time, color, icon, name)
-		name = name or ""
-		icon = icon or ""
-		color = color or Color(255, 0, 0)
-		players = players or (ply and ply:IsPlayer()) and team.GetPlayers(ply:Team())
-
-		local id = #MarkerTable + 1
-		if players then
-			for k, v in pairs(players) do
-				net.Start("mrp.Compass_AddMarker")
-					net.WriteInt(id, 4)
-					net.WriteBool(true) -- IsEntity
-					net.WriteEntity(ent)
-					net.WriteFloat(time)
-					net.WriteColor(color)
-					net.WriteString(icon)
-					net.WriteString(name)
-				net.Send(v)
-			end
-		else
-			net.Start("mrp.Compass_AddMarker")
-				net.WriteInt(id, 4)
-				net.WriteBool(true) -- IsEntity
-				net.WriteEntity(ent)
-				net.WriteFloat(time)
-				net.WriteColor(color)
-				net.WriteString(icon)
-				net.WriteString(name)
-			net.Broadcast()
-		end
-		table.insert(MarkerTable, {id, pos, time, color, icon, name})
-		return id
-	end
-
-	function Adv_Compass_RemoveMarker(markerID)
-		for k, v in pairs(MarkerTable) do
-			if markerID == v[1] then
-				net.Start("mrp.Compass_RemoveMarker")
-					net.WriteInt(markerID, 4)
-				net.Broadcast()
-				table.remove(MarkerTable, k)
-			end
-		end
-	end
-
     resource.AddFile("resource/fonts/exo/Exo-Regular.ttf")
 
 	local function v(arg)
 		local arg = tonumber(arg)
 		return math.Clamp(arg and arg or 255, 0, 255)
 	end
-
-	concommand.Add("mrp.Compass_spot", function(ply, cmd, args)
-        local color = string.ToColor(v(args[1]).." "..v(args[2]).." "..v(args[3]).." "..v(args[4]))
-        local tr = util.TraceLine({
-            start = ply:EyePos(),
-            endpos = ply:EyePos() + ply:EyeAngles():Forward() * 15748.03,
-            filter = ply
-        })
-        local id
-        local t = CurTime() + mrp.Compass_Settings.Spot_Duration
-        if tr.Entity and !tr.HitWorld then
-            id = mrp.Compass_AddEntityMarker(ply, tr.Entity, nil, t)
-        else
-            id = mrp.Compass_AddMarker(ply, tr.HitPos, nil, t)
-        end
-	end)
 
 end
 
@@ -158,17 +52,17 @@ if CLIENT then
 			and mrp.Compass_Settings.Styles["squad"]
 			or {
 				style = "squad",
-                heading = true,		-- Whether or not the precise bearing is displayed. (Default: true)
-                compassX = 0.5,		-- This value is multiplied by users screen width. (Default: 0.5)
-                compassY = 0.9,		-- This value is multiplied by users screen height. (Default: 0.9)
-                width = 0.25,		-- This value is multiplied by users screen width. (Default: 0.25)
-                height = 0.03,		-- This value is multiplied by users screen height. (Default: 0.03)
-                spacing = 2,		-- This value changes the spacing between lines. (Default: 2.5)
-                ratio = 1.8,		-- The is the ratio of the size of the letters and numbers text. (Default: 1.8)
-                offset = 0,			-- The number of degrees the compass will offset by. (Default: 0)
-                maxMarkerSize = 1,	-- Maximum size of the marker, note that this affects scaling (Default: 1)
-                minMarkerSize = 0.5, -- Minimum size of the marker, note that this affects scaling (Default: 0.5)
-                color = Color(255, 255, 255) -- The color of the compass.
+                heading = true,
+                compassX = 0.5,
+                compassY = 0.9,
+                width = 0.25,
+                height = 0.03,
+                spacing = 2,
+                ratio = 1.8,
+                offset = 0,
+                maxMarkerSize = 1,
+                minMarkerSize = 0.5,
+                color = Color(255, 255, 255)
 			}
 
         compass_style.style = "squad"
@@ -364,13 +258,6 @@ if CLIENT then
         surface.DrawText(text)
 
         for i = math.Round(-ang.y) % 360, (math.Round(-ang.y) % 360) + numOfLines do
-            -- DEBUGGING LINES
-            -- local compassStart = compassX - width / 2
-            -- local compassEnd = compassX + width / 2
-            -- surface.SetDrawColor(Color(0, 255, 0))
-            -- surface.DrawLine(compassStart, compassY, compassStart, compassY + height * 2)
-            -- surface.DrawLine(compassEnd, compassY, compassEnd, compassY + height * 2)
-
             local x = ((compassX - (width / 2)) + (((i + ang.y) % 360) * spacing))
             local value = math.abs(x - compassX)
             local calc = 1 - ((value + (value - fadeDistance)) / (width / 2))
