@@ -171,7 +171,11 @@ function GM:PlayerSay(ply, text, teamChat, newChat)
 
 		for v,k in pairs(player.GetAll()) do
 			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (300 ^ 2) then
-				k:AddCaption(ply:Nick().." ["..ply:GetSyncVar(SYNC_CALLSIGN, "UNDEFINED-0").."]", text)
+				k:AddCaption({
+					speaker = ply:Nick().." ["..ply:GetSyncVar(SYNC_CALLSIGN, "UNDEFINED-0").."]",
+					adddots = true,
+					message = ": "..text
+				})
 			end
 		end
 

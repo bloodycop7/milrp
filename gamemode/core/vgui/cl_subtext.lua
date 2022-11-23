@@ -9,15 +9,21 @@ function PANEL:Init()
 	self.endTime = CurTime() + 7.5
 end
 
-function PANEL:SetMessage(speaker, message, speakercol, msgcol)
-	self.Col = speakercol or Color(0, 175, 255)
-	self.MsgCol = msgcol or color_white
+function PANEL:SetMessage(tbl)
+	self.Col = tbl.speakercol or Color(0, 175, 255)
+	self.MsgCol = tbl.msgcol or color_white
 	-- Encode message into markup
 	local msg = "<font=mrp-Font23>"
 
-    msg = msg.."<color="..self.Col.r..","..self.Col.g..","..self.Col.b..">"..tostring(speaker):gsub("<", "&lt;"):gsub(">", "&gt;").."<color="..self.MsgCol.r..","..self.MsgCol.g..","..self.MsgCol.b..">: "..message
+    msg = msg.."<color="..self.Col.r..","..self.Col.g..","..self.Col.b..">"..tostring(tbl.speaker):gsub("<", "&lt;"):gsub(">", "&gt;").."<color="..self.MsgCol.r..","..self.MsgCol.g..","..self.MsgCol.b..">"
 
-	if not ( string.Right(message, 1) == "." or string.Right(message, 1) == "?" or string.Right(message, 1) == "!" ) then
+	if ( tbl.dots ) then
+		msg = msg..": "..tbl.message
+	else
+		msg = msg..tbl.message
+	end
+	
+	if not ( string.Right(tbl.message, 1) == "." or string.Right(tbl.message, 1) == "?" or string.Right(tbl.message, 1) == "!" ) then
 		msg = msg.."."
 	end
 

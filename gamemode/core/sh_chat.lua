@@ -299,7 +299,13 @@ if CLIENT then
 
 		--chat.AddText(speaker, talkCol, " says: ", message)
 
-        speaker:AddCaption(speaker:Nick(), message, Color(0, 175, 255), color_white)
+        speaker:AddCaption({
+			speaker = speaker:Nick(), 
+			message = message, 
+			speakercol = Color(0, 0, 0), 
+			msgcol = color_white,
+			dots = true
+		})
 	end)
 
 	local strFind = string.find
@@ -307,46 +313,93 @@ if CLIENT then
 		mrp.customChatPlayer = speaker
 
 		--chat.AddText(oocTagCol, "[OOC] ", (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), speaker:Nick(), oocCol, ": ", message)
-        speaker:AddCaption("[OOC] "..speaker:Nick(), message, (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), oocCol)
+        speaker:AddCaption({
+			speaker = "[OOC] "..speaker:Nick(), 
+			message = message, 
+			speakercol = (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol),
+			msgcol = oocCol,
+			dots = true
+		})
 	end)
 
 	mrp.RegisterChatClass(3, function(message, speaker)
 		mrp.customChatPlayer = speaker
 		--chat.AddText(oocTagCol, "[LOOC] ", (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", oocCol, ": ",  message)
 
-        speaker:AddCaption("[LOOC] "..speaker:Nick(), message, (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol), fallbackRankCol)
+        speaker:AddCaption({
+			speaker = "[LOOC] "..speaker:Nick(), 
+			message = message, 
+			speakercol = (rankCols[speaker:IsIncognito() and "user" or speaker:GetUserGroup()] or fallbackRankCol),
+			msgcol = oocCol,
+			dots = true
+		})
 	end)
 
 	mrp.RegisterChatClass(4, function(message, speaker)
 		--chat.AddText(pmCol, "[PM] ", speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", pmCol, ": ", message)
 
-        speaker:AddCaption("[PM] "..speaker:Nick(), message, pmCol, pmCol)
+        speaker:AddCaption({
+			speaker = "[PM] "..speaker:Nick(), 
+			message = message, 
+			speakercol = pmCol, 
+			msgcol = pmCol,
+			dots = true
+		})
 	end)
 
 	mrp.RegisterChatClass(5, function(message, speaker)
 		surface.PlaySound("buttons/blip1.wav")
 		--chat.AddText(pmCol, "[PM SENT] ", speaker:Nick(), (team.GetColor(speaker:Team())), " (", speaker:Name(), ")", pmCol, ": ", message)
-        speaker:AddCaption("[PM SENT] "..speaker:Nick(), message, pmCol, pmCol)
+        speaker:AddCaption({
+			speaker = "[PM SENT] "..speaker:Nick(), 
+			message = message, 
+			speakercol = pmCol, 
+			msgcol = pmCol,
+			dots = true
+		})
 	end)
 
 	mrp.RegisterChatClass(8, function(message, speaker)
 		--mrp.customChatFont = "mrp-Font20" 
 		--chat.AddText(radioCol, "[RADIO] ", speaker:Name(), ": ", message)
-        speaker:AddCaption("[RADIO] "..speaker:Nick(), message, radioCol, radioCol)
+        speaker:AddCaption({
+			speaker = "[RADIO] "..speaker:Nick(), 
+			message = message, 
+			speakercol = radioCol, 
+			msgcol = radioCol,
+			dots = true
+		})
 	end)
 
 	mrp.RegisterChatClass(10, function(message, speaker)
 		--chat.AddText(infoCol, "** ", message)
-        speaker:AddCaption("", message, Color(255, 255, 255, 0), infoCol)
+        speaker:AddCaption({
+			speaker = "", 
+			message = message, 
+			speakercol = Color(255, 255, 255, 0), 
+			msgcol = infoCol
+		})
 	end)
 
 	mrp.RegisterChatClass(13, function(message, speaker)
 		--chat.AddText(acCol, "[Admin Chat] ", speaker:Nick(), ": ", acCol, message)
-        speaker:AddCaption("[Admin Chat]"..speaker:Nick(), message, acCol, color_white)
+        speaker:AddCaption({
+			speaker = "[Admin Chat]"..speaker:Nick(), 
+			message = message, 
+			speakercol = acCol, 
+			msgcol = color_white,
+			dots = true
+		})
 	end)
 
 	mrp.RegisterChatClass(14, function(message, speaker)
 		--chat.AddText(eventCol, "[EVENT] ", message)
-        speaker:AddCaption("[EVENT]", message, eventCol, eventCol)
+        speaker:AddCaption({
+			speaker = "[EVENT]", 
+			message = message, 
+			speakercol = eventCol, 
+			msgcol = eventCol,
+			dots = true
+		})
 	end)
 end

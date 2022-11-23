@@ -64,16 +64,21 @@ net.Receive("mrpNotify", function(len)
 end)
 
 net.Receive("mrpCaptionAdd", function(len)
-    local speaker = net.ReadString()
-	local message = net.ReadString()
+    local sayer = net.ReadString()
+	local text = net.ReadString()
     local col = net.ReadColor()
-    local msgcol = net.ReadColor()
+    local msgcolor = net.ReadColor()
 
 	if not LocalPlayer() or not LocalPlayer().AddCaption then
 		return
 	end
 	
-	LocalPlayer():AddCaption(speaker, message, col, msgcol)
+	LocalPlayer():AddCaption({
+        speaker = sayer, 
+        message = text, 
+        speakercol = col, 
+        msgcol = msgcolor
+    })
 end)
 
 function GM:OnContextMenuOpen()

@@ -50,7 +50,7 @@ hook.Add("Move", "noadad", function(ply, moveData)
     if (ply.rappelling) then
         local vel = moveData:GetVelocity()
 
-        local dir = (ply.rappelPos - ply:GetPos()) * 0.1
+        local dir = (ply.rappelPos - ply:GetPos()) * 0.5
 
         vel.x = (vel.x + dir.x) * 0.95
         vel.y = (vel.y +  dir.y) * 0.95

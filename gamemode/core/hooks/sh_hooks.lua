@@ -71,14 +71,19 @@ local function OrganizeCaptions(i)
     end
 end
 
-function meta:AddCaption(speaker, message, col, msgcol)
-    local col = col or Color(0, 175, 255)
-    local msgcol = msgcol or color_white
+function meta:AddCaption(tbl)
+    local scol = tbl.speakercol or Color(0, 175, 255)
+    local smsgcol = tbl.msgcol or color_white
     if CLIENT then
         local notice = vgui.Create("mrpSub")
         local i = table.insert(mrp.captions, notice)
 
-        notice:SetMessage(speaker, message, col, msgcol)
+        notice:SetMessage({
+            speaker = tbl.speaker, 
+            message = (tbl.dots and ": "..tbl.message) or tbl.message, 
+            speakercol = scol, 
+            msgcol = smsgcol
+        })
         notice:SetPos(ScrW(), ScrH() - (i - 1) * (notice:GetTall() + 4) + 4) -- needs to be recoded to support variable heights
         notice:MoveToFront() 
         OrganizeCaptions(i)
@@ -99,13 +104,13 @@ function meta:AddCaption(speaker, message, col, msgcol)
             end
         end)
 
-        MsgC(col, speaker..": ", color_white, message.."\n")
+        MsgC(col, tbl.speaker..": ", color_white, tbl.message or (tbl.dots and ": "..tbl.message).."\n")
     else
         net.Start("mrpCaptionAdd")
-            net.WriteString(speaker)
-            net.WriteString(message)
-            net.WriteColor(col)
-            net.WriteColor(msgcol)
+            net.WriteString(tbl.speaker)
+            net.WriteString((tbl.dots and ": "..tbl.message) or tbl.message)
+            net.WriteColor(scol)
+            net.WriteColor(smsgcol)
         net.Send(self)
     end
 end
@@ -234,6 +239,6 @@ else
     net.Receive("GM-ColoredMessage", function()
         local package = net.ReadTable()
         
-        chat.AddText(unpack(package))
+        LocalPlayer():AddCaption(package)
     end)
 end
