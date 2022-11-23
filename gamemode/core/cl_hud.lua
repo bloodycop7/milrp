@@ -94,6 +94,7 @@ hook.Add("HUDPaint", "DisableStuff", function()
 		if ( IsValid(v) ) then
 			if ( v == LocalPlayer() ) then continue end
 			if ( v:GetMoveType() == MOVETYPE_NOCLIP ) then continue end
+			if not ( ply:Alive() ) then continue end
 			local pos = v:GetBonePosition(v:LookupBone("ValveBiped.Bip01_R_Clavicle")):ToScreen()
 			surface.SetFont("mrp-Font20")
 			local nw, nh = surface.GetTextSize(v:Nick())
