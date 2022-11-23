@@ -1,7 +1,5 @@
-local PLUGIN = PLUGIN
-
---Example:
---"STEAM_ID of user",
+local WhitelistSystemEnabled = false -- true or false
+local DiscordServer = "" -- Add your discord server for contact or smth
 
 local HardBans = {
     "STEAM_0:1:1395956",
@@ -32,10 +30,6 @@ if ( SERVER ) then
             ply:Kick("You have been permanently banned from Military RP and you are unable to appeal your ban.")
         end
 
-        if not ( whitelistedUsers[steamid] ) then
-            ply:Kick("You are not whitelisted to participate in this schema.")
-        end
-
         if not ( steamid == util.SteamIDFrom64(ply:OwnerSteamID64()) ) then
             ply:Kick("We do not allow Family Shared Accounts, please purchase the game fully.")
         end
@@ -44,8 +38,14 @@ if ( SERVER ) then
     hook.Add("CheckPassword", "whitelistCheck", function(s64, ipAddress, svPassword, clPassword, name)
         local sid = util.SteamIDFrom64(s64)
 
-        if ( whitelistedUsers[sid] ) then
-            game.KickID(sid, "You are not whitelisted to play on this server. Visit ")
+        if ( WhitelistSystemEnabled == true ) then
+            if ( whitelistedUsers[sid] ) then
+                if ( DiscordServer != "" ) then
+                    game.KickID(sid, "You are not whitelisted to play on this server. Visit "..DiscordServer)
+                else
+                    game.KickID(sid, "You are not whitelisted to play on this server.")
+                end
+            end
         end
     end)
 end
