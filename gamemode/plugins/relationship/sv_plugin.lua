@@ -10,8 +10,6 @@ mrp.CombineNPCs = mrp.CombineNPCs or {
     ["npc_combine_camera"] = true,
     ["npc_turret_ceiling"] = true,
     ["npc_breen"] = true,
-    ["npc_alyx"] = true,
-    ["npc_barney"] = true,
     ["npc_manhack"] = true,
     ["npc_vj_civil_protection_z"] = true,
     ["npc_combinedropship"] = true,
@@ -70,7 +68,9 @@ mrp.RebelNPCs = mrp.RebelNPCs or {
     ["npc_vj_hlr2_barney"] = true,
     ["npc_vj_hlr2_citizen"] = true,
     ["npc_vj_hlr2_father_grigori"] = true,
-    ["npc_vj_hlr2b_merkava"] = true
+    ["npc_vj_hlr2b_merkava"] = true,
+    ["npc_alyx"] = true,
+    ["npc_barney"] = true,
 }
 
 function mrp.relationships.Update(npc)

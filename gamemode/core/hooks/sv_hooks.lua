@@ -413,65 +413,74 @@ hook.Add("PlayerButtonDown", "HelicopterRappeling", function(ply, btn)
 				if ( heli:GetClass():find("lfs_") ) then
 					if ( btn == KEY_E ) then
 						if ( ply:KeyDown(IN_WALK) ) then
-							ply.vehicleRappel = true
-							ply.canRappel = false
-							ply:ExitVehicle()
-							ply:SetPos(heli:GetPos() - Vector(0, 0, 300))
-							
-							local attachmentIndex
-			
-							attachmentIndex = ply:LookupAttachment("chest")
+							if ( heli:GetEngineActive() ) then
+								local useFunc = heli:Use(ply, ply)
+								ply.lastVeh = ply:GetVehicle()
+								ply.lastlfsVeh = heli
+								ply.vehicleRappel = true
+								ply.canRappel = false
+								ply:ExitVehicle()
+								ply:SetPos(heli:GetPos() - Vector(0, 0, 300))
+								
+								local attachmentIndex
+				
+								attachmentIndex = ply:LookupAttachment("chest")
 
-							local attachment = ply:GetAttachment(attachmentIndex)
+								local attachment = ply:GetAttachment(attachmentIndex)
 
-							if (attachmentIndex == 0 or attachmentIndex == -1) then
-								attachment = {Pos = ply:GetBonePosition(ply:LookupBone("ValveBiped.Bip01_Pelvis"))}
-								attachmentIndex = ply:LookupAttachment("forward")
-							end
-
-							local rappelRope = ents.Create("keyframe_rope")
-
-								if ( attachmentIndex ) then
-									rappelRope:SetParent(heli, attachmentIndex)
-								else
-									rappelRope:SetParent(heli, 0)
+								if (attachmentIndex == 0 or attachmentIndex == -1) then
+									attachment = {Pos = ply:GetBonePosition(ply:LookupBone("ValveBiped.Bip01_Pelvis"))}
+									attachmentIndex = ply:LookupAttachment("forward")
 								end
-					
-								hook.Add("Think", "HelicopterPosUpdate", function()
-									if ( IsValid(rappelRope) ) then
-										if not ( rappelRope:GetInternalVariable("EndOffset") == tostring(heli:GetPos()) ) then
-											rappelRope:SetKeyValue("EndOffset", tostring(heli:GetPos()))
-										end
-										
-										if not ( tostring(ply.rappelPos) == rappelRope:GetInternalVariable("EndOffset") ) then
-											ply.rappelPos = rappelRope:GetParent():GetPos()
-										end
+
+								local rappelRope = ents.Create("keyframe_rope")
+
+									if ( attachmentIndex ) then
+										rappelRope:SetParent(heli, attachmentIndex)
 									else
-										hook.Remove("Think", "HelicopterPosUpdate")
+										rappelRope:SetParent(heli, 0)
 									end
+						
+									hook.Add("Think", "HelicopterPosUpdate", function()
+										if ( IsValid(rappelRope) ) then
+											if not ( rappelRope:GetInternalVariable("EndOffset") == tostring(heli:GetPos()) ) then
+												rappelRope:SetKeyValue("EndOffset", tostring(heli:GetPos()))
+											end
+											
+											if not ( tostring(ply.rappelPos) == rappelRope:GetInternalVariable("EndOffset") ) then
+												ply.rappelPos = rappelRope:GetParent():GetPos()
+											end
+										else
+											hook.Remove("Think", "HelicopterPosUpdate")
+										end
+									end)
+									rappelRope:SetPos(ply:GetPos())
+									rappelRope:SetColor(Color(150, 150, 150))
+
+									rappelRope:SetEntity("StartEntity", ply)
+									rappelRope:SetEntity("EndEntity", Entity(0))
+									rappelRope:SetKeyValue("Width", "1")
+									rappelRope:SetKeyValue("Collide", "1")
+									rappelRope:SetKeyValue("RopeMaterial", "cable/cable")
+									rappelRope:SetKeyValue("EndOffset", tostring(heli:GetPos()))
+									rappelRope:SetKeyValue("EndBone", "0")
+								ply.rappelRope = rappelRope
+
+								ply:DeleteOnRemove(rappelRope)
+								heli:DeleteOnRemove(rappelRope)
+								ply:EmitSound("npc/combine_soldier/zipline_clip" .. math.random(2) .. ".wav")
+								ply.rappelling = true
+								ply.rappelPos = ply:GetPos()
+								heli:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+								timer.Simple(0.1, function()
+									heli:SetCollisionGroup(0)
+									ply.canRappel = true
 								end)
-								rappelRope:SetPos(ply:GetPos())
-								rappelRope:SetColor(Color(150, 150, 150))
-
-								rappelRope:SetEntity("StartEntity", ply)
-								rappelRope:SetEntity("EndEntity", Entity(0))
-								rappelRope:SetKeyValue("Width", "1")
-								rappelRope:SetKeyValue("Collide", "1")
-								rappelRope:SetKeyValue("RopeMaterial", "cable/cable")
-								rappelRope:SetKeyValue("EndOffset", tostring(heli:GetPos()))
-								rappelRope:SetKeyValue("EndBone", "0")
-							ply.rappelRope = rappelRope
-
-							ply:DeleteOnRemove(rappelRope)
-							heli:DeleteOnRemove(rappelRope)
-							ply:EmitSound("npc/combine_soldier/zipline_clip" .. math.random(2) .. ".wav")
-							ply.rappelling = true
-							ply.rappelPos = ply:GetPos()
-							heli:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-							timer.Simple(0.1, function()
-								heli:SetCollisionGroup(0)
-								ply.canRappel = true
-							end)
+								heli.Use = function()
+									ply:EnterVehicle(ply.lastVeh)
+									RemoveRope(ply)
+								end
+							end
 						end
 					end
 				end
