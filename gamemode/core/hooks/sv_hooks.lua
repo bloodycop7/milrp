@@ -364,10 +364,55 @@ function GM:PlayerSpawn(ply, transition)
 end
 
 util.AddNetworkString("mrpSetTeamIndex")
+util.AddNetworkString("mrpSetTeamClass")
+
+net.Receive("mrpSetTeamClass", function(len, ply)
+	local class = net.ReadUInt(8)
+	local team = net.ReadUInt(8)
+	local teamClass = mrp.Teams.Stored[ply:Team()].classes[class]
+	local teamTable = mrp.Teams.Stored[ply:Team()]
+	local wteamTable = mrp.Teams.Stored[team]
+	
+	if ( wteamTable.canJoin ) then
+		if not ( wteamTable.canJoin(teamTable, ply) ) then
+			ply:Notify("You are not allowed to become this class, due to you not being able to become the team of the class.")
+			return
+		end
+	end
+	
+	if ( team != class ) then
+		ply:Notify("You must be selecting a class that is in your team!")
+		return
+	end
+	
+	if ( wteamTable ) then
+		if ( wteamTable.classes ) then
+			if ( teamClass ) then
+				if ( teamClass.canBecome ) then
+					if ( teamClass.canBecome(wteamTable, ply) ) then
+						ply:SetSyncVar(SYNC_TEAMCLASS, class, true)
+						if ( teamClass.onBecome ) then
+							teamClass.onBecome(wteamTable, ply)
+						end
+						ply:Notify("You are now "..teamClass.name)
+					end
+				else
+					ply:SetSyncVar(SYNC_TEAMCLASS, class, true)
+					if ( teamClass.onBecome ) then
+						teamClass.onBecome(wteamTable, ply)
+					end
+					ply:Notify("You are now "..teamClass.name)
+				end
+			end
+		end
+	end
+end)
 
 net.Receive("mrpSetTeamIndex", function(len, ply)
 	local teamIndex = net.ReadUInt(8)
+	local classIndex = net.ReadUInt(8)
 	local teamTable = mrp.Teams.Stored[teamIndex]
+	local classTable = mrp.Teams.Stored[teamIndex].classes
 	
 	if ( ply:Team() == teamIndex ) then
 		ply:Notify("You are already this team!", Color(255, 100, 0))

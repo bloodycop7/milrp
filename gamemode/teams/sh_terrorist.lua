@@ -5,5 +5,10 @@ TEAM_TERRORIST = mrp.Teams.Define({
     description = "terrorist description",
     canJoin = function(self, ply)
         return false 
-    end
+    end,
+    classes = {
+        {
+            name = "Test"
+        }
+    }
 })
