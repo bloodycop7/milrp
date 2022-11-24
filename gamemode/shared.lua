@@ -293,3 +293,20 @@ end
 function meta:IsTerrorist()
 	return ( self:Team() == TEAM_TERRORIST )
 end
+
+mrp.Changelogs = {
+	["0.1"] = {
+		"Test",
+		"Test 2",
+		"Test 3",
+		"Test 4",
+		"Test 5"
+	},
+	["0.2"] = {
+		"Test",
+		"Test 2",
+		"Test 3",
+		"Test 4",
+		"Test 5",
+	}
+}

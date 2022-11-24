@@ -180,6 +180,10 @@ function PANEL:Init()
     self.teamMenu.OnCursorExited = function(s)
         s:SetTextColor(color_white)
     end
+    
+    self.updates = self:Add("mrpUpdates")
+    self.updates:SetPos(200, 100)
+    self.updates:MoveToFront()
 end
 
 function PANEL:Paint(w, h)
