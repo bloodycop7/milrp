@@ -104,6 +104,8 @@ function GM:OnReloaded()
 	RunConsoleCommand("bsmod_killmove_anytime", "1")
 	RunConsoleCommand("bsmod_killmove_anytime_behind", "1")
 	RunConsoleCommand("bsmod_killmove_glow", "0")
+	
+	RunConsoleCommand("gmod_mcore_test", "1")
 end
 
 function meta:IsCombine()
