@@ -1,6 +1,26 @@
+local function canHearCheck(listener) -- based on darkrps voice chat optomization this is called every 0.5 seconds in the think hook
+	if not IsValid(listener) then return end
+
+	listener.CanHear = listener.CanHear or {}
+	local listPos = listener:GetShootPos()
+	local voiceDistance = 550 ^ 2
+
+	for _,speaker in ipairs(player.GetAll()) do
+		listener.CanHear[speaker] = (listPos:DistToSqr(speaker:GetShootPos()) < voiceDistance)
+		hook.Run("PlayerCanHearCheck", listener, speaker)
+	end
+end
+
 function GM:Think()
+	
     for k, v in ipairs(player.GetAll()) do
 		if ( v and IsValid(v) and v:Alive() ) then
+			
+			if not v.nextHearUpdate or v.nextHearUpdate < CurTime() then -- optimized version of canhear hook based upon darkrp
+				canHearCheck(v)
+				v.nextHearUpdate = CurTime() + 0.65
+			end
+			
 			if not ( v.fov ) then
 				v.fov = v:GetFOV() or 95
 			end
@@ -372,11 +392,16 @@ function GM:PlayerCanPickupItem(ply, ent)
 end
 
 function GM:PlayerCanHearPlayersVoice(listener, talker)
+	if not talker:Alive() then return false end
+	local canHear = listener.CanHear and listener.CanHear[talker]
+	
 	if ( talker:GetSyncVar(SYNC_RADIOENABLED, false) ) then
 		if ( listener:GetSyncVar(SYNC_RCHANNEL, 0) == talker:GetSyncVar(SYNC_RCHANNEL, 0) ) then
 			return true
 		end
 	end
+	
+	return canHear, true
 end
 
 function GM:PlayerSpawnedSENT(ply, ent)
@@ -410,7 +435,7 @@ hook.Add("PlayerButtonDown", "HelicopterRappeling", function(ply, btn)
 			local heli = ply:GetVehicle():GetParent()
 			
 			if not ( ply.rappelling ) then
-				if ( heli:GetClass():find("lfs_") ) then
+				if ( heli.Base:find("lunasflightschool_basescript") ) then
 					if ( btn == KEY_E ) then
 						if ( ply:KeyDown(IN_WALK) ) then
 							if ( heli:GetEngineActive() ) then
@@ -479,6 +504,11 @@ hook.Add("PlayerButtonDown", "HelicopterRappeling", function(ply, btn)
 								heli.Use = function()
 									ply:EnterVehicle(ply.lastVeh)
 									RemoveRope(ply)
+									ply.canRappel = false
+									timer.Simple(0.1, function()
+										heli:SetCollisionGroup(0)
+										ply.canRappel = true
+									end)
 								end
 							end
 						end

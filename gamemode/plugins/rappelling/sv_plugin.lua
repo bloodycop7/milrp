@@ -43,6 +43,7 @@ function RemoveRope(ply)
 
     ply.rappelRope = nil
     ply.oneTimeRappelSound = nil
+    ply.canRappel = true
 
     local sequence = ply:LookupSequence("rappelloop")
 
