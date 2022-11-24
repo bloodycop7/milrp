@@ -516,5 +516,26 @@ hook.Add("PlayerButtonDown", "HelicopterRappeling", function(ply, btn)
 				end
 			end
 		end
+	else
+		local wep = ply:GetActiveWeapon()
+		
+		if ( IsValid(wep) ) then
+			if ( btn == KEY_G ) then
+				if ( ply:KeyDown(IN_WALK) ) then
+					local trg = ply:GetEntityInFront()
+					
+					if ( trg and IsValid(trg) and trg:IsPlayer() ) then
+						if not ( trg:HasWeapon(wep:GetClass()) ) then
+							trg:Give(wep:GetClass())
+							trg:GetWeapon(wep:GetClass()):SetClip1(wep:Clip1())
+							ply:StripWeapon(wep:GetClass())
+							ply:SelectWeapon("mrp_hands")
+						else
+							ply:Notify("This player already has this weapon!", Color(0, 185, 255))
+						end
+					end
+				end
+			end
+		end
 	end
 end)
