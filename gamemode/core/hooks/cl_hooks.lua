@@ -99,7 +99,9 @@ function GM:DefineSettings()
 end
 
 hook.Add("OnReloaded", "SettingsReset", function()
-    table.Empty(mrp.Settings)
+    if not ( table.IsEmpty(mrp.Settings) ) then
+        table.Empty(mrp.Settings)
+    end
     hook.Run("DefineSettings")
 end)
 
