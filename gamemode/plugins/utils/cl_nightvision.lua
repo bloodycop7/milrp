@@ -3,7 +3,7 @@ local tab = {
     ["$pp_colour_addg"] = 0,
     ["$pp_colour_addb"] = -1,
     ["$pp_colour_brightness"] = 0.01,
-    ["$pp_colour_contrast"] = 4.5,
+    ["$pp_colour_contrast"] = 4.2,
     ["$pp_colour_colour"] = 1,
     ["$pp_colour_mulr"] = 0,
     ["$pp_colour_mulg"] = 0,
@@ -34,11 +34,11 @@ hook.Add("RenderScreenspaceEffects", "NightVisionMRP", function()
         local dlight = DynamicLight(LocalPlayer():EntIndex())
 
         dlight.brightness = 1
-        dlight.Size = 5000
+        dlight.Size = 1000
         dlight.r = 255
         dlight.g = 255
         dlight.b = 255
-        dlight.Decay = 1000
+        dlight.Decay = 500
         dlight.pos = EyePos()
         dlight.DieTime = CurTime() + 0.1
 
