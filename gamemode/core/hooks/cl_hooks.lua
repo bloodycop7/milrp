@@ -46,12 +46,6 @@ function GM:ScoreboardHide()
     militaryscorboard:Remove()
 end
 
-function GM:PlayerStartVoice(ply)
-    if ( IsValid(g_VoicePanelList) ) then
-        g_VoicePanelList:Remove()
-    end
-end
-
 net.Receive("mrpNotify", function(len)
 	local message = net.ReadString()
     local col = net.ReadColor()
@@ -107,4 +101,8 @@ end
 hook.Add("OnReloaded", "SettingsReset", function()
     table.Empty(mrp.Settings)
     hook.Run("DefineSettings")
+end)
+
+hook.Add("Think", "VoiceIconAlwaysOff", function()
+    RunConsoleCommand("mp_show_voice_icons", "0")
 end)

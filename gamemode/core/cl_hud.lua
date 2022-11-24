@@ -9,6 +9,9 @@ hidden["CHudPoisonDamageIndicator"] = true
 hidden["CHudSquadStatus"] = true
 hidden["CHUDQuickInfo"] = true
 hidden["CHudCloseCaption"] = true
+hidden["CHudVoiceSelfStatus"] = true
+hidden["CHudVoiceStatus"] = true
+
 
 function mrp.DrawBox(tbl)
 	surface.SetDrawColor(0, 0, 0, 190)

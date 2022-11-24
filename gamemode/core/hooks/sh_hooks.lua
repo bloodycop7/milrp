@@ -104,7 +104,7 @@ function meta:AddCaption(tbl)
             end
         end)
 
-        MsgC(scol, tbl.speaker..": ", smsgcol, tbl.message or (tbl.dots and ": "..tbl.message).."\n")
+        MsgC(scol, tbl.speaker..": ", smsgcol, tbl.message.."\n" or (tbl.dots and ": "..tbl.message).."\n")
     else
         net.Start("mrpCaptionAdd")
             net.WriteString(tbl.speaker)
