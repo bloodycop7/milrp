@@ -2,7 +2,7 @@
 local PLUGIN = PLUGIN
 
 function CreateRope(ply)
-    if ( math.Round(ply:GetEyeTrace().HitPos:Distance(ply:GetPos()), 0) < 80 ) then
+    if ( math.Round(ply:GetEyeTrace().HitPos:Distance(ply:GetPos()), 0) < 150 ) then
         local hitpos = ply:GetEyeTrace().HitPos
         local attachmentIndex
         

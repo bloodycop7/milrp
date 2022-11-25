@@ -51,8 +51,8 @@ function SWEP:PrimaryAttack()
 
     if (owner.rappelling) then
         EndRappel(owner)
-    elseif (owner:OnGround()) then
-        if ( math.Round(owner:GetEyeTrace().HitPos:Distance(owner:GetPos()), 0) < 80 ) then
+    else
+        if ( math.Round(owner:GetEyeTrace().HitPos:Distance(owner:GetPos()), 0) < 150 ) then
             StartRappel(owner)
         end
     end

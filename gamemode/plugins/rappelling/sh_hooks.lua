@@ -40,10 +40,6 @@ hook.Add("PlayerTick", "gpasgoishgsoghsduigh", function(ply, moveData)
             ply.wasOnGround = true
         elseif (!onGround and ply.wasOnGround) then
             ply.wasOnGround = false
-
-            if (!ply.rappelling and moveData:KeyDown(IN_WALK) and ply:GetMoveType() != MOVETYPE_NOCLIP) then
-                StartRappel(ply)
-            end
         end
     end
 end)

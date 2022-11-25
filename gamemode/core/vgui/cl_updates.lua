@@ -5,7 +5,7 @@ function PANEL:Init()
     self:MoveToFront()
     
     self.html = self:Add("HTML")
-    self.html:OpenURL("https://initiate.alphacoders.com/images/540/cropped-500-250-540196.jpg?6860")
+    self.html:OpenURL("https://rotor.org/wp-content/uploads/2022/07/mb_safetyaward-ops.png")
     self.html:SetPos(0, 0)
     self.html:SetSize(500, 250)
     self.html:SizeToContents()
