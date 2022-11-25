@@ -614,3 +614,30 @@ function GM:PlayerSwitchFlashlight(ply, bool)
 	
 	return true
 end
+
+function GM:PlayerFootstep(ply, pos, foot, sound, vol, filter)
+	local newsound
+	if ( sound:find("concrete") ) then
+		newsound = "player/mrpfootsteps/concrete"..math.random(1, 4)..".wav"
+	elseif ( sound:find("dirt") ) then
+		newsound = "player/mrpfootsteps/dirt"..math.random(1, 4)..".wav"
+	elseif ( sound:find("grass") ) then
+		newsound = "player/mrpfootsteps/grass"..math.random(1, 4)..".wav"
+	elseif ( sound:find("metal") and !sound:find("metalgrate")) then
+		newsound = "player/mrpfootsteps/metal"..math.random(1, 4)..".wav"
+	elseif ( sound:find("metalgrate") ) then
+		newsound = "player/mrpfootsteps/metalgrate"..math.random(1, 4)..".wav"
+	elseif ( sound:find("sand") ) then
+		newsound = "player/mrpfootsteps/sand"..math.random(1, 4)..".wav"
+	elseif ( sound:find("tile") ) then
+		newsound = "player/mrpfootsteps/tile"..math.random(1, 4)..".wav"
+	elseif ( sound:find("wood") ) then
+		newsound = "player/mrpfootsteps/wood"..math.random(1, 4)..".wav"
+	else
+		newsound = "player/mrpfootsteps/tile"..math.random(1, 4)..".wav"
+	end
+	
+	ply:EmitSound(newsound, 100, 100, vol)
+	
+	return true
+end
