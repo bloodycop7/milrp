@@ -9,7 +9,7 @@ function PANEL:Init()
     mrp.gui.mainMenu = self
 
     self.playbutton = self:Add("DButton")
-    self.playbutton:SetPos(ScrW() / 2 - 100, 200)
+    self.playbutton:SetPos(50, 200)
     self.playbutton:SetSize(200, 100)
     self.playbutton:SetFont("mrp-Font60")
     
@@ -70,7 +70,7 @@ function PANEL:Init()
 
     self.leavebutton = self:Add("DButton")
     self.leavebutton:SetTextColor(color_white)
-    self.leavebutton:SetPos(ScrW() / 2 - 100, 320)
+    self.leavebutton:SetPos(70, 320)
     self.leavebutton:SetText("Leave")
     self.leavebutton:SetSize(200, 100)
     self.leavebutton:SetFont("mrp-Font60")
@@ -91,7 +91,7 @@ function PANEL:Init()
     end
 
     self.optionsbutton = self:Add("DButton")
-    self.optionsbutton:SetPos(ScrW() / 2 - 100, 440)
+    self.optionsbutton:SetPos(90, 440)
     self.optionsbutton:SetTextColor(color_white)
     self.optionsbutton:SetText("Settings")
     self.optionsbutton:SetSize(200, 100)
@@ -112,7 +112,7 @@ function PANEL:Init()
     end
 
     self.changename = self:Add("DButton")
-    self.changename:SetPos(ScrW() / 2 - 190, 560)
+    self.changename:SetPos(100, 560)
     self.changename:SetText("Change RP Name")
     self.changename:SetTextColor(color_white)
     surface.SetFont("mrp-Font60")
@@ -143,7 +143,7 @@ function PANEL:Init()
 
     self.changecallsign = self:Add("DButton")
     self.changecallsign:SetTextColor(color_white)
-    self.changecallsign:SetPos(ScrW() / 2 - 170, 680)
+    self.changecallsign:SetPos(100, 680)
     self.changecallsign:SetText("Change Callsign")
     surface.SetFont("mrp-Font60")
     local w, h = surface.GetTextSize("Change Callsign")
@@ -166,7 +166,7 @@ function PANEL:Init()
 
     self.teamMenu = self:Add("DButton")
     self.teamMenu:SetTextColor(color_white)
-    self.teamMenu:SetPos(ScrW() / 2 - 150, 800)
+    self.teamMenu:SetPos(100, 800)
     self.teamMenu:SetText("Change Team")
     surface.SetFont("mrp-Font60")
     local w, h = surface.GetTextSize("Change Team")
@@ -188,7 +188,7 @@ function PANEL:Init()
     end
     
     self.updates = self:Add("mrpUpdates")
-    self.updates:SetPos(200, 100)
+    self.updates:SetPos(ScrW() - 600, 100)
     self.updates:MoveToFront()
 end
 
@@ -198,7 +198,7 @@ function PANEL:Paint(w, h)
     surface.SetDrawColor(20, 20, 20, 200)
     surface.DrawRect(0, 0, w, h)
 
-    draw.DrawText("Military Project", "mrp-Font70", ScrW() / 2, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
+    draw.DrawText("Military Project", "mrp-Font130", ScrW() / 2 - 50, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
 end
 
 vgui.Register("MilMainMenu", PANEL, "DPanel")
