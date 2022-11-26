@@ -242,3 +242,13 @@ else
         LocalPlayer():AddCaption(package)
     end)
 end
+
+concommand.Add("dropweapon", function(ply, cmd, args)
+    local data = {}
+        data.start = ply:GetShootPos()
+        data.endpos = data.start + ply:GetAimVector() * 120
+        data.filter = ply
+    local target = util.TraceLine(data).HitPos
+    
+    ply:DropWeapon(ply:GetActiveWeapon(), target, target)
+end)
