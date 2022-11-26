@@ -295,11 +295,11 @@ function meta:IsTerrorist()
 end
 
 mrp.Changelogs = {
-	["3.0"] = {
+	[3] = {
 		"Changed the font for the gamemode",
 		"Fixed gamemode breaking error"
 	},
-	["2.0"] = {
+	[2] = {
 		"Added Team System",
 		"Added Class System",
 		"Added NVG",
@@ -309,7 +309,7 @@ mrp.Changelogs = {
 		"Added Compass",
 		"Added Leaning",
 	},
-	["1.0"] = {
+	[1] = {
 		"Added HUD",
 		"Added Crosshair",
 		"Added Rappeling",
