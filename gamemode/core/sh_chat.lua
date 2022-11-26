@@ -116,6 +116,19 @@ mrp.RegisterChatCommand("/announce", {
 	end
 })
 
+mrp.RegisterChatCommand("/announcement", {
+	description = "Announce something to the whole server.",
+	requiresArg = false,
+	adminOnly = true,
+	onRun = function(ply, arg, rawText)
+		if ( rawText != "" ) then
+			net.Start("MRPAnnouncement")
+				net.WriteString(rawText)
+			net.Broadcast()
+		end
+	end
+})
+
 mrp.RegisterChatCommand("/forceradiooff", {
 	description = "Turn off someone's radio.",
 	requiresArg = true,
