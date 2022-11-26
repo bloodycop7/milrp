@@ -1522,7 +1522,6 @@ function ENT:Explode()
 	end
 	
 	util.BlastDamage(self, self, self:GetPos(), 600, 150)
-	print("BLASETED")
 	self:Remove()
 end
 

@@ -295,6 +295,20 @@ function meta:IsTerrorist()
 end
 
 mrp.Changelogs = {
+	["3.0"] = {
+		"Changed the font for the gamemode",
+		"Fixed gamemode breaking error"
+	},
+	["2.0"] = {
+		"Added Team System",
+		"Added Class System",
+		"Added NVG",
+		"Added Door Blasting Plugin",
+		"Added Throwing Knives",
+		"Added Bodycam System",
+		"Added Compass",
+		"Added Leaning",
+	},
 	["1.0"] = {
 		"Added HUD",
 		"Added Crosshair",
@@ -309,20 +323,6 @@ mrp.Changelogs = {
 		"Added Chatbox",
 		"Added Bodygroup Manager Plugin",
 	},
-	["2.0"] = {
-		"Added Team System",
-		"Added Class System",
-		"Added NVG",
-		"Added Door Blasting Plugin",
-		"Added Throwing Knives",
-		"Added Bodycam System",
-		"Added Compass",
-		"Added Leaning",
-	},
-	["3.0"] = {
-		"Changed the font for the gamemode",
-		"Fixed gamemode breaking error"
-	}
 }
 
 mrp.BleedingEnabled = false -- Should you bleed when you take damage.

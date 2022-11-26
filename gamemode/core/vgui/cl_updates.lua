@@ -36,10 +36,8 @@ function PANEL:Init()
         changelogTitle:Dock(TOP)
 
         for _, i in pairs(v) do
-            
             local changelogText = self.scroll:Add("DLabel")
-            changelogText:SetText("› "..i)
-            --changelogText:SetText(btnUp"        ".. i)
+            changelogText:SetText("● "..i)
             changelogText:SetFont("mrp-Font27")
             changelogText:SetContentAlignment(1)
             changelogText:SizeToContents()
