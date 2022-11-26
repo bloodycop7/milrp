@@ -3,6 +3,7 @@ for i = 15, 300 do
         font = "Neusa Next Pro Light",
         size = i,
         shadow = true,
+        additive = true,
         antialias = true,
         extended = true
     })
@@ -12,6 +13,7 @@ for i = 15, 300 do
         size = i,
         shadow = true,
         antialias = true,
+        additive = true,
         extended = true
     })
 end
