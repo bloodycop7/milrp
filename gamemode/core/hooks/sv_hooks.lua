@@ -295,13 +295,7 @@ function GM:PostCleanupMap()
 end
 
 function GM:GetFallDamage(ply, speed)
-	local dmg = speed * 0.05
-
-	if speed > 780 then
-		dmg = dmg + 75
-	end
-
-	return dmg
+	return (speed - 580) * (100 / 444)
 end
 
 concommand.Add("mrp_vehicle_collision", function(ply, cmd, args)
