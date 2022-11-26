@@ -6,6 +6,15 @@ TEAM_SOLDIER = mrp.Teams.Define({
     classes = {
         {
             name = "Leader"
+        },
+        {
+            name = "Medic",
+            loadout = {"weapon_medkit"}
+        },
+        {
+            name = "Heavy",
+            loadout = {"mg_romeo870"},
+            armor = 150
         }
     }
 })

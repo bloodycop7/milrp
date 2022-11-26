@@ -3,12 +3,12 @@ TEAM_TERRORIST = mrp.Teams.Define({
     color = Color(100, 25, 25),
     model = {"models/player/arctic.mdl", "models/player/guerilla.mdl", "models/player/leet.mdl", "models/player/phoenix.mdl"},
     description = "terrorist description",
-    canJoin = function(self, ply)
-        return false 
-    end,
     classes = {
         {
             name = "Test"
+        },
+        {
+            name = "TEST 2"
         }
     }
 })

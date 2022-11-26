@@ -31,22 +31,23 @@ function PANEL:Init()
             net.SendToServer()
         end
         if ( v.classes ) then
-            for a, b in pairs(v.classes) do
-                local class = self.scroll:Add("DButton")
-                class:Dock(TOP)
-                class:SetTall(50)
-                class:SetText(b.name or "UNKNOWN")
-                class:SetTextColor(color_white)
-                class.Paint = function(s, wi, he)
-                    surface.SetDrawColor(Color(20, 20, 20, 150))
-                    surface.DrawRect(0, 0, wi, he)
-                end
-                print(a)
-                class.DoClick = function()
-                    net.Start("mrpSetTeamClass")
-                        net.WriteUInt((a or 0), 8)
-                        net.WriteUInt(k, 8)
-                    net.SendToServer() 
+            if ( ply:Team() == k ) then
+                for a, b in pairs(v.classes) do
+                    local class = self.scroll:Add("DButton")
+                    class:Dock(TOP)
+                    class:SetTall(50)
+                    class:SetText(b.name or "UNKNOWN")
+                    class:SetFont("mrp-Font23")
+                    class:SetTextColor(color_white)
+                    class.Paint = function(s, wi, he)
+                        surface.SetDrawColor(Color(20, 20, 20, 150))
+                        surface.DrawRect(0, 0, wi, he)
+                    end
+                    class.DoClick = function()
+                        net.Start("mrpSetTeamClass")
+                            net.WriteUInt(a, 8)
+                        net.SendToServer() 
+                    end
                 end
             end
         end

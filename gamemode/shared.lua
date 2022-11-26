@@ -15,17 +15,17 @@ else
 		local msg = net.ReadString()
 		local col = net.ReadColor()
 
-		MsgC(Color(0, 105, 255), "[Military RP] > ", col, msg)
+		MsgC(mrp.Config.BaseColor, "[Military RP] > ", col, msg)
 	end)
 end
 
 function mrp.Log(message, col, ply)
 	if not ( ply ) then
 		if ( SERVER ) then
-			return MsgC(Color(0, 105, 255), "[Military RP] > ", col or color_white, message.."\n" or "Add Message\n")
+			return MsgC(mrp.Config.BaseColor, "[Military RP] > ", col or color_white, message.."\n" or "Add Message\n")
 		end
 
-		return MsgC(Color(0, 105, 255), "[Military RP] > ", col or color_white, message.."\n" or "Add Message\n")
+		return MsgC(mrp.Config.BaseColor, "[Military RP] > ", col or color_white, message.."\n" or "Add Message\n")
 	else
 		if ( SERVER ) then
 			if ( IsValid(ply) ) then

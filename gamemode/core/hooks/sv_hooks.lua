@@ -263,6 +263,16 @@ net.Receive("milMainMenuSpawn", function(len, ply)
     if ( timer.Exists(ply:SteamID64().."Bleed") ) then
         timer.Remove(ply:SteamID64().."Bleed")
     end
+	
+	local class = mrp.Teams.Stored[ply:Team()].classes[ply:GetTeamClass()]
+    
+    if ( class ) then
+        if ( class.loadout ) then
+            for k, v in pairs(class.loadout) do
+                ply:Give(v) 
+            end
+        end
+    end
 end)
 
 util.AddNetworkString("milMainMenuChangeName")
@@ -361,74 +371,47 @@ function GM:PlayerSpawn(ply, transition)
     if ( timer.Exists(ply:SteamID64().."Bleed") ) then
         timer.Remove(ply:SteamID64().."Bleed")
     end
+	
+	local class = mrp.Teams.Stored[ply:Team()].classes[ply:GetTeamClass()]
+    
+    if ( class ) then
+        if ( class.loadout ) then
+            for k, v in pairs(class.loadout) do
+                ply:Give(v) 
+            end
+        end
+    end
 end
 
 util.AddNetworkString("mrpSetTeamIndex")
 util.AddNetworkString("mrpSetTeamClass")
 
 net.Receive("mrpSetTeamClass", function(len, ply)
-	local class = net.ReadUInt(8)
-	local team = net.ReadUInt(8)
-	local teamClass = mrp.Teams.Stored[ply:Team()].classes[class]
-	local teamTable = mrp.Teams.Stored[ply:Team()]
-	local wteamTable = mrp.Teams.Stored[team]
+	if (ply.lastTeamTry or 0) > CurTime() then return end
+	ply.lastTeamTry = CurTime() + 1
 	
-	if ( wteamTable.canJoin ) then
-		if not ( wteamTable.canJoin(teamTable, ply) ) then
-			ply:Notify("You are not allowed to become this class, due to you not being able to become the team of the class.")
-			return
-		end
-	end
-	
-	if ( team != class ) then
-		ply:Notify("You must be selecting a class that is in your team!")
-		return
-	end
-	
-	if ( wteamTable ) then
-		if ( wteamTable.classes ) then
-			if ( teamClass ) then
-				if ( teamClass.canBecome ) then
-					if ( teamClass.canBecome(wteamTable, ply) ) then
-						ply:SetSyncVar(SYNC_TEAMCLASS, class, true)
-						if ( teamClass.onBecome ) then
-							teamClass.onBecome(wteamTable, ply)
-						end
-						ply:Notify("You are now "..teamClass.name)
-					end
-				else
-					ply:SetSyncVar(SYNC_TEAMCLASS, class, true)
-					if ( teamClass.onBecome ) then
-						teamClass.onBecome(wteamTable, ply)
-					end
-					ply:Notify("You are now "..teamClass.name)
-				end
-			end
+	local classID = net.ReadUInt(8)
+	local classes = mrp.Teams.Stored[ply:Team()].classes
+
+	if classID and isnumber(classID) and classID > 0 and classes and classes[classID] then
+		if ply:CanBecomeTeamClass(classID, true) then
+			ply:SetTeamClass(classID)
+			ply:Notify("Your class is now "..classes[classID].name..".")
 		end
 	end
 end)
 
 net.Receive("mrpSetTeamIndex", function(len, ply)
-	local teamIndex = net.ReadUInt(8)
-	local classIndex = net.ReadUInt(8)
-	local teamTable = mrp.Teams.Stored[teamIndex]
-	local classTable = mrp.Teams.Stored[teamIndex].classes
-	
-	if ( ply:Team() == teamIndex ) then
-		ply:Notify("You are already this team!", Color(255, 100, 0))
-		return
-	end
-	
-	if ( teamTable ) then
-		if ( teamTable.canJoin ) then
-			if ( teamTable.canJoin(teamTable, ply) ) then
-				ply:SetTeam(teamIndex)
-			else
-				ply:Notify("You are unable to join this team!", Color(255, 100, 0))
-			end
-		else
-			ply:SetTeam(teamIndex)
-		end 
+	if (ply.lastTeamTry or 0) > CurTime() then return end
+	ply.lastTeamTry = CurTime() + 1
+
+	local teamID = net.ReadUInt(8)
+
+	if teamID and isnumber(teamID) and mrp.Teams.Stored[teamID] then
+		if ply:CanBecomeTeam(teamID, true) then
+			ply:SetTeam(teamID)
+			ply:Notify("Your team is now "..team.GetName(teamID)..".")
+		end
 	end
 
 	hook.Run("PlayerLoadout", ply)

@@ -149,7 +149,7 @@ SYNC_INCOGNITO = mrp.Sync.RegisterVar(SYNC_BOOL)
 SYNC_COLLISIONS = mrp.Sync.RegisterVar(SYNC_BOOL)
 SYNC_BLEEDING = mrp.Sync.RegisterVar(SYNC_BOOL)
 SYNC_RCHANNEL = mrp.Sync.RegisterVar(SYNC_INT)
-SYNC_TEAMCLASS = mrp.Sync.RegisterVar(SYNC_INT)
+SYNC_CLASS = mrp.Sync.RegisterVar(SYNC_INT)
 SYNC_RADIOENABLED = mrp.Sync.RegisterVar(SYNC_BOOL)
 
 hook.Run("CreateSyncVars")

@@ -35,4 +35,14 @@ function GM:PlayerLoadout(ply)
     if ( timer.Exists(ply:SteamID64().."Bleed") ) then
         timer.Remove(ply:SteamID64().."Bleed")
     end
+    
+    local class = mrp.Teams.Stored[ply:Team()].classes[ply:GetTeamClass()]
+    
+    if ( class ) then
+        if ( class.loadout ) then
+            for k, v in pairs(class.loadout) do
+                ply:Give(v) 
+            end
+        end
+    end
 end
