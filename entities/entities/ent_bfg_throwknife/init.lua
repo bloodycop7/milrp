@@ -49,9 +49,6 @@ function ENT:Initialize()
 	self.Entity:SetUseType(SIMPLE_USE)
 end
 
-/*---------------------------------------------------------
-   Name: ENT:Think()
----------------------------------------------------------*/
 function ENT:Think()
 	
 	self.lifetime = self.lifetime or CurTime() + 20
@@ -61,9 +58,6 @@ function ENT:Think()
 	end
 end
 
-/*---------------------------------------------------------
-   Name: ENT:Disable()
----------------------------------------------------------*/
 function ENT:Disable()
 
 	self.PhysicsCollide = function() end
@@ -72,30 +66,21 @@ function ENT:Disable()
 	self.Entity:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 end
 
-/*---------------------------------------------------------
-   Name: ENT:PhysicsCollided()
----------------------------------------------------------*/
 function ENT:PhysicsCollide(data, phys)
 	
 	local Ent = data.HitEntity
 	if !(IsValid(Ent) or Ent:IsWorld()) then return end
 
 	if Ent:IsWorld() then
-			util.Decal("ManhackCut", data.HitPos + data.HitNormal, data.HitPos - data.HitNormal)
+		util.Decal("ManhackCut", data.HitPos + data.HitNormal, data.HitPos - data.HitNormal)
 
-			if self.Entity:GetVelocity():Length() > 400 then
-				self:EmitSound("npc/roller/blade_out.wav", 60)
-				//self:SetPos(data.HitPos - data.HitNormal * 10)
-				//self:SetAngles(data.HitNormal:Angle() + Angle(40, 0, 0))
-				//self:GetPhysicsObject():EnableMotion(false)
-			else
-				self:EmitSound(self.Hit[math.random(1, #self.Hit)])
-			end
+		if self.Entity:GetVelocity():Length() > 400 then
+			self:EmitSound("npc/roller/blade_out.wav", 60)
+		else
+			self:EmitSound(self.Hit[math.random(1, #self.Hit)])
+		end
 
-			self:Disable()
-
-/////I extraneousized (is that a word?) the whole sticking in walls thing so that it bounces, but I am not, I repeat NOT going to allow ricochet kills. Eat that, codfags.
-
+		self:Disable()
 	elseif Ent.Health then
 		if not(Ent:IsPlayer() or Ent:IsNPC() or Ent:GetClass() == "prop_ragdoll") then 
 			util.Decal("ManhackCut", data.HitPos + data.HitNormal, data.HitPos - data.HitNormal)
@@ -120,12 +105,7 @@ function ENT:PhysicsCollide(data, phys)
 	self.Entity:SetOwner(NUL)
 end
 
-/*---------------------------------------------------------
-   Name: ENT:Use()
----------------------------------------------------------*/
-////This here is so that if they dont have the SWEP and they pick it off the ground, they are given the SWEP, or if they do have the SWEP and they pick it off the ground, they get ammo for it////
 function ENT:Use(activator, caller)
-
 	self.Entity:Remove()
 
 	if (activator:IsPlayer()) then
