@@ -310,3 +310,5 @@ mrp.Changelogs = {
 		"Test 5",
 	}
 }
+
+mrp.BleedingEnabled = false -- Should you bleed when you take damage.

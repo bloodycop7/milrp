@@ -472,19 +472,21 @@ function GM:PlayerSpawnedSENT(ply, ent)
 end
 
 function GM:EntityTakeDamage(trg, damage)
-	if ( trg:IsPlayer() ) then
-		if not ( trg:GetMoveType() == MOVETYPE_NOCLIP ) then
-			if not ( damage:GetDamageType() == DMG_BURN or damage:GetDamageType() == DMG_SLOWBURN or damage:GetDamageType() == DMG_SHOCK ) then
-				if not ( trg:GetSyncVar(SYNC_BLEEDING, false) ) then
-					trg:SetSyncVar(SYNC_BLEEDING, true, true)
-					trg:Notify("You have started bleeding!", Color(255, 0, 0, 255))
-					if not ( timer.Exists(trg:SteamID64().."Bleed") ) then
-						timer.Create(trg:SteamID64().."Bleed", math.random(10, 25), 0, function()
-							if ( trg:Health() > 40 ) then
-								trg:SetHealth(trg:Health() - 10)
-								trg:EmitSound("player/pl_pain5.wav")
-							end
-						end)
+	if ( mrp.BleedingEnabled ) then
+		if ( trg:IsPlayer() ) then
+			if not ( trg:GetMoveType() == MOVETYPE_NOCLIP ) then
+				if not ( damage:GetDamageType() == DMG_BURN or damage:GetDamageType() == DMG_SLOWBURN or damage:GetDamageType() == DMG_SHOCK ) then
+					if not ( trg:GetSyncVar(SYNC_BLEEDING, false) ) then
+						trg:SetSyncVar(SYNC_BLEEDING, true, true)
+						trg:Notify("You have started bleeding!", Color(255, 0, 0, 255))
+						if not ( timer.Exists(trg:SteamID64().."Bleed") ) then
+							timer.Create(trg:SteamID64().."Bleed", math.random(10, 25), 0, function()
+								if ( trg:Health() > 40 ) then
+									trg:SetHealth(trg:Health() - 10)
+									trg:EmitSound("player/pl_pain5.wav")
+								end
+							end)
+						end
 					end
 				end
 			end
