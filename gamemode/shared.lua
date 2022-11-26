@@ -318,6 +318,10 @@ mrp.Changelogs = {
 		"Added Bodycam System",
 		"Added Compass",
 		"Added Leaning",
+	},
+	["3.0"] = {
+		"Changed the font for the gamemode",
+		"Fixed gamemode breaking error"
 	}
 }
 

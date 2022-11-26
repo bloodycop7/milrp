@@ -5,10 +5,13 @@ function PANEL:Init()
     self:MoveToFront()
     
     self.html = self:Add("HTML")
-    self.html:OpenURL("https://rotor.org/wp-content/uploads/2022/07/mb_safetyaward-ops.png")
+    self.html:OpenURL("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1386064728i/7283942.jpg")
     self.html:SetPos(0, 0)
     self.html:SetSize(500, 250)
     self.html:SizeToContents()
+    self.html.PaintOver = function(s)
+        mrp.DrawBlur(s)
+    end
     
     self.scroll = self:Add("DScrollPanel")
     self.scroll:SetPos(0, 0)
@@ -24,7 +27,7 @@ function PANEL:Init()
         s:SetColor(Color(255, 255, 255, 0))
     end
     
-    for k, v in pairs(mrp.Changelogs) do
+    for k, v in SortedPairs(mrp.Changelogs) do
         local changelogTitle = self.scroll:Add("DLabel")
         changelogTitle:SetText("Version "..k)
         changelogTitle:SetFont("mrp-Font60")
@@ -43,13 +46,6 @@ function PANEL:Init()
             changelogText:Dock(TOP)
         end
     end
-end
-
-
-
-function PANEL:Paint(w, h)
-    surface.SetDrawColor(20, 20, 20, 160)
-    surface.DrawRect(0, 0, w, h)
 end
 
 vgui.Register("mrpUpdates", PANEL, "DPanel")

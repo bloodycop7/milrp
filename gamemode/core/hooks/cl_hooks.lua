@@ -110,3 +110,44 @@ end)
 hook.Add("Think", "VoiceIconAlwaysOff", function()
     RunConsoleCommand("mp_show_voice_icons", "0")
 end)
+
+local blur = Material("pp/blurscreen")
+
+function mrp.DrawBlur(panel, amount, passes, alpha)
+    amount = amount or 5
+
+    surface.SetMaterial(blur)
+    surface.SetDrawColor(255, 255, 255, alpha or 255)
+
+    local x, y = panel:LocalToScreen(0, 0)
+
+    for i = -(passes or 0.2), 1, 0.2 do
+        -- Do things to the blur material to make it blurry.
+        blur:SetFloat("$blur", i * amount)
+        blur:Recompute()
+
+        -- Draw the blur material over the screen.
+        render.UpdateScreenEffectTexture()
+        surface.DrawTexturedRect(x * -1, y * -1, ScrW(), ScrH())
+    end
+
+end
+
+function mrp.DrawBlurAt(x, y, width, height, amount, passes, alpha)
+    amount = amount or 5
+
+    surface.SetMaterial(blur)
+    surface.SetDrawColor(255, 255, 255, alpha or 255)
+
+    local scrW, scrH = ScrW(), ScrH()
+    local x2, y2 = x / scrW, y / scrH
+    local w2, h2 = (x + width) / scrW, (y + height) / scrH
+
+    for i = -(passes or 0.2), 1, 0.2 do
+        blur:SetFloat("$blur", i * amount)
+        blur:Recompute()
+
+        render.UpdateScreenEffectTexture()
+        surface.DrawTexturedRectUV(x, y, width, height, x2, y2, w2, h2)
+    end
+end
