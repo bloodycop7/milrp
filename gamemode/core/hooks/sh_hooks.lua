@@ -226,6 +226,14 @@ function meta:GetEntityInFront(radius)
     end
 end
 
+function meta:GetThrowPos(radius)
+    local data = {}
+        data.start = self:GetShootPos()
+        data.endpos = data.start + self:GetAimVector() * (radius or 120)
+        data.filter = self
+    local target = util.TraceLine(data).HitPos 
+end
+
 if SERVER then
 	util.AddNetworkString("GM-ColoredMessage")
 
@@ -244,11 +252,9 @@ else
 end
 
 concommand.Add("dropweapon", function(ply, cmd, args)
-    local data = {}
-        data.start = ply:GetShootPos()
-        data.endpos = data.start + ply:GetAimVector() * 120
-        data.filter = ply
-    local target = util.TraceLine(data).HitPos
+    local target = ply:GetThrowPos()
     
-    ply:DropWeapon(ply:GetActiveWeapon(), target, target)
+    if ( SERVER ) then
+        ply:DropWeapon(ply:GetActiveWeapon(), target, target)
+    end
 end)
