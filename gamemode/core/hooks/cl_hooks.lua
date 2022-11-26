@@ -2,19 +2,19 @@ for i = 15, 300 do
     surface.CreateFont("mrp-Font"..tostring(i), {
         font = "Purista-Light",
         size = i,
-        shadow = true,
-        additive = true,
-        antialias = true,
-        extended = true
+		weight = 500,
+		antialias = true,
+		additive = true,
+		outline = true
     })
 
     surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
         font = "Purista-Light",
         size = i,
-        shadow = true,
-        antialias = true,
-        additive = true,
-        extended = true
+		weight = 500,
+		antialias = true,
+		additive = true,
+		outline = true
     })
 end
 
