@@ -343,14 +343,14 @@ end
 
 function GM:PlayerSpawn(ply, transition)
 	if ( ply:Team() == 0 ) then
-        ply:SetTeam(TEAM_SOLDIER)
-    end
-
+		ply:SetTeam(1)
+	end
+	
 	local modelr = "models/bread/cod/characters/milsim/shadow_company.mdl"
-	if ( isstring(mrp.Teams.Stored[ply:Team()].model) ) then
-		modelr = mrp.Teams.Stored[ply:Team()].model
-	elseif ( istable(mrp.Teams.Stored[ply:Team()].model) ) then
-		modelr = table.Random(mrp.Teams.Stored[ply:Team()].model)
+	if ( isstring(mrp.Teams.Stored[ply:Team() or 1].model) ) then
+		modelr = mrp.Teams.Stored[ply:Team() or 1].model
+	elseif ( istable(mrp.Teams.Stored[ply:Team() or 1].model) ) then
+		modelr = table.Random(mrp.Teams.Stored[ply:Team() or 1].model)
 	end
 
     ply:Give("gmod_tool")
