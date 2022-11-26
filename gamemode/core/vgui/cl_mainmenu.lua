@@ -193,6 +193,8 @@ function PANEL:Init()
 end
 
 function PANEL:Paint(w, h)
+    mrp.DrawBlur(self)
+    
     surface.SetDrawColor(20, 20, 20, 200)
     surface.DrawRect(0, 0, w, h)
 

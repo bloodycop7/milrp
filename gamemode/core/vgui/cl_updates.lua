@@ -9,9 +9,9 @@ function PANEL:Init()
     self.html:SetPos(0, 0)
     self.html:SetSize(500, 250)
     self.html:SizeToContents()
-    self.html.PaintOver = function(s)
+    /*self.html.PaintOver = function(s)
         mrp.DrawBlur(s)
-    end
+    end*/
     
     self.scroll = self:Add("DScrollPanel")
     self.scroll:SetPos(0, 0)
@@ -27,7 +27,7 @@ function PANEL:Init()
         s:SetColor(Color(255, 255, 255, 0))
     end
     
-    for k, v in pairs(mrp.Changelogs) do
+    for k, v in SortedPairs(mrp.Changelogs, true) do
         local changelogTitle = self.scroll:Add("DLabel")
         changelogTitle:SetText("Version "..k..".0")
         changelogTitle:SetFont("mrp-Font60")
