@@ -194,11 +194,21 @@ end
 
 function PANEL:Paint(w, h)
     mrp.DrawBlur(self)
+    local randomx
+    
+    if ( self.nextFlicker or 0 ) < CurTime() then
+        randomx = math.random(20, 90)
+        
+        self.nextFlicker = CurTime() + 1
+    end
     
     surface.SetDrawColor(20, 20, 20, 200)
     surface.DrawRect(0, 0, w, h)
 
     draw.DrawText("Military Project", "mrp-Font130", ScrW() / 2 - 50, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
+    if ( randomx ) then
+        draw.DrawText("Military Project", "mrp-Font130", ScrW() / 2 - randomx, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
+    end
 end
 
 vgui.Register("MilMainMenu", PANEL, "DPanel")
