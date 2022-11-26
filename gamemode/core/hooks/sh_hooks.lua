@@ -258,3 +258,29 @@ concommand.Add("dropweapon", function(ply, cmd, args)
         ply:DropWeapon(ply:GetActiveWeapon(), target, target)
     end
 end)
+
+if ( CLIENT ) then
+    net.Receive("MRPAnnouncement", function()
+        if ( ( announcebeingdisplayed or false ) ) then return end
+        local msg = net.ReadString()
+        local notice = vgui.Create("mrpAnnouncement")
+    
+        notice:SetMessage({
+            speaker = LocalPlayer():Nick(), 
+            message = msg, 
+        })
+        
+        notice:SetPos(0, 70)
+        notice:MoveToFront() 
+    
+        announcebeingdisplayed = true
+        timer.Simple(7.5, function()
+            if IsValid(notice) then
+                notice:AlphaTo(0, 1, 0, function() 
+                    notice:Remove()
+                    announcebeingdisplayed = false
+                end)
+            end
+        end)
+    end) 
+end
