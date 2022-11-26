@@ -295,19 +295,29 @@ function meta:IsTerrorist()
 end
 
 mrp.Changelogs = {
-	["0.1"] = {
-		"Test",
-		"Test 2",
-		"Test 3",
-		"Test 4",
-		"Test 5"
+	["1.0"] = {
+		"Added HUD",
+		"Added Crosshair",
+		"Added Rappeling",
+		"Added Helicopter Rappeling",
+		"Added Bleeding System ( Toggable )",
+		"Added Whitelist System ( Toggable )",
+		"Added Relationship System",
+		"Integrated Quick Slide Addon",
+		"Ported OPS Administration System",
+		"Added Mapconfig System",
+		"Added Chatbox",
+		"Added Bodygroup Manager Plugin",
 	},
-	["0.2"] = {
-		"Test",
-		"Test 2",
-		"Test 3",
-		"Test 4",
-		"Test 5",
+	["2.0"] = {
+		"Added Team System",
+		"Added Class System",
+		"Added NVG",
+		"Added Door Blasting Plugin",
+		"Added Throwing Knives",
+		"Added Bodycam System",
+		"Added Compass",
+		"Added Leaning",
 	}
 }
 
