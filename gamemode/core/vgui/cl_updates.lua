@@ -27,9 +27,9 @@ function PANEL:Init()
         s:SetColor(Color(255, 255, 255, 0))
     end
     
-    for k, v in SortedPairs(mrp.Changelogs) do
+    for k, v in pairs(mrp.Changelogs) do
         local changelogTitle = self.scroll:Add("DLabel")
-        changelogTitle:SetText("Version "..k)
+        changelogTitle:SetText("Version "..k..".0")
         changelogTitle:SetFont("mrp-Font60")
         changelogTitle:SetTextColor(Color(210, 210, 210))
         changelogTitle:SizeToContents()
