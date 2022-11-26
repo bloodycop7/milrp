@@ -12,6 +12,14 @@ function PANEL:Init()
     self.playbutton:SetPos(ScrW() / 2 - 100, 200)
     self.playbutton:SetSize(200, 100)
     self.playbutton:SetFont("mrp-Font60")
+    
+    timer.Simple(1, function()
+        if not ( steamworks.IsSubscribed("2888675922") ) then
+            Derma_Query("Missing Content", "You don't have our content installed", "Download", function()
+                gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=2747447138")
+            end, "Close")
+        end
+    end)
 
     if ( firstMainMenuJoin ) then
         self.playbutton:SetText("Play")
