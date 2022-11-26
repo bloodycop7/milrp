@@ -1,6 +1,6 @@
 SWEP.Author = "BFG/Kalashnikov"
 SWEP.Instructions = "M1 to throw, USE to pick up after throwing. Ammo can be found under entities tab"
-SWEP.Category = "Kalashnikov's Weapons"
+SWEP.Category = "Military"
 SWEP.Contact = "http://steamcommunity.com/id/bfg/"
 
 SWEP.Base = "weapon_mad_base"
@@ -104,7 +104,7 @@ function SWEP:PrimaryAttack()
 
 		local pos = self.Owner:GetShootPos()
 			pos = pos + self.Owner:GetForward() * 0
-			pos = pos + self.Owner:GetRight() * -10
+			pos = pos + self.Owner:GetRight() * -1.5
 			pos = pos + self.Owner:GetUp() * -5
 		knife:SetPos(pos)
 
@@ -116,8 +116,8 @@ function SWEP:PrimaryAttack()
 		self.Owner:SetAnimation(PLAYER_ATTACK1)
 
 		local phys = knife:GetPhysicsObject()
-		phys:SetVelocity(self.Owner:GetAimVector() * 1776)
-		phys:AddAngleVelocity(Vector(0, 500, 0))
+		phys:SetVelocity(self.Owner:GetAimVector() * 1500)
+		--phys:AddAngleVelocity(Vector(0, 500, 0))
 	end
 
 	if (self.Weapon:IsValid() && self.Owner:IsValid()) then

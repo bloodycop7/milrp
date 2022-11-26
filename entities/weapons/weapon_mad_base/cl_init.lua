@@ -50,37 +50,6 @@ cl_crosshair_l 		= CreateClientConVar("mad_crosshair_l", 30, true, false)		// Le
 cl_crosshair_t 		= CreateClientConVar("mad_crosshair_t", 1, true, false)		// Enable/Disable
 
 function SWEP:DrawHUD()
-
-	self:SecondDrawHUD()
-	self:DrawFuelHUD()
-
-	if (self.Weapon:GetDTBool(1)) or (cl_crosshair_t:GetBool() == false) or (LocalPlayer():InVehicle()) then return end
-
-	local hitpos = util.TraceLine ({
-		start = LocalPlayer():GetShootPos(),
-		endpos = LocalPlayer():GetShootPos() + LocalPlayer():GetAimVector() * 4096,
-		filter = LocalPlayer(),
-		mask = MASK_SHOT
-	}).HitPos
-
-	local screenpos = hitpos:ToScreen()
-	
-	local x = screenpos.x
-	local y = screenpos.y
-	
-	if self.Primary.Cone < 0.005 then
-		self.Primary.Cone = 0.005
-	end
-	
-	local gap = ((self.Primary.Cone * 275) + (((self.Primary.Cone * 275) * (ScrH() / 720))) * (1 / self:CrosshairAccuracy())) * 0.75
-
-	gap = math.Clamp(gap, 0, (ScrH() / 2) - 100)
-	local length = cl_crosshair_l:GetInt()
-
-	self:DrawCrosshairHUD(x - gap - length, y - 1, length, 3) 	// Left
-	self:DrawCrosshairHUD(x + gap + 1, y - 1, length, 3) 		// Right
- 	self:DrawCrosshairHUD(x - 1, y - gap - length, 3, length) 	// Top 
- 	self:DrawCrosshairHUD(x - 1, y + gap + 1, 3, length) 		// Bottom
 end
 
 /*---------------------------------------------------------

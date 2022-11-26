@@ -621,8 +621,9 @@ function GM:PlayerFootstep(ply, pos, foot, sound, vol, filter)
 	else
 		newsound = "player/mrpfootsteps/tile"..math.random(1, 4)..".wav"
 	end
-	
+
 	ply:EmitSound(newsound, 100, 100, vol)
-	
+		
+		
 	return true
 end
