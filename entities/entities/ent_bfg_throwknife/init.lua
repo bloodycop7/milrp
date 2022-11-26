@@ -16,7 +16,7 @@ function ENT:Initialize()
 	end
 
 	
-	self:SetModel("models/weapons/w_knife_t.mdl")
+	self:SetModel("models/weapons/yurie_cod/iw7/tactical_knife_iw7_wm.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self.Entity:SetMoveType(MOVETYPE_VPHYSICS)
 	self.Entity:SetSolid(SOLID_VPHYSICS)
@@ -29,33 +29,24 @@ function ENT:Initialize()
 		phys:SetMass(10)
 	end
 	
-	util.PrecacheSound("physics/metal/metal_grenade_impact_hard3.wav")
-	util.PrecacheSound("physics/metal/metal_grenade_impact_hard2.wav")
-	util.PrecacheSound("physics/metal/metal_grenade_impact_hard1.wav")
-	util.PrecacheSound("physics/flesh/flesh_impact_bullet1.wav")
-	util.PrecacheSound("physics/flesh/flesh_impact_bullet2.wav")
-	util.PrecacheSound("physics/flesh/flesh_impact_bullet3.wav")
+
+	util.PrecacheSound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other1.wav")
+	util.PrecacheSound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other2.wav")
+	util.PrecacheSound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other3.wav")
 
 	self.Hit = { 
-	Sound("physics/metal/metal_grenade_impact_hard1.wav"),
-	Sound("physics/metal/metal_grenade_impact_hard2.wav"),
-	Sound("physics/metal/metal_grenade_impact_hard3.wav")};
+	Sound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other1.wav"),
+	Sound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other2.wav"),
+	Sound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other3.wav")};
 
 	self.FleshHit = { 
-	Sound("physics/flesh/flesh_impact_bullet1.wav"),
-	Sound("physics/flesh/flesh_impact_bullet2.wav"),
-	Sound("physics/flesh/flesh_impact_bullet3.wav")}
+	Sound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other1.wav"),
+	Sound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other2.wav"),
+	Sound("weapons/yurie_cod/iw7/melee/h2h_knife_impact_other3.wav")}
 
 	self:GetPhysicsObject():SetMass(2)	
 
 	self.Entity:SetUseType(SIMPLE_USE)
-
-////This is the knife's trail; let's see how many codfags I can impress
-	util.SpriteTrail(self, 0, Color(200,200,200,255), false, 8, 0, 1.5, 1/(15+1)*0.5, "trails/tube.vmt")
-	--util.SpriteTrail( Entity entity, Integer AttachmentID, Color color, Boolean additive, Float Start Width, Float End Width, Float LifeTime, Float TextureRes, String Texture )
-////
-
-
 end
 
 /*---------------------------------------------------------

@@ -9,11 +9,12 @@ SWEP.Contact				= "http://steamcommunity.com/id/bfg/"
 SWEP.Base 				= "weapon_mad_base"
 
 SWEP.ViewModelFlip		= true      //b3c4uz ur a fcuking iDi0t scrub who dosnt kn0w th4t teh MW2 tr0w1ng kn1v3 is thr0wn3d l3ft h4nd3d
-SWEP.ViewModel			= "models/weapons/v_knife_t.mdl"
-SWEP.WorldModel			= "models/weapons/w_knife_t.mdl"
+SWEP.ViewModel			= "models/weapons/yurie_cod/iw7/tactical_knife_iw7_vm.mdl"
+SWEP.WorldModel			= "models/weapons/yurie_cod/iw7/tactical_knife_iw7_wm.mdl"
 SWEP.HoldType				= "grenade"
 SWEP.Spawnable			= true
 SWEP.AdminSpawnable		= false
+SWEP.UseHands = true
 
 SWEP.AutoSwitchTo = false
 SWEP.AutoSwitchFrom = false
