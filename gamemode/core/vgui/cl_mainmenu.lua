@@ -199,7 +199,7 @@ function PANEL:Paint(w, h)
     if ( self.nextFlicker or 0 ) < CurTime() then
         randomx = math.random(20, 90)
         
-        self.nextFlicker = CurTime() + 1
+        self.nextFlicker = CurTime() + 0.2
     end
     
     surface.SetDrawColor(20, 20, 20, 200)
