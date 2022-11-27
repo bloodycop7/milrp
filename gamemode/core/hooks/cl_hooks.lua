@@ -5,7 +5,8 @@ for i = 15, 300 do
 		weight = 500,
 		antialias = true,
 		additive = true,
-		outline = true
+		outline = true,
+        shadow = true
     })
 
     surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
@@ -14,6 +15,7 @@ for i = 15, 300 do
 		weight = 500,
 		antialias = true,
 		additive = true,
+        shadow = true,
 		outline = true
     })
 end
