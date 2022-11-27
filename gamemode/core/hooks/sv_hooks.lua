@@ -655,3 +655,7 @@ function GM:PlayerFootstep(ply, pos, foot, sound, vol, filter)
 		
 	return true
 end
+
+function GM:PlayerDeathSound(ply)
+	return true
+end

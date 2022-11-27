@@ -251,11 +251,23 @@ else
     end)
 end
 
+local blacklistedweps = {}
+blacklistedweps["gmod_tool"] = true
+blacklistedweps["weapon_physgun"] = true
+blacklistedweps["mrp_hands"] = true
+blacklistedweps["weapon_bsmod_punch"] = true
+
 concommand.Add("dropweapon", function(ply, cmd, args)
     local target = ply:GetThrowPos()
     
     if ( SERVER ) then
-        ply:DropWeapon(ply:GetActiveWeapon(), target, target)
+        if ( IsValid(ply:GetActiveWeapon()) ) then
+            if not ( blacklistedweps[ply:GetActiveWeapon():GetClass()] ) then
+                ply:DropWeapon(ply:GetActiveWeapon(), target, target)
+            else
+                ply:Notify("You cannot drop that weapon!")
+            end
+        end
     end
 end)
 
