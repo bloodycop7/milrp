@@ -190,6 +190,21 @@ function PANEL:Init()
     self.updates = self:Add("mrpUpdates")
     self.updates:SetPos(ScrW() - 545, 100)
     self.updates:MoveToFront()
+    
+    self.discord = self:Add("DButton")
+    self.discord:SetPos(ScrW() / 2 - 125, ScrH() - 200)
+    self.discord:SetContentAlignment(5)
+    self.discord:SetSize(200, 100)
+    self.discord:SetFont("mrp-Font60")
+    self.discord:SetText("Discord")
+    self.discord:SetTextColor(mrp.Config.BaseColor)
+    self.discord.DoClick = function()
+        gui.OpenURL("https://discord.gg/WQzr5KJm8V")
+    end
+    self.discord.Paint = function(s, w, h)
+        surface.SetDrawColor(0, 0, 0, 0)
+        surface.DrawRect(0, 0, w, h)
+    end
 end
 
 function PANEL:Paint(w, h)
@@ -199,13 +214,14 @@ function PANEL:Paint(w, h)
     if ( self.nextFlicker or 0 ) < CurTime() then
         randomx = math.random(20, 90)
         
-        self.nextFlicker = CurTime() + 0.2
+        self.nextFlicker = CurTime() + 0.9
     end
     
     surface.SetDrawColor(20, 20, 20, 200)
     surface.DrawRect(0, 0, w, h)
 
     draw.DrawText("Military Project", "mrp-Font130", ScrW() / 2 - 50, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
+    draw.DrawText("Changelogs", "mrp-Font70", ScrW() - 300, 20, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     if ( randomx ) then
         draw.DrawText("Military Project", "mrp-Font130", ScrW() / 2 - randomx, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     end
