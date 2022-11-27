@@ -294,7 +294,10 @@ function meta:IsTerrorist()
 	return ( self:Team() == TEAM_TERRORIST )
 end
 
-mrp.Changelogs = {
+mrp.Changelogs = {,
+	[4] = {
+		"Added Freelook",
+	}
 	[3] = {
 		"Changed the font for the gamemode",
 		"Fixed gamemode breaking error"
