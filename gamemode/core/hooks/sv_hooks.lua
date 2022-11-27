@@ -40,6 +40,15 @@ function GM:Think()
 			if not ( v.isLazy ) then
 				v.isLazy = false
 			end
+			
+			if ( v:Health() < 100 ) then
+				if ( v.canRestoreHealth or true ) then
+					if ( v.nextHealthAdd or 0 ) < CurTime() then
+						v:SetHealth(v:Health() + 1)
+						v.nextHealthAdd = CurTime() + 0.7
+					end
+				end
+			end
 
 			if ( v:Health() < 10 ) then
 				v.runspeed = 90
@@ -448,7 +457,7 @@ function GM:PlayerSpawnedSENT(ply, ent)
 	end
 end
 
-function GM:EntityTakeDamage(trg, damage)
+function GM:PostEntityTakeDamage(trg, damage)
 	if ( mrp.BleedingEnabled ) then
 		if ( trg:IsPlayer() ) then
 			if not ( trg:GetMoveType() == MOVETYPE_NOCLIP ) then
@@ -470,11 +479,32 @@ function GM:EntityTakeDamage(trg, damage)
 		end
 	end
 	
-	if ( damage:IsBulletDamage() ) then
-		ply:ViewPunch(Angle(math.Rand(-10, -5), 0, math.Rand(0, 5)))
+	if ( trg:IsPlayer() ) then
+		if ( trg.canRestoreHealth ) then
+			trg.canRestoreHealth = false
+		end
+		
+		if not ( timer.Exists(trg:SteamID64().."HealthRegenerate") ) then
+			timer.Create(trg:SteamID64().."HealthRegenerate", 3, 1, function()
+				if not ( trg.canRestoreHealth ) then
+					trg.canRestoreHealth = true
+				end
+			end)
+		else
+			timer.Remove(trg:SteamID64().."HealthRegenerate")
+			timer.Create(trg:SteamID64().."HealthRegenerate", 3, 1, function()
+				if not ( trg.canRestoreHealth ) then
+					trg.canRestoreHealth = true
+				end
+			end)
+		end
+		
+		if ( damage:IsBulletDamage() ) then
+			trg:ViewPunch(Angle(math.Rand(-10, -5), 0, math.Rand(0, 5)))
+		end
 	end
 	
-	return false
+	return true
 end
 
 hook.Add("PlayerButtonDown", "HelicopterRappeling", function(ply, btn)
