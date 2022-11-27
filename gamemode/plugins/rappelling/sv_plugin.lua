@@ -32,7 +32,7 @@ function CreateRope(ply)
         ply.rappelRope = rappelRope
 
         ply:DeleteOnRemove(rappelRope)
-        ply:EmitSound("npc/combine_soldier/zipline_clip" .. math.random(2) .. ".wav")
+        ply:EmitSound("physics/surfaces/tile_impact_bullet4.wav")
     end
 end
 

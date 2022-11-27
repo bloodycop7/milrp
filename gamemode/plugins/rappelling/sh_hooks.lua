@@ -24,7 +24,7 @@ hook.Add("PlayerButtonDown", "rappelstop", function(ply, btn)
                     EndRappel(ply)
 
                     if ( SERVER ) then
-                        ply:EmitSound("npc/combine_soldier/zipline_hitground" .. math.random(2) .. ".wav")
+                        ply:EmitSound("physics/surfaces/tile_impact_bullet1.wav")
                     end
                 end
             end
