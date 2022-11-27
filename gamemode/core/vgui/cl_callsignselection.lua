@@ -1,7 +1,7 @@
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetSize(600, 700)
+    self:SetSize(600, 300)
     self:Center()
     self:MakePopup()
     self:MoveToFront()
@@ -41,7 +41,7 @@ function PANEL:Init()
     self.tagline.OnSelect = function(panel, index, value)
         self.review:SetText(value)
     end
-    for k, v in pairs({"ALPHA", "BRAVO", "VICTOR", "VIPER", "GHOST", "SHADOW", "FEARLESS", "JULIET", "DELTA", "SHADOW"}) do
+    for k, v in pairs({"ALPHA", "BRAVO", "VICTOR", "VIPER", "GHOST", "SHADOW", "FEARLESS", "JULIET", "DELTA", "SHADOW", "KILO"}) do
         self.tagline:AddChoice(v)
     end
 
