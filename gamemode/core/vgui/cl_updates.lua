@@ -9,7 +9,9 @@ function PANEL:Init()
     self.html:SetPos(0, 0)
     self.html:SetSize(500, 500)
     self.html:SizeToContents()
-    self.html.PaintOver = function(s)
+    self.html.PaintOver = function(s, w, h)
+        surface.SetDrawColor(30, 30, 30, 190)
+        surface.DrawRect(0, 0, w, h)
         mrp.DrawBlur(s)
     end
     
