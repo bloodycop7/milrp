@@ -470,6 +470,10 @@ function GM:EntityTakeDamage(trg, damage)
 		end
 	end
 	
+	if ( damage:IsBulletDamage() ) then
+		ply:ViewPunch(Angle(math.Rand(-10, -5), 0, math.Rand(0, 5)))
+	end
+	
 	return false
 end
 
