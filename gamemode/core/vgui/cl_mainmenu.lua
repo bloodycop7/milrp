@@ -188,7 +188,7 @@ function PANEL:Init()
     end
     
     self.updates = self:Add("mrpUpdates")
-    self.updates:SetPos(ScrW() - 600, 100)
+    self.updates:SetPos(ScrW() - 545, 100)
     self.updates:MoveToFront()
 end
 
