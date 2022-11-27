@@ -52,7 +52,7 @@ function SWEP:ProjectileFire()
 	if not ( IsValid(owner) ) then return end
 
 	for k, v in pairs(player.GetAll()) do
-		if ( !v:IsLineOfSightClear(self) ) then
+		if ( !self:IsLineOfSightClear(v:GetPos()) ) then
 			v:ScreenFade(SCREENFADE.IN, color_white, 5, 2.5)
 		end
 	end

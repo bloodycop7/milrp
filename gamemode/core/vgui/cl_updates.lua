@@ -34,6 +34,7 @@ function PANEL:Init()
         changelogTitle:SetTextColor(Color(157, 255, 0))
         changelogTitle:SizeToContents()
         changelogTitle:Dock(TOP)
+        changelogTitle:DockMargin(5, 0, 0, 0)
 
         for _, i in pairs(v) do
             local changelogText = self.scroll:Add("DLabel")

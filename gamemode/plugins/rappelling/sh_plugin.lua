@@ -3,7 +3,7 @@ local PLUGIN = PLUGIN
 
 function StartRappel(ply)
     ply.rappelling = true
-    ply.rappelPos = ply:GetPos()
+    ply.rappelPos = ply:GetEyeTrace().HitPos
 
     if ( SERVER ) then
         CreateRope(ply)
