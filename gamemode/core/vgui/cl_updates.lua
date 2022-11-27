@@ -9,9 +9,9 @@ function PANEL:Init()
     self.html:SetPos(0, 0)
     self.html:SetSize(500, 500)
     self.html:SizeToContents()
-    /*self.html.PaintOver = function(s)
+    self.html.PaintOver = function(s)
         mrp.DrawBlur(s)
-    end*/
+    end
     
     self.scroll = self:Add("DScrollPanel")
     self.scroll:SetPos(0, 0)
