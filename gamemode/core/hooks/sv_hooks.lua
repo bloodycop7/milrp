@@ -12,7 +12,6 @@ local function canHearCheck(listener) -- based on darkrps voice chat optomizatio
 end
 
 function GM:Think()
-	
     for k, v in ipairs(player.GetAll()) do
 		if ( v and IsValid(v) and v:Alive() ) then
 			
@@ -128,6 +127,26 @@ function GM:Think()
 			v:SetRunSpeed(v.runspeed)
 			v:SetFOV(v.fov)
 			v:SetWalkSpeed(v.walkspeed)
+			local veh = v:GetVehicle()
+			
+			if ( veh and IsValid(veh) ) then
+				local heli = veh:GetParent()
+				
+				if ( heli and IsValid(heli) ) then
+					if ( heli.SetAmmoPrimary ) then
+						heli:SetAmmoPrimary(3)
+					end
+					
+					if ( heli.SetAmmoSecondary ) then
+						heli:SetAmmoSecondary(3)
+					end
+					
+					if ( heli.SetAmmoTertiary ) then
+						heli:SetAmmoTertiary(3)
+					end
+				end
+			end
+		
 		end
     end
 end
