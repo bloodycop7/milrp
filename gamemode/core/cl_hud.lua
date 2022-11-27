@@ -79,6 +79,7 @@ end
 local hp = 100
 local armor = 0
 local crosshaircolor = Color(255, 255, 255, 255)
+local ammocolor = Color(255, 255, 255, 255)
 hook.Add("HUDPaint", "DisableStuff", function()
 	local ply = LocalPlayer()
 
@@ -126,9 +127,13 @@ hook.Add("HUDPaint", "DisableStuff", function()
 		local clip = wep:Clip1()
 		local ammo = ply:GetAmmoCount(wep:GetPrimaryAmmoType())
 
-		if not ( clip == 0 or clip == -1 ) then
-			draw.DrawText(clip, "mrp-Font60", ScrW() - 15, ScrH() - 70, color_white, TEXT_ALIGN_RIGHT)
+		if ( clip == 0 or clip == -1 ) then
+			ammocolor.a = Lerp(0.1, ammocolor.a, 0)
+		else
+			ammocolor.a = Lerp(0.1, ammocolor.a, 255)
 		end
+		
+		draw.DrawText(clip, "mrp-Font60", ScrW() - 15, ScrH() - 70, ammocolor, TEXT_ALIGN_RIGHT)
 	end
 
 	crosshaircolor.a = hook.Run("GetCrosshairAlpha", ply, wep, crosshaircolor, crosshaircolor.a)
