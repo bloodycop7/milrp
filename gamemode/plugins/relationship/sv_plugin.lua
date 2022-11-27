@@ -83,8 +83,8 @@ function mrp.relationships.Update(npc)
                     for i, d in pairs(ents.GetAll()) do
                         if ( d:IsNPC() ) then
                             if ( mrp.CombineNPCs[d:GetClass()] ) then
-                                npc:AddEntityRelationship(d, D_HT, 99)
-                                d:AddEntityRelationship(npc, D_HT, 99)
+                                npc:AddEntityRelationship(d, D_HT, 0)
+                                d:AddEntityRelationship(npc, D_HT, 0)
                             end
                         end
                     end
@@ -92,18 +92,18 @@ function mrp.relationships.Update(npc)
                     for i, d in pairs(ents.GetAll()) do
                         if ( d:IsNPC() ) then
                             if ( mrp.RebelNPCs[d:GetClass()] ) then
-                                npc:AddEntityRelationship(d, D_LI, 99)
-                                d:AddEntityRelationship(npc, D_LI, 99)
+                                npc:AddEntityRelationship(d, D_LI, 0)
+                                d:AddEntityRelationship(npc, D_LI, 0)
                             end
                         end
                     end
 
                     if ( v:IsCombine() ) then
                         v.VJ_NPC_Class = {"CLASS_COMBINE"}
-                        npc:AddEntityRelationship(v, D_HT, 99)
+                        npc:AddEntityRelationship(v, D_HT, 0)
                     else
                         v.VJ_NPC_Class = {"CLASS_REBEL"}
-                        npc:AddEntityRelationship(v, D_LI, 99)
+                        npc:AddEntityRelationship(v, D_LI, 0)
                     end
                     return
                 end
@@ -112,25 +112,25 @@ function mrp.relationships.Update(npc)
                     npc.VJ_NPC_Class = {"CLASS_COMBINE"}
                     if ( v:IsCombine() ) then
                         v.VJ_NPC_Class = {"CLASS_COMBINE"}
-                        npc:AddEntityRelationship(v, D_LI, 99)
+                        npc:AddEntityRelationship(v, D_LI, 0)
                     else
                         v.VJ_NPC_Class = {"CLASS_REBEL"}
-                        npc:AddEntityRelationship(v, D_HT, 99)
+                        npc:AddEntityRelationship(v, D_HT, 0)
                     end
                 elseif ( mrp.RebelNPCs[npc:GetClass()] ) then
                     npc.VJ_NPC_Class = {"CLASS_REBEL"}
                     if ( v:IsCombine() ) then
                         v.VJ_NPC_Class = {"CLASS_COMBINE"}
-                        npc:AddEntityRelationship(v, D_HT, 99)
+                        npc:AddEntityRelationship(v, D_HT, 0)
                     else
                         v.VJ_NPC_Class = {"CLASS_REBEL"}
-                        npc:AddEntityRelationship(v, D_LI, 99)
+                        npc:AddEntityRelationship(v, D_LI, 0)
                     end
                 end
 
                 if ( v:GetMoveType() == MOVETYPE_NOCLIP ) then
                     if ( npc and IsValid(npc) ) then
-                        npc:AddEntityRelationship(v, D_LI, 99)
+                        npc:AddEntityRelationship(v, D_LI, 0)
                     end
                 end
             end
