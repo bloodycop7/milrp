@@ -33,51 +33,6 @@ function mrp.Ops.DaleRead(message)
 		net.SendToServer()
 		return
 	end
-
-	for v,k in pairs(mrp.Config.AutoModDict) do
-		local msg = (k.IgnorePunc or false) and messageNoPunc or message
-
-		if k.Specific then
-			for a,term in pairs(k.Terms) do
-				if term == msg then
-					if k.Command then LocalPlayer():ConCommand(k.Command) end
-					return mrp.Ops.DaleSay(k.Reply, k.RequestClose or false)
-				end
-			end
-		elseif k.TermsTogether then
-			local tempTerms = {}
-
-			for a,term in pairs(k.Terms) do
-				for g,h in pairs(string.Explode(" ", msg, false)) do
-					if h == term then
-						tempTerms[term] = true
-					end
-				end
-			end
-
-			local fail = false
-			for a,b in pairs(k.Terms) do
-				if not tempTerms[b] then
-					fail = true
-					break
-				end
-			end
-
-			if fail then
-				continue
-			end
-
-			if k.Command then LocalPlayer():ConCommand(k.Command) end
-			return mrp.Ops.DaleSay(k.Reply, k.RequestClose or false)
-		else
-			for a,term in pairs(k.Terms) do
-				if string.find(msg, term, nil, true) then
-					if k.Command then LocalPlayer():ConCommand(k.Command) end
-					return mrp.Ops.DaleSay(k.Reply, k.RequestClose or false)
-				end
-			end
-		end
-	end
 end
 
 function mrp.Ops.DaleSay(message, requestClose)

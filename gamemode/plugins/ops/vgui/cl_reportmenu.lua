@@ -106,19 +106,6 @@ function PANEL:ReloadReports()
 				end, nil, "Send")
 
 				local textEntry = i:GetChild(4):GetChildren()[2]
-				local quickReplies = vgui.Create("DComboBox", i)
-				quickReplies:SetPos(10, 90)
-				quickReplies:SetSize(145, 20)
-				quickReplies:SetValue("Quick replies")
-				quickReplies:SetPopupStayAtBack(false)
-
-				for v,k in pairs(mrp.Config.ModQuickReplies) do
-					quickReplies:AddChoice(k)
-				end
-
-				function quickReplies:OnSelect()
-					textEntry:SetValue(self:GetValue())
-				end
 			end
 		end
 
