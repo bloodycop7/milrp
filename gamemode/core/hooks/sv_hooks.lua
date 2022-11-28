@@ -593,7 +593,7 @@ hook.Add("PlayerButtonDown", "HelicopterRappeling", function(ply, btn)
 
 									ply:DeleteOnRemove(rappelRope)
 									heli:DeleteOnRemove(rappelRope)
-									ply:EmitSound("npc/combine_soldier/zipline_clip" .. math.random(2) .. ".wav")
+									ply:EmitSound("physics/surfaces/tile_impact_bullet4.wav")
 									ply.rappelling = true
 									ply.rappelPos = ply:GetPos()
 									heli:SetCollisionGroup(COLLISION_GROUP_WEAPON)
