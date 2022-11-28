@@ -331,3 +331,4 @@ mrp.Changelogs = {
 }
 
 mrp.BleedingEnabled = false -- Should you bleed when you take damage.
+mrp.StaminaEnabled = false -- Should Stamina System Be Enabled.

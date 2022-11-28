@@ -82,48 +82,50 @@ function GM:Think()
 				v.fov = Lerp(0.1, v.fov or 95, 95)
 			end
 
-			if ( v.isLazy ) then
-				v.runspeed = 100
-				v.walkspeed = 100
+			if ( mrp.StaminaEnabled ) then
+				if ( v.isLazy ) then
+					v.runspeed = 100
+					v.walkspeed = 100
 
-				if not ( v.isPlayingSound ) then
-					v:EmitSound("player/breathe1.wav")
-					v:EmitSound("player/heartbeat1.wav")
-					v.isPlayingSound = true
+					if not ( v.isPlayingSound ) then
+						v:EmitSound("player/breathe1.wav")
+						v:EmitSound("player/heartbeat1.wav")
+						v.isPlayingSound = true
 
-					timer.Simple(SoundDuration("player/breathe1.wav"), function()
-						v:StopSound("player/breathe1.wav")
-						v:StopSound("player/heartbeat1.wav")
-						v.isPlayingSound = false
+						timer.Simple(SoundDuration("player/breathe1.wav"), function()
+							v:StopSound("player/breathe1.wav")
+							v:StopSound("player/heartbeat1.wav")
+							v.isPlayingSound = false
+						end)
+					end
+				end
+				
+				if not ( timer.Exists(v:SteamID64().."RunTimer") ) then
+					timer.Create(v:SteamID64().."RunTimer", 0, 0, function()
+						if not ( v:GetMoveType() == MOVETYPE_NOCLIP ) then
+							if ( v.runspeed > 300 ) then
+								v.isLazy = true
+								timer.Simple(5, function()
+									v.isLazy = false
+								end)
+							end
+						end
+					end)
+				else
+					timer.Remove(v:SteamID64().."RunTimer")
+					timer.Create(v:SteamID64().."RunTimer", 0, 0, function()
+						if not ( v:GetMoveType() == MOVETYPE_NOCLIP ) then
+							if ( v.runspeed > 300 ) then
+								v.isLazy = true
+								timer.Simple(5, function()
+									v.isLazy = false
+								end)
+							end
+						end
 					end)
 				end
 			end
 			
-			if not ( timer.Exists(v:SteamID64().."RunTimer") ) then
-				timer.Create(v:SteamID64().."RunTimer", 0, 0, function()
-					if not ( v:GetMoveType() == MOVETYPE_NOCLIP ) then
-						if ( v.runspeed > 300 ) then
-							v.isLazy = true
-							timer.Simple(5, function()
-								v.isLazy = false
-							end)
-						end
-					end
-				end)
-			else
-				timer.Remove(v:SteamID64().."RunTimer")
-				timer.Create(v:SteamID64().."RunTimer", 0, 0, function()
-					if not ( v:GetMoveType() == MOVETYPE_NOCLIP ) then
-						if ( v.runspeed > 300 ) then
-							v.isLazy = true
-							timer.Simple(5, function()
-								v.isLazy = false
-							end)
-						end
-					end
-				end)
-			end
-
 			v:SetRunSpeed(v.runspeed)
 			v:SetFOV(v.fov)
 			v:SetWalkSpeed(v.walkspeed)
