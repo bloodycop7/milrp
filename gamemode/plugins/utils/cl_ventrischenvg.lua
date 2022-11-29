@@ -682,8 +682,10 @@ local function vrnvgbackground()
 			ply.vrnvgcam:Remove()
 			ply.vrnvgcam = nil
 		end
+		if (viewmodel) then
                     if viewmodel:GetSequence() != viewmodel:LookupSequence("idleoff") then
 			vrplayanim("idleoff") 
+		end
 		end
 		if ply.nvglightdraw then
 			ply.nvglightdraw:Remove()
