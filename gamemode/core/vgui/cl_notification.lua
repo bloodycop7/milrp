@@ -12,7 +12,7 @@ end
 function PANEL:SetMessage(l, scol)
 	self.Col = scol or color_white
 	-- Encode message into markup
-	local msg = "<font=mrp-Font19>"
+	local msg = "<font=mrp-Font22>"
 
 	for k, v in ipairs({l}) do
 		if type(v) == "table" then
