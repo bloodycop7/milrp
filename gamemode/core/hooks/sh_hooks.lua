@@ -296,3 +296,27 @@ if ( CLIENT ) then
         end)
     end) 
 end
+
+if ( SERVER ) then
+    util.AddNetworkString("mrpCinematicMessage")
+    function mrp.CinematicIntro(message)
+        net.Start("mrpCinematicMessage")
+        net.WriteString(message)
+        net.Broadcast()
+    end
+
+    concommand.Add("mrp_cinemessage", function(ply, cmd, args)
+        if not ply:IsSuperAdmin() then return end
+        
+        mrp.CinematicIntro(args[1] or "")
+    end)
+
+    function meta:AllowScenePVSControl(bool)
+        self.allowPVS = bool
+
+        if not bool then
+            self.extraPVS = nil
+            self.extraPVS2 = nil
+        end
+    end 
+end

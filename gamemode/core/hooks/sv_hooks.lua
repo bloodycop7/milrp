@@ -10,6 +10,37 @@ local function canHearCheck(listener) -- based on darkrps voice chat optomizatio
 		hook.Run("PlayerCanHearCheck", listener, speaker)
 	end
 end
+util.AddNetworkString("mrpScenePVS")
+
+net.Receive("mrpScenePVS", function(len, ply)
+	if (ply.nextPVSTry or 0) > CurTime() then return end
+	ply.nextPVSTry = CurTime() + 1
+
+	if ply:Team() == 0 or ply.allowPVS then -- this code needs to be looked at later on, it trusts client too much, pvs locations should be stored in a shared tbl
+		local pos = net.ReadVector()
+		local last = ply.lastPVS or 1
+
+		if last == 1 then
+			ply.extraPVS = pos
+			ply.lastPVS = 2
+		else
+			ply.extraPVS2 = pos
+			ply.lastPVS = 1
+		end
+
+		timer.Simple(1.33, function()
+			if not IsValid(ply) then
+				return
+			end
+
+			if last == 1 then
+				ply.extraPVS2 = nil
+			else
+				ply.extraPVS = nil
+			end
+		end)
+	end
+end)
 
 function GM:Think()
     for k, v in ipairs(player.GetAll()) do

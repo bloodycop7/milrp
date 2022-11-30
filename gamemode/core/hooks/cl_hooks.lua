@@ -148,3 +148,10 @@ function mrp.DrawBlurAt(x, y, width, height, amount, passes, alpha)
         surface.DrawTexturedRectUV(x, y, width, height, x2, y2, w2, h2)
     end
 end
+
+net.Receive("mrpCinematicMessage", function()
+	local title = net.ReadString()
+
+	mrp.CinematicIntro = true
+	mrp.CinematicTitle = title
+end)
