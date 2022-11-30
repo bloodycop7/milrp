@@ -36,7 +36,7 @@ function PANEL:SetMessage(l, scol)
 end
 
 function PANEL:Paint(w, h)
-	self.message:Draw(10,10, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	self.message:Draw(w / 2,10, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 
 	surface.SetDrawColor(Color(30, 30, 30, 100))
 	surface.DrawRect(0, 0, w, h)
