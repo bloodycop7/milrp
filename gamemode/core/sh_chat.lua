@@ -426,7 +426,7 @@ if CLIENT then
 	mrp.RegisterChatClass(6, function(message, speaker)
 		message = hook.Run("ProcessICChatMessage", speaker, message) or message
 
-		mrp.customChatFont = "mrp-Font25"
+		mrp.customChatFont = "mrp-Font28"
 		
 		speaker:AddCaption({
 			speaker = speaker:Nick(), 
@@ -440,7 +440,7 @@ if CLIENT then
 	mrp.RegisterChatClass(7, function(message, speaker)
 		message = hook.Run("ProcessICChatMessage", speaker, message) or message
 		
-		mrp.customChatFont = "mrp-Font19"
+		mrp.customChatFont = "mrp-Font20"
 		speaker:AddCaption({
 			speaker = speaker:Nick(), 
 			message = message, 
@@ -451,7 +451,7 @@ if CLIENT then
 	end)
 
 	mrp.RegisterChatClass(8, function(message, speaker)
-		--mrp.customChatFont = "mrp-Font20" 
+		mrp.customChatFont = "mrp-Font20" 
 		--chat.AddText(radioCol, "[RADIO] ", speaker:Name(), ": ", message)
         speaker:AddCaption({
 			speaker = "[RADIO] "..speaker:Nick(), 
