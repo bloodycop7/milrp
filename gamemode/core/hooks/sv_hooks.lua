@@ -532,6 +532,10 @@ function GM:PostEntityTakeDamage(trg, damage)
 	end
 	
 	if ( trg:IsPlayer() ) then
+		if ( trg:GetMoveType() == MOVETYPE_NOCLIP ) then
+			return false	
+		end
+		
 		if ( trg.canRestoreHealth ) then
 			trg.canRestoreHealth = false
 		end
@@ -551,8 +555,10 @@ function GM:PostEntityTakeDamage(trg, damage)
 			end)
 		end
 		
-		if ( damage:IsBulletDamage() ) then
-			trg:ViewPunch(Angle(math.Rand(-10, -5), 0, math.Rand(0, 5)))
+		if ( mrp.EnabledDamageFlinch ) then
+			if ( damage:IsBulletDamage() ) then
+				trg:ViewPunch(Angle(math.Rand(-10, -5), 0, math.Rand(0, 5)))
+			end
 		end
 	end
 	

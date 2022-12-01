@@ -58,7 +58,11 @@ function meta:SetTeamClass(classID, skipLoadout)
 	if classData.model then
 		self:SetModel(classData.model)
 	else
-		self:SetModel(teamData.model or self:GetModel())
+		if ( isstring(teamData.model) ) then
+            self:SetModel(teamData.model)
+        elseif ( istable(teamData.model) ) then
+            self:SetModel(table.Random(teamData.model))
+        end
 	end
 
 	self:SetupHands()
