@@ -26,7 +26,7 @@ function PANEL:Init()
         s:SetText((self.tagline:GetValue() or "VICTOR").."-"..(self.number:GetValue() or "0"))
     end
     self.review.Paint = function(s, w, h)
-        surface.SetDrawColor(0, 0, 0, 12)
+        surface.SetDrawColor(95, 95, 95, 150)
         surface.DrawRect(0, 0, w, h)
     end
 
@@ -44,11 +44,27 @@ function PANEL:Init()
     for k, v in pairs({"ALPHA", "BRAVO", "VICTOR", "VIPER", "GHOST", "SHADOW", "FEARLESS", "JULIET", "DELTA", "SHADOW", "KILO"}) do
         self.tagline:AddChoice(v)
     end
-
+    self.tagline.Paint = function(s, w, h)
+        surface.SetDrawColor(20, 20, 20, 130)
+        surface.DrawRect(0, 0, w, h) 
+    end
+    function self.tagline:OnMenuOpened(menu)
+        menu.Paint = function(s, w, h)
+            surface.SetDrawColor(0, 0, 0, 255)
+            surface.DrawRect(0, 0, w, h)
+        end
+        
+        for k, v in pairs(menu:GetCanvas():GetChildren()) do
+            v:SetFont("mrp-Font23")
+            v:SetTextColor(color_white)
+        end
+    end
+    
     self.number = self:Add("DComboBox")
     self.number:SetValue("0")
     self.number:SetSortItems(false)
     self.number:SetTextColor(color_white)
+    self.number:DockMargin(0, 5, 0, 0)
     self.number:Dock(TOP)
     self.number:SetContentAlignment(5)
     self.number:SetTall(40)
@@ -58,6 +74,21 @@ function PANEL:Init()
     end
     for i = 0, 99 do
         self.number:AddChoice(i)
+    end
+    self.number.Paint = function(s, w, h)
+        surface.SetDrawColor(20, 20, 20, 130)
+        surface.DrawRect(0, 0, w, h) 
+    end
+    function self.number:OnMenuOpened(menu)
+        menu.Paint = function(s, w, h)
+            surface.SetDrawColor(0, 0, 0, 255)
+            surface.DrawRect(0, 0, w, h)
+        end
+        
+        for k, v in pairs(menu:GetCanvas():GetChildren()) do
+            v:SetFont("mrp-Font23")
+            v:SetTextColor(color_white)
+        end
     end
 end
 
