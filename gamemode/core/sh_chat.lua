@@ -429,7 +429,7 @@ if CLIENT then
 		mrp.customChatFont = "mrp-Font28"
 		
 		speaker:AddCaption({
-			speaker = speaker:Nick(), 
+			speaker = speaker:Nick().." ["..speaker:GetSyncVar(SYNC_CALLSIGN, "UNDEFINED-0").."]", 
 			message = message, 
 			speakercol = yellCol, 
 			msgcol = yellCol,
@@ -442,7 +442,7 @@ if CLIENT then
 		
 		mrp.customChatFont = "mrp-Font20"
 		speaker:AddCaption({
-			speaker = speaker:Nick(), 
+			speaker = speaker:Nick().." ["..speaker:GetSyncVar(SYNC_CALLSIGN, "UNDEFINED-0").."]", 
 			message = message, 
 			speakercol = whisperCol, 
 			msgcol = whisperCol,
@@ -475,7 +475,7 @@ if CLIENT then
 	mrp.RegisterChatClass(13, function(message, speaker)
 		--chat.AddText(acCol, "[Admin Chat] ", speaker:Nick(), ": ", acCol, message)
         speaker:AddCaption({
-			speaker = "[Admin Chat]"..speaker:Nick(), 
+			speaker = "[Admin Chat] "..speaker:Nick(), 
 			message = message, 
 			speakercol = acCol, 
 			msgcol = color_white,
