@@ -253,7 +253,31 @@ local whisperCommand = {
 	end
 }
 
-mrp.RegisterChatCommand("/w", whisperCommand)
+mrp.RegisterChatCommand("/setmission", {
+	description = "Set Mission.",
+	requiresArg = true,
+	requiresAlive = false,
+	onRun = function(ply, arg, rawText)
+		SetGlobalString("mrpMission", rawText)
+		
+		for k, v in ipairs(player.GetAll()) do
+			v:SendLua([[SetGlobalString("mrpMission", rawText)]])
+		end
+	end
+})
+
+mrp.RegisterChatCommand("/setlocation", {
+	description = "Set Location.",
+	requiresArg = true,
+	requiresAlive = false,
+	onRun = function(ply, arg, rawText)
+		SetGlobalString("mrpLocation", rawText)
+		
+		for k, v in ipairs(player.GetAll()) do
+			v:SendLua([[SetGlobalString("mrpLocation", rawText)]])
+		end
+	end
+})
 
 local replyCommand = {
 	description = "Replies to the last player who directly messaged you.",

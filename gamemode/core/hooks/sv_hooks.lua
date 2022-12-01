@@ -396,6 +396,7 @@ function GM:CanPlayerEnterVehicle(ply, vch, seatnumber)
 	return true
 end
 
+util.AddNetworkString("mrpLocaShow")
 function GM:PlayerSpawn(ply, transition)
 	if ( ply:Team() == 0 ) then
 		ply:SetTeam(1)
@@ -436,6 +437,9 @@ function GM:PlayerSpawn(ply, transition)
             end
         end
     end
+	
+	net.Start("mrpLocaShow")
+	net.Send(ply)
 end
 
 util.AddNetworkString("mrpSetTeamIndex")

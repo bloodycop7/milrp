@@ -80,6 +80,73 @@ local hp = 100
 local armor = 0
 local crosshaircolor = Color(255, 255, 255, 255)
 local ammocolor = Color(255, 255, 255, 255)
+local mtextPos = 0
+local mnextTime = 0
+
+local ltextPos = 0
+local lnextTime = 0
+
+local ttextPos = 0
+local tnextTime = 0
+
+local dtextPos = 0
+local dnextTime = 0
+net.Receive("mrpLocaShow", function()
+	local startingToLower = false
+	hook.Add("HUDPaint", "ADHAJDHAD", function()
+		if not ( startingToLower ) then			
+			if CurTime() > mnextTime and mtextPos != string.len(GetGlobalString("mrpLocation", "Gulag")) then
+				mtextPos = mtextPos + 1
+				mnextTime = CurTime() + .04
+			end
+			
+			if CurTime() > lnextTime and ltextPos != string.len(GetGlobalString("mrpMission", "Rescue")) then
+				ltextPos = ltextPos + 1
+				lnextTime = CurTime() + .04
+			end
+			
+			if CurTime() > tnextTime and ttextPos != string.len(os.date("%x", os.time())) then
+				ttextPos = ttextPos + 1
+				tnextTime = CurTime() + .04
+			end
+			
+			if CurTime() > dnextTime and dtextPos != string.len(os.date("%X", os.time())) then
+				dtextPos = dtextPos + 1
+				dnextTime = CurTime() + .04
+			end
+		end
+		
+		if ( ltextPos == string.len(GetGlobalString("mrpMission", "Rescue")) and mtextPos == string.len(GetGlobalString("mrpLocation", "Gulag")) ) then
+			timer.Simple(5, function()
+				startingToLower = true
+				if CurTime() > mnextTime and mtextPos >= 1 then
+					mtextPos = mtextPos - 1
+					mnextTime = CurTime() + .04
+				end
+				
+				if CurTime() > lnextTime and ltextPos >= 1 then
+					ltextPos = ltextPos - 1
+					lnextTime = CurTime() + .04
+				end
+				
+				if CurTime() > tnextTime and ttextPos >= 1 then
+					ttextPos = ttextPos - 1
+					tnextTime = CurTime() + .04
+				end
+				
+				if CurTime() > dnextTime and dtextPos >= 1 then
+					dtextPos = dtextPos - 1
+					dnextTime = CurTime() + .04
+				end
+				
+				if ( ltextPos == 0 and mtextPos == 0 and ttextPos == 0 and dtextPos == 0 ) then
+					hook.Remove("HUDPaint", "ADHAJDHAD")
+				end
+			end)
+		end
+	end)
+end)
+
 hook.Add("HUDPaint", "DisableStuff", function()
 	local ply = LocalPlayer()
 
@@ -91,7 +158,7 @@ hook.Add("HUDPaint", "DisableStuff", function()
 
 	hp = Lerp(0.01, hp, ply:Health())
 	armor = Lerp(0.01, armor, ply:Armor())
-
+	
 	local wep = ply:GetActiveWeapon()
 
 	for k, v in pairs(ply:GetPlayersInRadius(120)) do
@@ -138,12 +205,15 @@ hook.Add("HUDPaint", "DisableStuff", function()
 
 	crosshaircolor.a = hook.Run("GetCrosshairAlpha", ply, wep, crosshaircolor, crosshaircolor.a)
 
-	if ( mrp.GetSetting("bodycam_mode", false) ) then
-		local p = LocalPlayer():GetEyeTrace().HitPos:ToScreen()
-		mrp.DrawCrosshair(p.x, p.y, 3, 50, crosshaircolor)
-	else
-		mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3, 50, crosshaircolor)
-	end
+	draw.DrawText(string.sub(GetGlobalString("mrpMission", "Rescue"), 1, ltextPos), "mrp-Font23", 15, ScrH() - 420, color_white, TEXT_ALIGN_LEFT)
+        
+	draw.DrawText(string.sub(GetGlobalString("mrpLocation", "Gulag"), 1, mtextPos), "mrp-Font23", 15, ScrH() - 380, color_white, TEXT_ALIGN_LEFT)
+	
+	draw.DrawText(string.sub(os.date("%x", os.time()), 1, ttextPos), "mrp-Font23", 15, ScrH() - 340, color_white, TEXT_ALIGN_LEFT)
+	
+	draw.DrawText(string.sub(os.date("%X", os.time()), 1, dtextPos), "mrp-Font23", 15, ScrH() - 300, color_white, TEXT_ALIGN_LEFT)
+
+	mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3, 50, crosshaircolor)
 end)
 
 function GM:GetCrosshairAlpha(ply, wep, color, alpha)
