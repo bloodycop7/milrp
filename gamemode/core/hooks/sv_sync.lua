@@ -6,8 +6,6 @@ util.AddNetworkString("iSyncUlcl")
 util.AddNetworkString("iSyncR")
 util.AddNetworkString("iSyncRvar")
 
-local entMeta = FindMetaTable("Entity")
-
 -- target is optional. Sync will take the player and sync their all SyncVars with all clients or the single target if provided.
 function entMeta:Sync(target)
 	local targetID = self:EntIndex()

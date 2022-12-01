@@ -115,8 +115,6 @@ function meta:AddCaption(tbl)
     end
 end
 
-local entMeta = FindMetaTable("Entity")
-
 function entMeta:IsLocked()
 	if (self:IsVehicle()) then
 		local datatable = self:GetSaveTable()

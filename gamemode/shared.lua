@@ -7,6 +7,7 @@ mrp.Config = mrp.Config or {}
 mrp.Config.BaseColor = Color(255, 166, 0)
 
 meta = meta or FindMetaTable("Player")
+entMeta = entMeta or FindMetaTable("Entity")
 
 if ( SERVER ) then
 	util.AddNetworkString("mrpLogPlayer")
@@ -297,6 +298,8 @@ end
 mrp.Changelogs = {
 	[4] = {
 		"Added Freelook",
+		"Integrated Seat Weaponiser",
+		"Disabled footsteps when holding CTRL or ALT"
 	},
 	[3] = {
 		"Changed the font for the gamemode",

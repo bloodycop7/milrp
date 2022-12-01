@@ -18,8 +18,6 @@ SYNC_INTSTACK = 7
 SYNC_TYPE_PUBLIC = 1
 SYNC_TYPE_PRIVATE = 2
 
-local entMeta = FindMetaTable("Entity")
-
 function mrp.Sync.RegisterVar(type, conditional)
 	syncVarsID = syncVarsID + 1
 

@@ -707,9 +707,10 @@ function GM:PlayerFootstep(ply, pos, foot, sound, vol, filter)
 	else
 		newsound = "player/mrpfootsteps/tile"..math.random(1, 4)..".wav"
 	end
-
-	ply:EmitSound(newsound, 100, 100, vol)
-		
+	
+	if not ( ply:KeyDown(IN_WALK) or ply:KeyDown(IN_DUCK) ) then
+		ply:EmitSound(newsound, 100, 100, vol)
+	end
 		
 	return true
 end
