@@ -14,6 +14,11 @@ function PANEL:SetMessage(tbl)
 	self.MsgCol = tbl.msgcol or color_white
 	-- Encode message into markup
 	local msg = "<font=mrp-Font23>"
+	
+	if mrp.customChatFont then
+		msg = "<font="..mrp.customChatFont..">"
+		mrp.customChatFont = nil
+	end
 
     msg = msg.."<color="..self.Col.r..","..self.Col.g..","..self.Col.b..">"..tostring(tbl.speaker):gsub("<", "&lt;"):gsub(">", "&gt;").."<color="..self.MsgCol.r..","..self.MsgCol.g..","..self.MsgCol.b..">"
 

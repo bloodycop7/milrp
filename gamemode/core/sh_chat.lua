@@ -221,6 +221,40 @@ local pmCommand = {
 
 mrp.RegisterChatCommand("/pm", pmCommand)
 
+local yellCommand = {
+	description = "Yell in character.",
+	requiresArg = true,
+	requiresAlive = true,
+	onRun = function(ply, arg, rawText)
+		rawText = hook.Run("ChatClassMessageSend", 6, rawText, ply) or rawText
+
+		for v,k in pairs(player.GetAll()) do
+			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (550 ^ 2) then 
+				k:SendChatClassMessage(6, rawText, ply)
+			end
+		end
+	end
+}
+
+mrp.RegisterChatCommand("/y", yellCommand)
+
+local whisperCommand = {
+	description = "Whisper in character.",
+	requiresArg = true,
+	requiresAlive = true,
+	onRun = function(ply, arg, rawText)
+		rawText = hook.Run("ChatClassMessageSend", 7, rawText, ply) or rawText
+
+		for v,k in pairs(player.GetAll()) do
+			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (90 ^ 2) then 
+				k:SendChatClassMessage(7, rawText, ply)
+			end
+		end
+	end
+}
+
+mrp.RegisterChatCommand("/w", whisperCommand)
+
 local replyCommand = {
 	description = "Replies to the last player who directly messaged you.",
 	requiresArg = true,
@@ -385,6 +419,33 @@ if CLIENT then
 			message = message, 
 			speakercol = pmCol, 
 			msgcol = pmCol,
+			dots = true
+		})
+	end)
+	
+	mrp.RegisterChatClass(6, function(message, speaker)
+		message = hook.Run("ProcessICChatMessage", speaker, message) or message
+
+		mrp.customChatFont = "mrp-Font25"
+		
+		speaker:AddCaption({
+			speaker = speaker:Nick(), 
+			message = message, 
+			speakercol = yellCol, 
+			msgcol = yellCol,
+			dots = true
+		})
+	end)
+
+	mrp.RegisterChatClass(7, function(message, speaker)
+		message = hook.Run("ProcessICChatMessage", speaker, message) or message
+		
+		mrp.customChatFont = "mrp-Font19"
+		speaker:AddCaption({
+			speaker = speaker:Nick(), 
+			message = message, 
+			speakercol = whisperCol, 
+			msgcol = whisperCol,
 			dots = true
 		})
 	end)
