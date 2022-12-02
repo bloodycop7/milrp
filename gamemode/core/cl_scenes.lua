@@ -97,10 +97,9 @@ function mrp.Scenes.Play(stage, sceneData, onDone, skipPVS, preLoad)
 			if CurTime() > nextTime and textPos != string.len(sceneData.text) then
 				textPos = textPos + 1
 				nextTime = CurTime() + .08
-				surface.PlaySound("mrp/typewriter"..tostring(math.random(1,4))..".wav")
 			end
 
-			mrp.Scenes.markup = markup.Parse("<font=mrp-Elements27-Shadow>"..string.sub(sceneData.text, 1, textPos).."</font>", ScrW() * .7)
+			mrp.Scenes.markup = markup.Parse("<font=mrp-Font27-Shadow>"..string.sub(sceneData.text, 1, textPos).."</font>", ScrW() * .7)
 			mrp.Scenes.markup:Draw(ScrW()/2, ScrH() * .8, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 		end)
 	end
