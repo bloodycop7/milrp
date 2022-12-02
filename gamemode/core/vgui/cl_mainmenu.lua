@@ -227,6 +227,8 @@ function PANEL:Paint(w, h)
 
     draw.DrawText("Military Project", "mrp-Font100", ScrW() / 2 - 50, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     draw.DrawText("Changelogs", "mrp-Font70", ScrW() - 300, 20, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
+    
+    draw.DrawText("Plugins", "mrp-Font70", ScrW() - 300, ScrH() - 500, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     if ( randomx ) then
         draw.DrawText("Military Project", "mrp-Font100", ScrW() / 2 - randomx, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     end
