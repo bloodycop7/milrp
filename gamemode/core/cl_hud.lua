@@ -190,17 +190,11 @@ hook.Add("HUDPaint", "DisableStuff", function()
 		end
 	end
 	
-	ammocolor.a = hook.Run("GetAmmoHUDColorAlpha", ply, wep, ammocolor, ammocolor.a)
+	ammocolor.a = hook.Run("GetAmmoHUDColorAlpha", ply, wep, ammocolor, ammocolor.a or 255)
 	
 	if ( IsValid(wep) ) then
 		local clip = wep:Clip1()
 		local ammo = ply:GetAmmoCount(wep:GetPrimaryAmmoType())
-
-		if ( clip == 0 or clip == -1 ) then
-			ammocolor.a = Lerp(0.1, ammocolor.a, 0)
-		else
-			ammocolor.a = Lerp(0.1, ammocolor.a, 255)
-		end
 		
 		draw.DrawText(clip, "mrp-Font60", ScrW() - 15, ScrH() - 70, ammocolor, TEXT_ALIGN_RIGHT)
 	end
@@ -239,10 +233,12 @@ function GM:GetCrosshairAlpha(ply, wep, color, alpha)
 end
 
 function GM:GetAmmoHUDColorAlpha(ply, wep, color, alpha)
-	if ( wep:Clip1() == 0 or wep:Clip1() == -1 ) then
-		return Lerp(0.1, ammocolor.a, 0)
-	else
-		return Lerp(0.1, ammocolor.a, 255)
+	if ( IsValid(wep) ) then
+		if ( wep:Clip1() == 0 or wep:Clip1() == -1 ) then
+			return Lerp(0.1, ammocolor.a, 0)
+		else
+			return Lerp(0.1, ammocolor.a, 255)
+		end
 	end
 	
 	if ( ply:InVehicle() ) then
