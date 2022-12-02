@@ -4,8 +4,6 @@ PLUGIN.author = "Random Workshop Guy"
 mrp.Compass = mrp.Compass or {}
 mrp.Compass_Settings = {}
 
-mrp.Compass_Settings.Compass_Enabled = true
-
 mrp.Compass_Settings.Style_Selected = "squad"
 
 mrp.Compass_Settings.Styles = {
@@ -227,57 +225,59 @@ if CLIENT then
 	}
 
 	hook.Add("HUDPaint", "HUDPaint_Compass", function()
-		if ( IsValid(mrp.gui.mainMenu) ) then return end
-		
-		local ply = LocalPlayer()
+		if ( mrp.CompassEnabled ) then
+			if ( IsValid(mrp.gui.mainMenu) ) then return end
+			
+			local ply = LocalPlayer()
 
-        local ang = ply:GetAngles()
-        local compassX, compassY = ScrW() * compass_style.compassX, ScrH() * compass_style.compassY
-        local width, height = ScrW() * compass_style.width, ScrH() * compass_style.height
-        local cl_spacing = compass_style.spacing
-        local ratio = compass_style.ratio
-        local color = compass_style.color
-        local minMarkerSize = ScrH() * (compass_style.minMarkerSize / 45)
-        local maxMarkerSize = ScrH() * (compass_style.maxMarkerSize / 45)
-        local heading = compass_style.heading
-        local offset = compass_style.offset
+			local ang = ply:GetAngles()
+			local compassX, compassY = ScrW() * compass_style.compassX, ScrH() * compass_style.compassY
+			local width, height = ScrW() * compass_style.width, ScrH() * compass_style.height
+			local cl_spacing = compass_style.spacing
+			local ratio = compass_style.ratio
+			local color = compass_style.color
+			local minMarkerSize = ScrH() * (compass_style.minMarkerSize / 45)
+			local maxMarkerSize = ScrH() * (compass_style.maxMarkerSize / 45)
+			local heading = compass_style.heading
+			local offset = compass_style.offset
 
-        spacing = (width * cl_spacing) / 360
-        numOfLines = width / spacing
-        fadeDistMultiplier = 1
-        fadeDistance = (width / 2) / fadeDistMultiplier
+			spacing = (width * cl_spacing) / 360
+			numOfLines = width / spacing
+			fadeDistMultiplier = 1
+			fadeDistance = (width / 2) / fadeDistMultiplier
 
-        surface.SetFont("exo_compass_Numbers_"..ratio)
+			surface.SetFont("exo_compass_Numbers_"..ratio)
 
 
-        local text = math.Round(360 - ((ang.y - offset) % 360))
-        local font = "exo_compass_Numbers_"..ratio
-        compassBearingTextW, compassBearingTextH = getTextSize(font, text)
-        surface.SetFont(font)
-        surface.SetTextColor(Color(255, 255, 255))
-        surface.SetTextPos(compassX - compassBearingTextW / 2, 15)
-        surface.DrawText(text)
+			local text = math.Round(360 - ((ang.y - offset) % 360))
+			local font = "exo_compass_Numbers_"..ratio
+			compassBearingTextW, compassBearingTextH = getTextSize(font, text)
+			surface.SetFont(font)
+			surface.SetTextColor(Color(255, 255, 255))
+			surface.SetTextPos(compassX - compassBearingTextW / 2, 15)
+			surface.DrawText(text)
 
-        for i = math.Round(-ang.y) % 360, (math.Round(-ang.y) % 360) + numOfLines do
-            local x = ((compassX - (width / 2)) + (((i + ang.y) % 360) * spacing))
-            local value = math.abs(x - compassX)
-            local calc = 1 - ((value + (value - fadeDistance)) / (width / 2))
-            local calculation = 255 * math.Clamp(calc, 0.001, 1)
+			for i = math.Round(-ang.y) % 360, (math.Round(-ang.y) % 360) + numOfLines do
+				local x = ((compassX - (width / 2)) + (((i + ang.y) % 360) * spacing))
+				local value = math.abs(x - compassX)
+				local calc = 1 - ((value + (value - fadeDistance)) / (width / 2))
+				local calculation = 255 * math.Clamp(calc, 0.001, 1)
 
-            local i_offset = -(math.Round(i - offset - (numOfLines / 2))) % 360
-            if i_offset % 15 == 0 and i_offset >= 0 then
-                local a = i_offset
-                local text = adv_compass_tbl[360 - (a % 360)] and adv_compass_tbl[360 - (a % 360)] or 360 - (a % 360)
-                local font = type(text) == "string" and "exo_compass_Letters" or "exo_compass_Numbers_"..ratio
-                local w, h = getTextSize(font, text)
+				local i_offset = -(math.Round(i - offset - (numOfLines / 2))) % 360
+				if i_offset % 15 == 0 and i_offset >= 0 then
+					local a = i_offset
+					local text = adv_compass_tbl[360 - (a % 360)] and adv_compass_tbl[360 - (a % 360)] or 360 - (a % 360)
+					local font = type(text) == "string" and "exo_compass_Letters" or "exo_compass_Numbers_"..ratio
+					local w, h = getTextSize(font, text)
 
-                surface.SetDrawColor(Color(color.r, color.g, color.b, calculation))
-                surface.SetTextColor(Color(color.r, color.g, color.b, calculation))
-                surface.SetFont(font)
+					surface.SetDrawColor(Color(color.r, color.g, color.b, calculation))
+					surface.SetTextColor(Color(color.r, color.g, color.b, calculation))
+					surface.SetFont(font)
 
-                surface.SetTextPos(x - w / 2, compassY + height * 0.55 - 950)
-                surface.DrawText(text)
-            end
-        end
+					surface.SetTextPos(x - w / 2, compassY + height * 0.55 - 950)
+					surface.DrawText(text)
+				end
+			end
+		end
 	end)
 end

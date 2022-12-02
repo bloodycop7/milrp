@@ -336,6 +336,7 @@ mrp.Changelogs = {
 mrp.BleedingEnabled = false -- Should you bleed when you take damage.
 mrp.StaminaEnabled = false -- Should Stamina System Be Enabled.
 mrp.EnabledDamageFlinch = false -- Should you flinch when you get shot
+mrp.CompassEnabled = true -- Should the compass be enabled
 
 player_manager.AddValidHands("SoldierHands", "models/weapons/scmilsimarms.mdl", 1, "000000")
 player_manager.AddValidModel("SoldierHands", "models/bread/cod/characters/milsim/shadow_company.mdl")
