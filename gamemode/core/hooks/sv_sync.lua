@@ -1,12 +1,8 @@
---- A fast entity based synchronous networking system
--- @module Sync
-
 util.AddNetworkString("iSyncU")
 util.AddNetworkString("iSyncUlcl")
 util.AddNetworkString("iSyncR")
 util.AddNetworkString("iSyncRvar")
 
--- target is optional. Sync will take the player and sync their all SyncVars with all clients or the single target if provided.
 function entMeta:Sync(target)
 	local targetID = self:EntIndex()
 	local syncUser = mrp.Sync.Data[targetID]
@@ -78,7 +74,6 @@ function entMeta:Sync(target)
 	end
 end
 
--- target is optional. SyncSingle will take the player and sync the SyncVar provided with all clients or the single target if provided.
 function entMeta:SyncSingle(varID, target)
 	local targetID = self:EntIndex()
 	local syncUser = mrp.Sync.Data[targetID]
@@ -148,8 +143,6 @@ function entMeta:SyncSingle(varID, target)
 	end
 end
 
---- Removes all SyncVar's from an entity and update all players
--- @realm server
 function entMeta:SyncRemove()
 	local targetID = self:EntIndex()
 
@@ -160,10 +153,6 @@ function entMeta:SyncRemove()
 	net.Broadcast()	
 end
 
-
---- Removes a specific SyncVar from an entity and update all players
--- @realm server
--- @int varID Sync variable
 function entMeta:SyncRemoveVar(varID)
 	local targetID = self:EntIndex()
 
@@ -175,14 +164,6 @@ function entMeta:SyncRemoveVar(varID)
 	net.Broadcast()	
 end
 
--- instantSync is optional. SetSyncVar will set the SyncVar however it will not update it with all clients unless instantSync is true.
-
---- Sets the Sync var on an entity
--- @realm server
--- @int varID Sync variable (EG: SYNC_MONEY)
--- @param value Value to set
--- @bool[opt=false] instantSync If we should network this to all players
--- @usage ply:SetSyncVar(SYNC_XP, 60, true) -- sets money to 60 and networks the new value to all players
 function entMeta:SetSyncVar(varID, newValue, instantSync)
 	local targetID = self:EntIndex()
 	local targetData = mrp.Sync.Data[targetID]
@@ -201,13 +182,6 @@ function entMeta:SetSyncVar(varID, newValue, instantSync)
 	end
 end
 
--- SetLocalSyncVar will set a local (to the player) SyncVar that will not be communicated with any other players.
-
---- Sets the Sync var on an entity but only updates the player who it is being set on
--- @realm server
--- @int varID Sync variable (EG: SYNC_MONEY)
--- @param value Value to set
--- @usage ply:SetLocalSyncVar(SYNC_BANKMONEY, 600)
 function meta:SetLocalSyncVar(varID, newValue)
 	local targetID = self:EntIndex()
 	local targetData = mrp.Sync.Data[targetID]
