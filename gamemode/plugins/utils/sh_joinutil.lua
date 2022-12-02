@@ -1,3 +1,6 @@
+PLUGIN.name = "Join Utilities"
+PLUGIN.author = "Apsys"
+
 local WhitelistSystemEnabled = false -- true or false
 local DiscordServer = "" -- Add your discord server for contact or smth
 

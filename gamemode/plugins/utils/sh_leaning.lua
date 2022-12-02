@@ -1,3 +1,5 @@
+PLUGIN.name = "Leaning"
+PLUGIN.author = "Random Workshop Guy"
 if SERVER and game.SinglePlayer() then --https://www.youtube.com/watch?v=Z-E6ynKM7Lo
 	hook.Add("FinishMove", "EZLeanFMoveSP", function(ply, mv)
 		ply:SetNW2Float("SPLeanSide", mv:GetSideSpeed())

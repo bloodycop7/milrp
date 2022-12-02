@@ -1,3 +1,6 @@
+PLUGIN.name = "Door Blaster"
+PLUGIN.author = "Apsys"
+
 local blastableweapons = {
     ["weapon_shotgun"] = true,
     ["mg_romeo870"] = true,

@@ -1,5 +1,6 @@
 AddCSLuaFile()
-
+PLUGIN.name = "Foot Kick"
+PLUGIN.author = "Some random from the workshop"
 util.PrecacheModel("models/c_vmaniplegs.mdl")
 
 local tick = engine.TickInterval()

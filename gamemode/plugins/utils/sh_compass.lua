@@ -1,4 +1,5 @@
--- Shared file.
+PLUGIN.name = "Compass"
+PLUGIN.author = "Random Workshop Guy"
 
 mrp.Compass = mrp.Compass or {}
 mrp.Compass_Settings = {}

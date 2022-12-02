@@ -1,5 +1,6 @@
+PLUGIN.name = "Nightvision"
+PLUGIN.author = "Random Workshop Guy"
 
---if ur learning code i wouldnt look at any of this
 local enabledofblur = CreateConVar( "vrnvg_dofblur", 1, { FCVAR_CLIENTCMD_CAN_EXECUTE, FCVAR_ARCHIVE }, "i remade this command so it resets back to on for everybody who turned it off >:)" )
 local enableepicblur = CreateConVar( "vrnvg_edgeblur", 1, { FCVAR_CLIENTCMD_CAN_EXECUTE, FCVAR_ARCHIVE }, "blur around the edges of your screen" )
 local showremindertext = CreateConVar( "vrnvg_batreminder", 1, { FCVAR_CLIENTCMD_CAN_EXECUTE, FCVAR_ARCHIVE }, "cool text when recharging battery" )

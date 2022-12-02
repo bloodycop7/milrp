@@ -192,6 +192,10 @@ function PANEL:Init()
     self.updates:SetPos(ScrW() - 545, 100)
     self.updates:MoveToFront()
     
+    self.updates = self:Add("mrpPlugins")
+    self.updates:SetPos(ScrW() - 545, ScrH() - 420)
+    self.updates:MoveToFront()
+    
     self.discord = self:Add("DButton")
     self.discord:SetPos(ScrW() / 2 - 125, ScrH() - 200)
     self.discord:SetContentAlignment(5)

@@ -1,4 +1,5 @@
--- made by darsu <3
+PLUGIN.name = "Free Look"
+PLUGIN.author = "darsu"
 local fcvar_rep_archive = bit.bor(FCVAR_REPLICATED, FCVAR_ARCHIVE)
 
 local enabled = CreateConVar("altlook", 1, fcvar_rep_archive)

@@ -1,6 +1,5 @@
-// This addon is authored and maintained by BFG9000.
-// If you have any questions or concerns, I would prefer that you PM me at http://www.facepunch.com/member.php?u=404602
-// or leave a comment on the workshop page of this add-on.
+PLUGIN.name = "Seat Weaponiser"
+PLUGIN.author = "BFG9000"
 
 SEAT_WEAPONISER_VERSION2 = true
 

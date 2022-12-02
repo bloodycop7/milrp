@@ -87,10 +87,17 @@ function mrp.LoadEntites(path)
     HandleEntityInclusion("effects", "EFFECT", effects and effects.Register, nil, true)
 end
 
+mrp.Plugin = mrp.Plugin or {}
+mrp.Plugin.Stored = mrp.Plugin.Stored or {}
+local pluginsID = 0
 function mrp.LoadHooks(file, variable, uid)
+    pluginsID = pluginsID + 1
     local PLUGIN = {}
     _G[variable] = PLUGIN
     PLUGIN.mrpLoading = true
+    PLUGIN.name = PLUGIN.name or "Unknown"
+    PLUGIN.desc = PLUGIN.desc or "Undefined"
+    PLUGIN.author = PLUGIN.author or "Anonymous"
 
     mrp.LoadFile(file)
 
@@ -109,6 +116,7 @@ function mrp.LoadHooks(file, variable, uid)
         PLUGIN.OnLoaded()
     end
 
+    mrp.Plugin.Stored[pluginsID] = PLUGIN
     PLUGIN.mrpLoading = nil
     _G[variable] = nil
 end
