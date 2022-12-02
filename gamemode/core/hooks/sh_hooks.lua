@@ -253,7 +253,7 @@ local blacklistedweps = {}
 blacklistedweps["gmod_tool"] = true
 blacklistedweps["weapon_physgun"] = true
 blacklistedweps["mrp_hands"] = true
-blacklistedweps["weapon_bsmod_punch"] = true
+blacklistedweps["mg_fist"] = true
 
 concommand.Add("dropweapon", function(ply, cmd, args)
     local target = ply:GetThrowPos()
