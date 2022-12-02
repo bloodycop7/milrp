@@ -123,6 +123,8 @@ end
 
 local files, plugins = file.Find("milrp/gamemode/plugins/*", "LUA")
 
+mrp.Plugins = mrp.Plugins or {}
+
 for v, dir in ipairs(plugins) do
 	if mrp.Config.DisabledPlugins and mrp.Config.DisabledPlugins[dir] then
 		continue
@@ -130,4 +132,6 @@ for v, dir in ipairs(plugins) do
 	
 	mrp.Log("Loading Plugin "..dir)
 	mrp.LoadPlugin("milrp/gamemode/plugins/"..dir, dir)
+    table.Empty(mrp.Plugins)
+    table.insert(mrp.Plugins, dir)
 end
