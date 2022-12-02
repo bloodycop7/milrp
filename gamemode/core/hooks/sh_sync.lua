@@ -149,5 +149,6 @@ SYNC_BLEEDING = mrp.Sync.RegisterVar(SYNC_BOOL)
 SYNC_RCHANNEL = mrp.Sync.RegisterVar(SYNC_INT)
 SYNC_CLASS = mrp.Sync.RegisterVar(SYNC_INT)
 SYNC_RADIOENABLED = mrp.Sync.RegisterVar(SYNC_BOOL)
+SYNC_WEPRAISED = mrp.Sync.RegisterVar(SYNC_BOOL)
 
 hook.Run("CreateSyncVars")

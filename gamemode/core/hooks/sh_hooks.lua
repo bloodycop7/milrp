@@ -318,3 +318,17 @@ if ( SERVER ) then
         end
     end 
 end
+
+function GM:PlayerSwitchWeapon(ply, oldWep, newWep)
+	if ( SERVER ) then
+		ply:SetWeaponRaised(false)
+	end
+end
+
+local KEY_BLACKLIST = IN_ATTACK + IN_ATTACK2
+
+function GM:StartCommand(ply, cmd)
+	if not ( ply:IsWeaponRaised() ) then
+		cmd:RemoveKey(KEY_BLACKLIST)
+	end
+end

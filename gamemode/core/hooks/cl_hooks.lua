@@ -149,3 +149,51 @@ net.Receive("mrpCinematicMessage", function()
 	mrp.CinematicIntro = true
 	mrp.CinematicTitle = title
 end)
+
+local loweredAngles = Angle(30, -30, -25)
+
+local customAngles = {
+    ["mg_akilo47"] = Angle(30, -20, -10)
+}
+function GM:CalcViewModelView(weapon, viewmodel, oldEyePos, oldEyeAng, eyePos, eyeAngles)
+	if not IsValid(weapon) then return end
+
+	local vm_origin, vm_angles = eyePos, eyeAngles
+
+	do
+		local lp = LocalPlayer()
+		local raiseTarg = 0
+
+		if !lp:IsWeaponRaised() then
+			raiseTarg = 100
+		end
+
+		local frac = (lp.raiseFraction or 0) / 100
+		local rot = ( weapon.LowerAngles or customAngles[weapon:GetClass()] ) or loweredAngles
+
+		vm_angles:RotateAroundAxis(vm_angles:Up(), rot.p * frac)
+		vm_angles:RotateAroundAxis(vm_angles:Forward(), rot.y * frac)
+		vm_angles:RotateAroundAxis(vm_angles:Right(), rot.r * frac)
+
+		lp.raiseFraction = Lerp(FrameTime() * 2, lp.raiseFraction or 0, raiseTarg)
+	end
+
+	--The original code of the hook.
+	do
+		local func = weapon.GetViewModelPosition
+		if (func) then
+			local pos, ang = func( weapon, eyePos*1, eyeAngles*1 )
+			vm_origin = pos or vm_origin
+			vm_angles = ang or vm_angles
+		end
+
+		func = weapon.CalcViewModelView
+		if (func) then
+			local pos, ang = func( weapon, viewModel, oldEyePos*1, oldEyeAngles*1, eyePos*1, eyeAngles*1 )
+			vm_origin = pos or vm_origin
+			vm_angles = ang or vm_angles
+		end
+	end
+
+	return vm_origin, vm_angles
+end

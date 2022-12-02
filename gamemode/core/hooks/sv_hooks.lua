@@ -722,3 +722,23 @@ end
 function GM:PlayerDeathSound(ply)
 	return true
 end
+
+function meta:SendCL(luacode)
+	self:SendLua(luacode)
+end
+
+function GM:KeyPress(ply, key)
+	if ( key == IN_RELOAD ) then
+		timer.Create("mrpRaiseWait"..ply:SteamID(), 1, 1, function()
+			if ( IsValid(ply) ) then
+				ply:ToggleWeaponRaised()
+			end
+		end)
+	end
+end
+
+function GM:KeyRelease(ply, key)
+	if ( key == IN_RELOAD ) then
+		timer.Remove("mrpRaiseWait"..ply:SteamID())
+	end
+end
