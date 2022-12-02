@@ -403,12 +403,13 @@ mrp.Anim.SetModelClass("models/bread/cod/characters/milsim/shadow_company.mdl", 
 
 hook.Run("LoadAnimationClasses")
 
-local ALWAYS_RAISED = {}
+ALWAYS_RAISED = ALWAYS_RAISED or {}
 ALWAYS_RAISED["weapon_physgun"] = true
 ALWAYS_RAISED["gmod_tool"] = true
 ALWAYS_RAISED["mg_fist"] = true
 ALWAYS_RAISED["weapon_bsmod_punch"] = true
-ALWAYS_RAISED["rappel"] = true
+ALWAYS_RAISED["rappel"] = true -- My Rappelling Addon
+ALWAYS_RAISED["mrp_rappel"] = true
 
 do
 	--- Plays an animation sequence on a player
