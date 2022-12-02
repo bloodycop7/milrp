@@ -235,9 +235,9 @@ end
 function GM:GetAmmoHUDColorAlpha(ply, wep, color, alpha)
 	if ( IsValid(wep) ) then
 		if ( wep:Clip1() == 0 or wep:Clip1() == -1 ) then
-			return Lerp(0.1, ammocolor.a, 0)
+			return Lerp(0.1, ammocolor.a or 255, 0)
 		else
-			return Lerp(0.1, ammocolor.a, 255)
+			return Lerp(0.1, ammocolor.a or 255, 255)
 		end
 	end
 	
