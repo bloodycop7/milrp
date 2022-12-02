@@ -406,6 +406,9 @@ hook.Run("LoadAnimationClasses")
 local ALWAYS_RAISED = {}
 ALWAYS_RAISED["weapon_physgun"] = true
 ALWAYS_RAISED["gmod_tool"] = true
+ALWAYS_RAISED["mg_fist"] = true
+ALWAYS_RAISED["weapon_bsmod_punch"] = true
+ALWAYS_RAISED["rappel"] = true
 
 do
 	--- Plays an animation sequence on a player
