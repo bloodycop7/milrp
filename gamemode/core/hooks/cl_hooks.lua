@@ -153,7 +153,6 @@ end)
 local loweredAngles = Angle(35, -40, -25)
 
 local customAngles = {
-    ["mg_akilo47"] = Angle(30, -20, -10),
     ["mg_m9"] = Angle(0, -10, -5),
     ["mg_357"] = Angle(0, 0, -5),
     ["mg_p320"] = Angle(0, 0, -5),
