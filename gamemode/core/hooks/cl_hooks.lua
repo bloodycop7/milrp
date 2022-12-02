@@ -4,8 +4,6 @@ for i = 15, 300 do
         size = i,
         antialias = true,
 		shadow = true,
-        scanlines = 3,
-        blursize = 0.9,
     })
 
     surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
@@ -13,8 +11,6 @@ for i = 15, 300 do
         size = i,
         antialias = true,
 		shadow = true,
-        scanlines = 3,
-        blursize = 0.9,
     })
 end
 
