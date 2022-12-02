@@ -150,10 +150,18 @@ net.Receive("mrpCinematicMessage", function()
 	mrp.CinematicTitle = title
 end)
 
-local loweredAngles = Angle(30, -30, -25)
+local loweredAngles = Angle(35, -40, -25)
 
 local customAngles = {
-    ["mg_akilo47"] = Angle(30, -20, -10)
+    ["mg_akilo47"] = Angle(30, -20, -10),
+    ["mg_m9"] = Angle(0, -10, -5),
+    ["mg_357"] = Angle(0, 0, -5),
+    ["mg_p320"] = Angle(0, 0, -5),
+    ["mg_deagle"] = Angle(0, 0, -5),
+    ["mg_glock"] = Angle(0, 0, -5),
+    ["mg_cususpmatch"] = Angle(0, 0, -5),
+    ["mg_makarov"] = Angle(0, 0, -5),
+    ["mg_m1911"] = Angle(0, 0, -5)
 }
 function GM:CalcViewModelView(weapon, viewmodel, oldEyePos, oldEyeAng, eyePos, eyeAngles)
 	if not IsValid(weapon) then return end
