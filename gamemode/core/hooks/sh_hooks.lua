@@ -338,16 +338,14 @@ end
 
 hook.Add("Think", "LadderFlinch", function()
     for k, v in ipairs(player.GetAll()) do
-        if ( Flinch_Ladder:GetBool() ) then
-            if ( v:GetMoveType() == MOVETYPE_LADDER ) then
-                if ( ( v.nextLadderFlinch or 0 ) < CurTime() ) then
-                    if ( v:GetVelocity():Length() > 0 ) then
-                        v:ViewPunch(Angle(5.5, 0, 0))
-                        v.nextLadderFlinch = CurTime() + 0.335
-                    end
+        if ( v:GetMoveType() == MOVETYPE_LADDER ) then
+            if ( ( v.nextLadderFlinch or 0 ) < CurTime() ) then
+                if ( v:GetVelocity():Length() > 0 ) then
+                    v:ViewPunch(Angle(5.5, 0, 0))
+                    v.nextLadderFlinch = CurTime() + 0.335
                 end
             end
-        end 
+        end
     end
 end)
 
