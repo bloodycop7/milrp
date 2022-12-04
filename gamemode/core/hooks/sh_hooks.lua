@@ -332,3 +332,9 @@ function GM:StartCommand(ply, cmd)
 		cmd:RemoveKey(KEY_BLACKLIST)
 	end
 end
+
+function GM:OnPlayerHitGround(ply, water, floater, speed)
+    if ( speed > 230 ) then
+        ply:ViewPunch(Angle(math.Rand(5, 15), 0, 0))
+    end
+end
