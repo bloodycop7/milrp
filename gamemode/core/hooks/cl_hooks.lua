@@ -1,13 +1,13 @@
 for i = 15, 300 do
     surface.CreateFont("mrp-Font"..tostring(i), {
-        font = "Consolas",
+        font = "BioSansW05-Light",
         size = i,
         antialias = true,
 		shadow = true,
     })
 
     surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
-        font = "Consolas",
+        font = "BioSansW05-Light",
         size = i,
         antialias = true,
 		shadow = true,
