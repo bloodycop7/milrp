@@ -320,9 +320,6 @@ if ( SERVER ) then
 end
 
 function GM:PlayerSwitchWeapon(ply, oldWep, newWep)
-	if ( SERVER ) then
-		ply:SetWeaponRaised(false)
-	end
 end
 
 local KEY_BLACKLIST = IN_ATTACK + IN_ATTACK2
@@ -335,6 +332,32 @@ end
 
 function GM:OnPlayerHitGround(ply, water, floater, speed)
     if ( speed > 230 ) then
-        ply:ViewPunch(Angle(math.Rand(5, 15), 0, 0))
+        ply:ViewPunch(Angle(speed / 50, 0, 0))
+    end
+end
+
+function GM:KeyPress(ply, key)
+    if ( SERVER ) then
+        if ( key == IN_RELOAD ) then
+            timer.Create("mrpRaiseWait"..ply:SteamID(), 1, 1, function()
+                if ( IsValid(ply) ) then
+                    ply:ToggleWeaponRaised()
+                end
+            end)
+        end
+    end
+    
+    if ( key == IN_JUMP and ply:OnGround() ) then
+        if ( ply:GetMoveType() != MOVETYPE_NOCLIP ) then 
+            ply:ViewPunch(Angle(3.5, 0, 0))
+        end
+    end
+end
+
+function GM:KeyRelease(ply, key)
+    if ( SERVER ) then
+        if ( key == IN_RELOAD ) then
+            timer.Remove("mrpRaiseWait"..ply:SteamID())
+        end
     end
 end
