@@ -336,6 +336,21 @@ function GM:OnPlayerHitGround(ply, water, floater, speed)
     end
 end
 
+hook.Add("Think", "LadderFlinch", function()
+    for k, v in ipairs(player.GetAll()) do
+        if ( Flinch_Ladder:GetBool() ) then
+            if ( v:GetMoveType() == MOVETYPE_LADDER ) then
+                if ( ( v.nextLadderFlinch or 0 ) < CurTime() ) then
+                    if ( v:GetVelocity():Length() > 0 ) then
+                        v:ViewPunch(Angle(5.5, 0, 0))
+                        v.nextLadderFlinch = CurTime() + 0.335
+                    end
+                end
+            end
+        end 
+    end
+end)
+
 function GM:KeyPress(ply, key)
     if ( SERVER ) then
         if ( key == IN_RELOAD ) then
@@ -349,7 +364,7 @@ function GM:KeyPress(ply, key)
     
     if ( key == IN_JUMP and ply:OnGround() ) then
         if ( ply:GetMoveType() != MOVETYPE_NOCLIP ) then 
-            ply:ViewPunch(Angle(3.5, 0, 0))
+            ply:ViewPunch(Angle(3.2, 0, 0))
         end
     end
 end

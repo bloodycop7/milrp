@@ -64,7 +64,7 @@ if (CLIENT) then
 					end
 				end
 
-				surface.SetFont("mrp-Font25")
+				surface.SetFont("mrp-Font38")
 				local weaponName = string.upper(weapons[i]:GetPrintName())
 				local _, ty = surface.GetTextSize(weaponName)
 				local scale = 1 - math.abs(theta * 2)
@@ -77,7 +77,7 @@ if (CLIENT) then
 				matrix:Scale(matrixScale * scale)
 
 				cam.PushModelMatrix(matrix)
-					draw.DrawText(weaponName, "mrp-Font25", 2, ty / 2, color, TEXT_ALIGN_LEFT)
+					draw.DrawText(weaponName, "mrp-Font38", 2, ty / 2, color, TEXT_ALIGN_LEFT)
 				cam.PopModelMatrix()
 			end
 
