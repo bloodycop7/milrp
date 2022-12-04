@@ -11,6 +11,7 @@ for i = 15, 300 do
         size = i,
         antialias = true,
 		shadow = true,
+        outline = true
     })
 end
 
