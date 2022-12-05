@@ -1,20 +1,3 @@
-for i = 15, 300 do
-    surface.CreateFont("mrp-Font"..tostring(i), {
-        font = "BioSansW05-Light",
-        size = i,
-        antialias = true,
-		shadow = true,
-    })
-
-    surface.CreateFont("mrp-Font"..tostring(i).."-Shadow", {
-        font = "BioSansW05-Light",
-        size = i,
-        antialias = true,
-		shadow = true,
-        outline = true
-    })
-end
-
 function notification.AddLegacy(text, otherone, _othertwo)
     LocalPlayer():Notify(tostring(text))
 end

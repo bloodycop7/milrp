@@ -7,16 +7,20 @@ function PANEL:Init()
     self:MakePopup()
 
     mrp.gui.mainMenu = self
-
+    
     self.playbutton = self:Add("DButton")
     self.playbutton:SetPos(50, 200)
     self.playbutton:SetSize(200, 100)
     self.playbutton:SetFont("mrp-Font60-Shadow")
     
     if not ( steamworks.IsSubscribed("2888675922") ) then
-        Derma_Query("Missing Content", "You don't have our content installed", "Download", function()
+        local mcontent = Derma_Query("You don't have our content installed", "Missing Content", "Download", function()
             gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=2747447138")
         end, "Close")
+    end
+    
+    if not ( ScrW() == 1920 and ScrH() == 1080 ) then
+        Derma_Query("You may experience UI/HUD Issues, if you don't set your resolution to 1920x1080", "Resolution Issues", "Close")
     end
 
     if ( firstMainMenuJoin ) then
@@ -92,10 +96,10 @@ function PANEL:Init()
     end
 
     self.optionsbutton = self:Add("DButton")
-    self.optionsbutton:SetPos(15, 360)
+    self.optionsbutton:SetPos(30, 360)
     self.optionsbutton:SetTextColor(color_white)
     self.optionsbutton:SetText("Settings")
-    self.optionsbutton:SetSize(350, 100)
+    self.optionsbutton:SetSize(375, 100)
     self.optionsbutton:SetFont("mrp-Font60-Shadow")
     self.optionsbutton.DoClick = function()
         vgui.Create("mrpSettings")
