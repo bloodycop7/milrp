@@ -133,23 +133,44 @@ if (SERVER) then
         end
         
         if ( target:GetClass() == "func_button" ) then
-            local sparks = EffectData()
-            sparks:SetOrigin(target:GetPos())
-            sparks:SetNormal(target:GetAngles():Forward())
-            sparks:SetMagnitude(math.Rand(1, 3))
-            sparks:SetEntity(target)
+            target.sparks = EffectData()
+            target.sparks:SetOrigin(target:GetPos())
+            target.sparks:SetNormal(target:GetAngles():Forward())
+            target.sparks:SetMagnitude(math.Rand(1, 3))
+            target.sparks:SetEntity(target)
             
-            util.Effect( "ElectricSpark", sparks, true, true )
+            util.Effect( "ElectricSpark", target.sparks, true, true )
                 
-            if not ( target.buttonBroken or false ) then
+            if not ( ( target.buttonBroken or false ) or timer.Exists("Entity"..tostring(target:EntIndex()).."SparkTimer") ) then
                 target:Fire("Press")
                 
                 target:Fire("Lock")
                 
-                timer.Create(target:EntIndex().."SparkTimer", math.Rand(1, 2), 0, function()
-                    util.Effect( "ElectricSpark", sparks, true, true )
+                timer.Create("Entity"..tostring(target:EntIndex()).."SparkTimer", math.Rand(1, 2), 0, function()
+                    target.sparks = EffectData()
+                    target.sparks:SetOrigin(target:GetPos())
+                    target.sparks:SetNormal(target:GetAngles():Forward())
+                    target.sparks:SetMagnitude(math.Rand(1, 3))
+                    target.sparks:SetEntity(target)
+                    
+                    util.Effect( "ElectricSpark", target.sparks, true, true )
                 end)
                 target.buttonBroken = true
+            end
+        end
+    end)
+    
+    hook.Add("PlayerUse", "ButtonInteractHurting", function(ply, ent)
+        if ( ent:GetClass() == "func_button" or timer.Exists("Entity"..tostring(ent:EntIndex()).."SparkTimer") ) then
+            if ( ( ent.buttonBroken or false ) or timer.Exists("Entity"..tostring(ent:EntIndex()).."SparkTimer") ) then
+                timer.Create(tostring(ply).."ButtonHurt", 0.5, 1, function()
+                    local dmginfo = DamageInfo()
+                    dmginfo:SetDamage(15)
+                    dmginfo:SetAttacker(ent)
+                    dmginfo:SetDamageType(DMG_SHOCK)
+                    
+                    ply:TakeDamageInfo(dmginfo)
+                end)
             end
         end
     end)

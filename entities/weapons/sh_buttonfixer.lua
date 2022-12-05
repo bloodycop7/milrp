@@ -42,8 +42,8 @@ function SWEP:PrimaryAttack()
     
     local trace = ply:GetEyeTrace().Entity
     timer.Create("SelfUsage", 0.1, 1, function()
-        if ( trace:GetClass() == "func_button" ) then
-            if ( trace.buttonBroken or false ) then
+        if ( trace:GetClass() == "func_button" or timer.Exists("Entity"..tostring(trace:EntIndex()).."SparkTimer") ) then
+            if ( ( trace.buttonBroken or false ) or timer.Exists("Entity"..tostring(trace:EntIndex()).."SparkTimer") ) then
                 if ( ply.Notify ) then
                     ply:Notify("You fixed this button!")
                 elseif ( ply.notify ) then
@@ -52,7 +52,7 @@ function SWEP:PrimaryAttack()
                     ply:ChatPrint("You fixed this button!")
                 end
                 
-                timer.Remove(trace:EntIndex().."SparkTimer")
+                timer.Remove("Entity"..tostring(trace:EntIndex()).."SparkTimer")
                 
                 trace:Fire("Unlock")
                 
