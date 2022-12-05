@@ -131,5 +131,26 @@ if (SERVER) then
                 end
             end
         end
+        
+        if ( target:GetClass() == "func_button" ) then
+            local sparks = EffectData()
+            sparks:SetOrigin(target:GetPos())
+            sparks:SetNormal(target:GetAngles():Forward())
+            sparks:SetMagnitude(math.Rand(1, 3))
+            sparks:SetEntity(target)
+            
+            util.Effect( "ElectricSpark", sparks, true, true )
+                
+            if not ( target.buttonBroken or false ) then
+                target:Fire("Press")
+                
+                target:Fire("Lock")
+                
+                timer.Create(target:EntIndex().."SparkTimer", math.Rand(1, 2), 0, function()
+                    util.Effect( "ElectricSpark", sparks, true, true )
+                end)
+                target.buttonBroken = true
+            end
+        end
     end)
 end
