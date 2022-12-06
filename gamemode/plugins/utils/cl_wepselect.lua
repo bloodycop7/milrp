@@ -30,6 +30,9 @@ mrp.wepSelect.alpha = mrp.wepSelect.alpha or 0
 mrp.wepSelect.alphaDelta = mrp.wepSelect.alphaDelta or mrp.wepSelect.alpha
 mrp.wepSelect.fadeTime = mrp.wepSelect.fadeTime or 0
 mrp.wepSelect.weapons = mrp.wepSelect.weapons or {}
+mrp.wepSelect.customWN = {
+	--["mg_scharlie"] = "Scar 17"
+}
 
 hook.Add( "HUDShouldDraw", "mrp.wepSelect_ShouldDraw", function(name)
 	if (name == "CHudWeaponSelection") then
@@ -69,7 +72,7 @@ hook.Add( "HUDPaint", "mrp.wepSelect_HUDPaint", function()
 				(255 - math.abs(theta * 3) * 255) * fraction
 			)
 
-			local ebatTextKruto = i == mrp.wepSelect.index and 10 + math.sin(CurTime()*4) * 5 or 10
+			local ebatTextKruto = i == mrp.wepSelect.index and 10 or 10
 
 			local lastY = 0
 
@@ -86,7 +89,7 @@ hook.Add( "HUDPaint", "mrp.wepSelect_HUDPaint", function()
 			end
 
 			surface.SetFont("mrp-Font25")
-			local weaponName = mrp.wepSelect.weapons[i]:GetPrintName():upper()
+			local weaponName = mrp.wepSelect.customWN[mrp.wepSelect.weapons[i]:GetClass()] or mrp.wepSelect.weapons[i]:GetPrintName():upper()
 			local _, ty = surface.GetTextSize(weaponName)
 			local scale = 1 - math.abs(theta * 2)
 
@@ -98,7 +101,7 @@ hook.Add( "HUDPaint", "mrp.wepSelect_HUDPaint", function()
 			matrix:Scale(Vector(1, 1, 0) * scale)
 
 			cam.PushModelMatrix(matrix)
-				NewDrawText(weaponName, ebatTextKruto, ty / 2 - 1, color3, 0, 1, "mrp-Font25")
+				NewDrawText(weaponName, ebatTextKruto, ty / 2 - 1, color3, 0, TEXT_ALIGN_CENTER, "mrp-Font25")
 				if i > mrp.wepSelect.index - 4 and i < mrp.wepSelect.index + 4 then
 				surface.SetTexture(surface.GetTextureID("vgui/gradient-l"))
 				surface.SetDrawColor(color2)
