@@ -296,6 +296,9 @@ function meta:IsTerrorist()
 end
 
 mrp.Changelogs = {
+	[5] = {
+		"Added New Weapon Selector"
+	},
 	[4] = {
 		"Added Freelook",
 		"Integrated Seat Weaponiser",
