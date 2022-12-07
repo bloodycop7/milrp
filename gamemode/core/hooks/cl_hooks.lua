@@ -188,3 +188,16 @@ function GM:CalcViewModelView(weapon, viewmodel, oldEyePos, oldEyeAng, eyePos, e
 
 	return vm_origin, vm_angles
 end
+
+hook.Add("PlayerTick", "MWHudHider", function(ply)
+	local weapon = ply:GetActiveWeapon()
+	if ( IsValid(weapon) and weapon:GetClass():find("mg_") ) then
+		weapon.DrawHUD = nil
+	end
+end)
+
+hook.Add("PlayerSwitchWeapon", "MWHudHider", function(ply, oldWep, newWep)
+	if ( newWep:GetClass():find("mg_") ) then
+		newWep.DrawHUD = nil
+	end
+end)

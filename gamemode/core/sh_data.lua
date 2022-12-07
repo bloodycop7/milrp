@@ -9,7 +9,7 @@ function mrp.data.Set(key, value, bGlobal, bIgnoreMap)
 	if (!bGlobal) then
 		file.CreateDir("mrp/" .. engine.ActiveGamemode() .. "/")
 	end
-    
+
 	file.CreateDir(path)
 	file.Write(path .. key .. ".txt", util.TableToJSON({value}))
 
@@ -28,7 +28,6 @@ function mrp.data.Get(key, default, bGlobal, bIgnoreMap, bRefresh)
 	end
 
 	local path = "mrp/" .. (bGlobal and "" or engine.ActiveGamemode() .. "/") .. (bIgnoreMap and "" or game.GetMap() .. "/")
-    
 	local contents = file.Read(path .. key .. ".txt", "DATA")
 
 	if (contents and contents != "") then
@@ -41,7 +40,7 @@ function mrp.data.Get(key, default, bGlobal, bIgnoreMap, bRefresh)
 				return value
 			end
 		end
-
+		
 		status, decoded = pcall(pon.decode, contents)
 
 		if (status and decoded) then
@@ -58,7 +57,6 @@ end
 
 function mrp.data.Delete(key, bGlobal, bIgnoreMap)
 	local path = "mrp/" .. (bGlobal and "" or engine.ActiveGamemode() .. "/") .. (bIgnoreMap and "" or game.GetMap() .. "/")
-
 	local contents = file.Read(path .. key .. ".txt", "DATA")
 
 	if (contents and contents != "") then

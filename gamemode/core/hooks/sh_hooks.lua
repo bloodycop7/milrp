@@ -253,7 +253,7 @@ local blacklistedweps = {}
 blacklistedweps["gmod_tool"] = true
 blacklistedweps["weapon_physgun"] = true
 blacklistedweps["mrp_hands"] = true
-blacklistedweps["mg_fist"] = true
+blacklistedweps["apexswep"] = true
 
 concommand.Add("dropweapon", function(ply, cmd, args)
     local target = ply:GetThrowPos()

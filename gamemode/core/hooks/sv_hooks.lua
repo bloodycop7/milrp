@@ -1,3 +1,13 @@
+function meta:SetRPName(name)
+	hook.Run("PlayerRPNameChanged", self, self:Name(), name)
+
+	self:SetSyncVar(SYNC_RPNAME, name, true)
+end
+
+function meta:GetSavedRPName()
+	return self.defaultRPName
+end
+
 local function canHearCheck(listener) -- based on darkrps voice chat optomization this is called every 0.5 seconds in the think hook
 	if not IsValid(listener) then return end
 
@@ -194,7 +204,7 @@ function GM:PlayerDisconnected(ply)
 	end
 end
 
-function GM:PlayerInitialSpawn(ply)
+function GM:PlayerInitialSpawn(ply)	
     timer.Simple(1, function()
         ply:KillSilent()
         ply:SendLua([[vgui.Create("MilMainMenu")]])
@@ -291,12 +301,15 @@ net.Receive("milMainMenuSpawn", function(len, ply)
         ply:SetTeam(TEAM_SOLDIER)
     end
 
-	local name = net.ReadString()
     if ( ply.firstMenuSpawn or true ) then
         ply:Spawn()
 		ply.firstMenuSpawn = false
     end
-	ply:SetSyncVar(SYNC_RPNAME, name, true)
+	
+	local name = net.ReadString()
+
+	ply:SetRPName(name)
+	
 	hook.Run("PlayerLoadout", ply)
     
     local modelr = "models/bread/cod/characters/milsim/shadow_company.mdl"
@@ -309,7 +322,7 @@ net.Receive("milMainMenuSpawn", function(len, ply)
     ply:Give("gmod_tool")
     ply:Give("weapon_physgun")
     ply:Give("mrp_hands")
-    ply:Give("mg_fist")
+    ply:Give("apexswep")
     ply:SetModel(modelr)
     ply:Give("mrp_rappel")
 	ply:SetRunSpeed(200)
@@ -346,9 +359,22 @@ net.Receive("milCallsignSet", function(len, ply)
 end)
 
 net.Receive("milMainMenuChangeName", function(len, ply)
+	if (ply.nextRPNameTry or 0) > CurTime() then return end
+	ply.nextRPNameTry = CurTime() + 2
+
 	local name = net.ReadString()
 
-	ply:SetSyncVar(SYNC_RPNAME, name, true)
+	local canUseName, output = mrp.CanUseName(name)
+
+	if canUseName then
+		ply:SetRPName(output)
+
+		hook.Run("PlayerChangeRPName", ply, output)
+		
+		ply:Notify("You have changed your name to "..output..".")
+	else
+		ply:Notify("Name rejected: "..output)
+	end
 end)
 
 function GM:PostCleanupMap()
@@ -412,7 +438,7 @@ function GM:PlayerSpawn(ply, transition)
     ply:Give("gmod_tool")
     ply:Give("weapon_physgun")
     ply:Give("mrp_hands")
-    ply:Give("mg_fist")
+    ply:Give("apexswep")
     ply:SetModel(modelr)
     ply:Give("mrp_rappel")
 	ply:SetRunSpeed(200)

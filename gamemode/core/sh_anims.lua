@@ -406,7 +406,7 @@ hook.Run("LoadAnimationClasses")
 ALWAYS_RAISED = ALWAYS_RAISED or {}
 ALWAYS_RAISED["weapon_physgun"] = true
 ALWAYS_RAISED["gmod_tool"] = true
-ALWAYS_RAISED["mg_fist"] = true
+ALWAYS_RAISED["apexswep"] = true
 ALWAYS_RAISED["weapon_bsmod_punch"] = true
 ALWAYS_RAISED["rappel"] = true -- My Rappelling Addon
 ALWAYS_RAISED["mrp_rappel"] = true

@@ -107,7 +107,23 @@ function GM:OnReloaded()
 	RunConsoleCommand("bsmod_killmove_glow", "0")
 	
 	RunConsoleCommand("gmod_mcore_test", "1")
+	
+	RunConsoleCommand("sbox_godmode", "0")
 end
+
+RunConsoleCommand("mat_queue_mode", "-1")
+RunConsoleCommand("cl_threaded_bone_setup", "1")
+RunConsoleCommand("r_shadows", "1")
+RunConsoleCommand("r_dynamic", "1")
+
+RunConsoleCommand("bsmod_kick_enabled", "0")
+RunConsoleCommand("bsmod_killmove_anytime", "1")
+RunConsoleCommand("bsmod_killmove_anytime_behind", "1")
+RunConsoleCommand("bsmod_killmove_glow", "0")
+
+RunConsoleCommand("gmod_mcore_test", "1")
+
+RunConsoleCommand("sbox_godmode", "0")
 
 function meta:IsCombine()
 	return self:GetModel():find("combine")

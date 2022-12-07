@@ -16,7 +16,7 @@ if SERVER then
 			return
 		end
 
-		ply:SetSyncVar(SYNC_RPNAME, output, true)
+		ply:SetRPName(output)
 		ply:Notify("You have changed your name to "..output..".")
 
 		ply.NameChangeForced = nil
