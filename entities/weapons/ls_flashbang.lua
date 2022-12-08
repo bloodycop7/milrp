@@ -34,7 +34,11 @@ SWEP.Primary.ClipSize = 1
 SWEP.Primary.DefaultClip = 1
 
 SWEP.Projectile = {}
-SWEP.Projectile.Model = "models/weapons/w_eq_flashbang_thrown.mdl"
+if ( IsMounted("cstrike") ) then
+	SWEP.Projectile.Model = "models/weapons/w_eq_flashbang_thrown.mdl"
+else
+	SWEP.Projectile.Model = "models/Items/grenadeAmmo.mdl"
+end
 SWEP.Projectile.HitSound = "weapons/flashbang/grenade_hit1.wav"
 SWEP.Projectile.Touch = false
 SWEP.Projectile.ForceMod = 3
@@ -52,7 +56,17 @@ function SWEP:ProjectileFire()
 	if not ( IsValid(owner) ) then return end
 
 	for k, v in pairs(player.GetAll()) do
-		if ( !self:IsLineOfSightClear(v:GetPos()) ) then
+
+		local ang = (self:GetPos() - v:GetShootPos()):GetNormalized():Angle()
+
+		local tracedata = {}
+
+		tracedata.start = v:GetShootPos()
+		tracedata.endpos = self:GetPos()
+		tracedata.filter = v
+		local tr = util.TraceLine(tracedata)
+
+		if (!tr.HitWorld) then
 			v:ScreenFade(SCREENFADE.IN, color_white, 5, 2.5)
 		end
 	end
