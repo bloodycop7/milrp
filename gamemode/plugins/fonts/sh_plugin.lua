@@ -19,8 +19,6 @@ if ( CLIENT ) then
             font = mrp.Config.Font,
             size = i,
             antialias = true,
-            shadow = true,
-            outline = true
         })
         
         mrp.font.Define("mrp-Font"..tostring(i).."-Shadow", {

@@ -43,10 +43,12 @@ function PANEL:Init()
             changelogText:SetText("● "..i)
             changelogText:SetTextColor(Color(217, 255, 0))
             changelogText:SetFont("mrp-Font21")
-            changelogText:SetContentAlignment(1)
             changelogText:DockMargin(10, 0, 0, 0)
             changelogText:SizeToContents()
             changelogText:Dock(TOP)
+            
+            changelogText:SetWrap(true)
+            changelogText:SetTall(changelogText:GetTall() * 2)
         end
     end
 end
