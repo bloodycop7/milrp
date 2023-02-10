@@ -739,6 +739,7 @@ function GM:PlayerFootstep(ply, pos, foot, sound, vol, filter)
 	end
 	
 	if not ( ply:KeyDown(IN_WALK) or ply:KeyDown(IN_DUCK) ) then
+		ply:ViewPunch(Angle(-0.45, 0, 0))
 		ply:EmitSound(newsound, 100, 100, vol)
 	end
 		

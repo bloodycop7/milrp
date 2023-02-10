@@ -2,7 +2,7 @@ PLUGIN.name = "Fonts"
 PLUGIN.author = "Apsys"
 PLUGIN.desc = "Font Library inspired by 'Minerva SCP RP'"
 
-mrp.Config.Font = "Arial"
+mrp.Config.Font = "Purista-Medium"
 
 mrp.font = mrp.font or {}
 mrp.font.Stored = mrp.font.Stored or {}

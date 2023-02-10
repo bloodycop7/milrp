@@ -8,6 +8,8 @@ function PANEL:Init()
     self:MoveToFront()
     self:SetTitle("")
     
+    local selectedTeam
+    
     self.teamPanel = self:Add("DPanel")
     self.teamPanel:SetPos(200, 30)
     self.teamPanel:SetSize(400, 670)
@@ -19,37 +21,51 @@ function PANEL:Init()
     self.scroll = self.teamPanel:Add("DScrollPanel")
     self.scroll:Dock(FILL)
     
+    local panel = self
+    
     for k, v in pairs(mrp.Teams.Stored) do
         surface.SetFont("mrp-Font22")
         local w, h = surface.GetTextSize(v.name)
-        self.teamButton = self.scroll:Add("DButton")
-        self.teamButton:Dock(TOP)
-        self.teamButton:DockMargin(0, 10, 0, 0)
-        self.teamButton:SetText(v.name)
-        self.teamButton:SetColor(color_white)
-        self.teamButton:SetSize(w + 100, 300)
-        self.teamButton:SetFont("mrp-Font22")
-        self.teamButton:SetContentAlignment(8)
-        self.teamButton.Paint = function(s, wi, he)
+        local teamButton = self.scroll:Add("DButton")
+        teamButton:Dock(TOP)
+        teamButton:SetTall(50)
+        teamButton:SetText("")
+        teamButton:DockMargin(0, 10, 0, 0)
+        teamButton:SetContentAlignment(8)
+        teamButton:MoveToFront()
+        teamButton.Paint = function(s, wi, he)
             surface.SetDrawColor(ColorAlpha(v.color, 70))
             surface.DrawRect(0, 0, wi, he)
+            
+            draw.DrawText("Become", "mrp-Font40", wi / 2, he / 2 - 25, color_white, TEXT_ALIGN_CENTER)
         end
-        self.teamButton.DoClick = function()
+        
+        function teamButton:OnCursorEntered()
+            panel.desclabel:SetText(v.description)
+            panel.desclabel:SetWrap(true)
+            panel.desclabel:SizeToContents()
+            
+            panel.namelabel:SetText(v.name)
+            panel.namelabel:SetWrap(true)
+            panel.namelabel:SizeToContents()
+        end
+        function teamButton:DoClick()
             net.Start("mrpSetTeamIndex")
                 net.WriteUInt(k, 8)
             net.SendToServer()
         end
-        self.model = self.teamButton:Add("DModelPanel")
-        local mdl = v.model
         
-        if ( istable(mdl) ) then
-            mdl = table.Random(v.model) 
+        local model = v.model
+        
+        if ( istable(v.model) ) then
+            model = v.model[math.random(1, #v.model)] 
         end
         
-        self.model:SetModel(mdl, (v.skin or 1))
-        self.model:SetPos(150, 50)
-        self.model:SetSize(80, 240)
+        self.model = self.scroll:Add("DModelPanel")
+        self.model:SetModel(model, (v.skin or 0))
         self.model:SetFOV(20)
+        self.model:SetTall(200)
+        
         if ( v.classes ) then
             if ( ply:Team() == k ) then
                 self.classespanel = self:Add("DPanel")
@@ -89,26 +105,31 @@ function PANEL:Init()
         end
     end
     
-    if ( mrp.Teams.Stored[ply:Team()].description ) then
-        self.descpanel = self:Add("DScrollPanel")
-        self.descpanel:SetPos(0, 450)
-        self.descpanel:SetSize(200, 250)
-        self.descpanel.Paint = function(s, w, h)
-            --surface.SetDrawColor(Color(0, 0, 0))
-            --surface.DrawRect(0, 0, w, h) 
-        end
-
-        self.desclabel = self.descpanel:Add("DTextEntry")
-        self.desclabel:SetMultiline(true)
-        --self.desclabel:SetEditable(false)
-        self.desclabel:SetDisabled(true)
-        self.desclabel:SetTextColor(color_white)
-        self.desclabel:SetPos(0, 0)
-        self.desclabel:SetSize(200, 250)
-        self.desclabel:SetValue(mrp.Teams.Stored[ply:Team()].description)
-        self.desclabel:SetFont("mrp-Font23")
-        self.desclabel:SetPaintBackground(false)
+    self.descpanel = self:Add("DScrollPanel")
+    self.descpanel:SetPos(0, 450)
+    self.descpanel:SetSize(200, 250)
+    self.descpanel.Paint = function(s, w, h)
+        --surface.SetDrawColor(Color(0, 0, 0))
+        --surface.DrawRect(0, 0, w, h) 
     end
+    
+    self.namelabel = self.descpanel:Add("DLabel")
+    self.namelabel:SetTextColor(color_white)
+    self.namelabel:Dock(TOP)
+    self.namelabel:SetTall(100)
+    self.namelabel:SetText("")
+    self.namelabel:SetWrap(true)
+    self.namelabel:SetFont("mrp-Font23")
+    self.namelabel:SizeToContents()
+    
+    self.desclabel = self.descpanel:Add("DLabel")
+    self.desclabel:SetTextColor(color_white)
+    self.desclabel:Dock(TOP)
+    self.desclabel:SetTall(150)
+    self.desclabel:SetText("")
+    self.desclabel:SetWrap(true)
+    self.desclabel:SetFont("mrp-Font23")
+    self.desclabel:SizeToContents()
 end
 
 vgui.Register("mrpTeamMenu", PANEL, "DFrame")

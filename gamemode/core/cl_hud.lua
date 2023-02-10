@@ -274,6 +274,15 @@ function meta:GetHPColor()
 	end
 end
 
+local nextOverheadCheck = 0
+local lastEnt
+local trace = {}
+local approach = math.Approach
+local letterboxFde = 0
+local textFde = 0
+local holdTime
+overheadEntCache = {}
+
 function GM:HUDPaintBackground()
 	if ( IsValid(mrp.gui.mainMenu) ) then return end
 	if not ( LocalPlayer():Alive() ) then return end
@@ -287,4 +296,58 @@ function GM:HUDPaintBackground()
 	surface.SetDrawColor(col or color_black)
 	surface.SetMaterial(Material("helix/gui/vignette.png"))
 	surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
+	
+	local lp = LocalPlayer()
+	local realTime = RealTime()
+	local frameTime = FrameTime()
+
+	if nextOverheadCheck < realTime then
+		nextOverheadCheck = realTime + 0.5
+		
+		trace.start = lp.GetShootPos(lp)
+		trace.endpos = trace.start + lp.GetAimVector(lp) * 300
+		trace.filter = lp
+		trace.mins = Vector(-4, -4, -4)
+		trace.maxs = Vector(4, 4, 4)
+		trace.mask = MASK_SHOT_HULL
+
+		lastEnt = util.TraceHull(trace).Entity
+
+		if IsValid(lastEnt) then
+			overheadEntCache[lastEnt] = true
+		end
+	end
+
+	if mrp.CinematicIntro and lp:Alive() then
+		local ft = FrameTime()
+		local maxTall =  ScrH() * .12
+
+		if holdTime and holdTime + 6 < CurTime() then
+			letterboxFde = math.Clamp(letterboxFde - ft * .5, 0, 1)
+			textFde = math.Clamp(textFde - ft * .3, 0, 1)
+
+			if letterboxFde == 0 then
+				mrp.CinematicIntro = false
+			end
+		elseif holdTime and holdTime + 4 < CurTime() then
+			textFde = math.Clamp(textFde - ft * .3, 0, 1)
+		else
+			letterboxFde = math.Clamp(letterboxFde + ft * .5, 0, 1)
+
+			if letterboxFde == 1 then
+				textFde = math.Clamp(textFde + ft * .1, 0, 1)
+				holdTime = holdTime or CurTime()
+			end
+		end
+
+		surface.SetDrawColor(color_black)
+		surface.DrawRect(0, 0, ScrW(), (maxTall * letterboxFde))
+		surface.DrawRect(0, (ScrH() - (maxTall * letterboxFde)) + 1, ScrW(), maxTall)
+
+		draw.DrawText(mrp.CinematicTitle, "mrp-Font36", ScrW() - 150, ScrH() * .905, ColorAlpha(color_white, (255 * textFde)), TEXT_ALIGN_RIGHT)
+	else
+		letterboxFde = 0
+		textFde = 0
+		holdTime = nil
+	end
 end
