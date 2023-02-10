@@ -44,7 +44,7 @@ function PANEL:SetMessage(tbl)
 end
 
 function PANEL:Paint(w, h)
-	self.message:Draw(w / 2,10, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+	self.message:Draw(w / 2, 10, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 end
 
 vgui.Register("mrpSub", PANEL, "DPanel")

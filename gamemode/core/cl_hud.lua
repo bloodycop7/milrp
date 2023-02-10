@@ -190,13 +190,15 @@ hook.Add("HUDPaint", "DisableStuff", function()
 		end
 	end
 	
-	ammocolor.a = hook.Run("GetAmmoHUDColorAlpha", ply, wep, ammocolor, ammocolor.a or 255)
-	
-	if ( IsValid(wep) ) then
-		local clip = wep:Clip1()
-		local ammo = ply:GetAmmoCount(wep:GetPrimaryAmmoType())
+	if ( mrp.GetSetting("hud_showammo", true) ) then
+		ammocolor.a = hook.Run("GetAmmoHUDColorAlpha", ply, wep, ammocolor, ammocolor.a or 255)
 		
-		draw.DrawText(clip, "mrp-Font60", ScrW() - 15, ScrH() - 70, ammocolor, TEXT_ALIGN_RIGHT)
+		if ( IsValid(wep) ) then
+			local clip = wep:Clip1()
+			local ammo = ply:GetAmmoCount(wep:GetPrimaryAmmoType())
+			
+			draw.DrawText(clip, "mrp-Font60", ScrW() - 15, ScrH() - 70, ammocolor, TEXT_ALIGN_RIGHT)
+		end
 	end
 
 	crosshaircolor.a = hook.Run("GetCrosshairAlpha", ply, wep, crosshaircolor, crosshaircolor.a)
@@ -210,7 +212,7 @@ hook.Add("HUDPaint", "DisableStuff", function()
 	draw.DrawText(string.sub(os.date("%X", os.time()), 1, dtextPos), "mrp-Font23", 15, ScrH() - 300, color_white, TEXT_ALIGN_LEFT)
 
 	if ( hook.Run("CanDrawCrosshair", ply) == true ) then
-		mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3, 50, crosshaircolor)
+		mrp.DrawCrosshair(ScrW() / 2, ScrH() / 2, 3.5, 50, crosshaircolor)
 	end
 end)
 

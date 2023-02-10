@@ -1,6 +1,8 @@
 mrp.Settings = mrp.Settings or {}
 mrp.AdvSettings = mrp.AdvSettings or {}
 
+table.Empty(mrp.Settings)
+
 function mrp.DefineSetting(name, settingdata)
 	mrp.Settings[name] = settingdata
 	mrp.LoadSettings()
@@ -109,3 +111,7 @@ concommand.Add("mrp_resetsettings", function()
 end)
 
 hook.Run("DefineSettings")
+
+hook.Add("DefineSettings", "SettingsLoad", function()
+	mrp.DefineSetting("hud_showammo", {name="Show Ammunition Indicator", category="HUD", type="tickbox", default=true})
+end)

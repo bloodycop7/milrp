@@ -29,7 +29,7 @@ function meta:Notify(message, col)
         local i = table.insert(mrp.notices, notice)
 
         notice:SetMessage(message, col)
-        notice:SetPos(ScrW(), ScrH() - (i - 1) * (notice:GetTall() + 4) + 4) -- needs to be recoded to support variable heights
+        notice:SetPos(ScrW() / 2, ScrH() - (i - 1) * (notice:GetTall() + 4) + 4) -- needs to be recoded to support variable heights
         notice:MoveToFront() 
         OrganizeNotices(i)
 

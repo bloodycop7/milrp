@@ -168,17 +168,6 @@ function mrp.Ops.ReportClose(ply, arg, rawText)
             isDc = true
         end
 
-        if reportClaimant and not isDc and IsValid(reportClaimant) then
-        	local query = mysql:Insert("mrp_reports")
-			query:Insert("reporter", reporter:SteamID())
-			query:Insert("mod", reportClaimant:SteamID())
-			query:Insert("message", string.sub(reportMessage, 1, 650))
-			query:Insert("start", os.date("%Y-%m-%d %H:%M:%S", os.time()))
-			query:Insert("claimwait", targetReport[5] - targetReport[4])
-			query:Insert("closewait", CurTime() - targetReport[4])
-			query:Execute(true)
-        end
-
         mrp.Ops.Reports[reportId] = nil
 
         for v,k in pairs(player.GetAll()) do
