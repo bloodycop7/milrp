@@ -390,7 +390,7 @@ if CLIENT then
         speaker:AddCaption({
 			speaker = speaker:Nick(), 
 			message = message, 
-			speakercol = Color(0, 0, 0), 
+			speakercol = team.GetColor(speaker:Team()), 
 			msgcol = color_white,
 			dots = true
 		})

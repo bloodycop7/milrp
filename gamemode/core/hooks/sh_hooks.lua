@@ -252,7 +252,6 @@ end
 local blacklistedweps = {}
 blacklistedweps["gmod_tool"] = true
 blacklistedweps["weapon_physgun"] = true
-blacklistedweps["mrp_hands"] = true
 blacklistedweps["apexswep"] = true
 
 concommand.Add("dropweapon", function(ply, cmd, args)

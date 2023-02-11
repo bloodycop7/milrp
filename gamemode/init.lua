@@ -19,7 +19,6 @@ function GM:PlayerLoadout(ply)
 
     ply:Give("gmod_tool")
     ply:Give("weapon_physgun")
-    ply:Give("mrp_hands")
     ply:Give("apexswep")
     ply:SetModel(modelr)
     ply:Give("mrp_rappel")

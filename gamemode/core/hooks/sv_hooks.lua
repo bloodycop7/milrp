@@ -317,7 +317,6 @@ net.Receive("milMainMenuSpawn", function(len, ply)
 
     ply:Give("gmod_tool")
     ply:Give("weapon_physgun")
-    ply:Give("mrp_hands")
     ply:Give("apexswep")
     ply:SetModel(modelr)
     ply:Give("mrp_rappel")
@@ -433,7 +432,6 @@ function GM:PlayerSpawn(ply, transition)
 
     ply:Give("gmod_tool")
     ply:Give("weapon_physgun")
-    ply:Give("mrp_hands")
     ply:Give("apexswep")
     ply:SetModel(modelr)
     ply:Give("mrp_rappel")
@@ -693,7 +691,6 @@ hook.Add("PlayerButtonDown", "HelicopterRappeling", function(ply, btn)
 							trg:Give(wep:GetClass())
 							trg:GetWeapon(wep:GetClass()):SetClip1(wep:Clip1())
 							ply:StripWeapon(wep:GetClass())
-							ply:SelectWeapon("mrp_hands")
 						else
 							ply:Notify("This player already has this weapon!", Color(0, 185, 255))
 						end
@@ -737,7 +734,7 @@ function GM:PlayerFootstep(ply, pos, foot, sound, vol, filter)
 	local ang = Angle(-0.4, 0, 0)
 	
 	if ( ply:IsSprinting() ) then
-		ang = Angle(2.5, 0, 0)
+		ang = Angle(2.3, math.Rand(-2.5, 2.5), 0)
 	end
 	
 	if not ( ply:KeyDown(IN_WALK) or ply:KeyDown(IN_DUCK) ) then
