@@ -262,11 +262,7 @@ function GM:PlayerSay(ply, text, teamChat, newChat)
 
 		for v,k in pairs(player.GetAll()) do
 			if (ply:GetPos() - k:GetPos()):LengthSqr() <= (300 ^ 2) then
-				k:AddCaption({
-					speaker = ply:Nick().." ["..ply:GetSyncVar(SYNC_CALLSIGN, "UNDEFINED-0").."]",
-					adddots = true,
-					message = ": "..text
-				})
+				k:SendChatClassMessage(1, text, ply)
 			end
 		end
 
@@ -738,8 +734,14 @@ function GM:PlayerFootstep(ply, pos, foot, sound, vol, filter)
 		newsound = "player/mrpfootsteps/tile"..math.random(1, 4)..".wav"
 	end
 	
+	local ang = Angle(-0.4, 0, 0)
+	
+	if ( ply:IsSprinting() ) then
+		ang = Angle(2.5, 0, 0)
+	end
+	
 	if not ( ply:KeyDown(IN_WALK) or ply:KeyDown(IN_DUCK) ) then
-		ply:ViewPunch(Angle(-0.45, 0, 0))
+		ply:ViewPunch(ang)
 		ply:EmitSound(newsound, 100, 100, vol)
 	end
 		

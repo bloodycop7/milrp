@@ -138,6 +138,45 @@ function mrp.relationships.Update(npc)
     end
 end
 
+function PLUGIN:PlayerTick(ply, mv)
+    if ( ( nextCheck or 0 ) < CurTime() ) then
+        local chance = math.random(1, 4)
+        for k, v in ipairs(ents.GetAll()) do
+            if ( v:IsNPC() ) then
+
+                if ( v:GetClass():find("vj_*") ) then
+                    v.DisableWandering = false
+                    mrp.relationships.Update(v)
+                    v.FollowPlayerCloseDistance = 64 -- vjbase
+                    return 
+                end
+                
+                v:SetKeyValue("spawnflags", "16384")
+                v:SetKeyValue("spawnflags", "2097152")
+                v:SetKeyValue("spawnflags", "8192") -- dont drop weapons
+                    
+                local weaponProficiency = WEAPON_PROFICIENCY_POOR
+                if ( chance == 1 ) then
+                    weaponProficiency = WEAPON_PROFICIENCY_AVERAGE
+                elseif ( chance == 2 ) then
+                    weaponProficiency = WEAPON_PROFICIENCY_GOOD
+                elseif ( chance == 3 ) then
+                    weaponProficiency = WEAPON_PROFICIENCY_VERY_GOOD
+                elseif ( chance == 4 ) then
+                    weaponProficiency = WEAPON_PROFICIENCY_PERFECT
+                end
+
+                if ( v.SetCurrentWeaponProficiency ) then
+                    v:SetCurrentWeaponProficiency(weaponProficiency)
+                end
+                mrp.relationships.Update(v)
+
+                nextCheck = CurTime() + 1.5
+            end
+        end
+    end
+end
+
 function PLUGIN:PlayerSpawnedNPC(ply, ent)
     local chance = math.random(1, 4)
     if ( ent:GetClass():find("vj_*") ) then

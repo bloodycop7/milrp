@@ -238,12 +238,12 @@ function PANEL:Paint(w, h)
     surface.SetDrawColor(20, 20, 20, 200)
     surface.DrawRect(0, 0, w, h)
 
-    draw.DrawText("Military Project", "mrp-Font100-Shadow", ScrW() / 2 - 50, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
+    draw.DrawText("Military Project", "mrp-Font100-ShadowItalic", ScrW() / 2 - 50, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     draw.DrawText("Changelogs", "mrp-Font70-Shadow", ScrW() - 300, 20, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     
     draw.DrawText("Plugins", "mrp-Font70-Shadow", ScrW() - 300, ScrH() - 489, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     if ( randomx ) then
-        draw.DrawText("Military Project", "mrp-Font100-Shadow", ScrW() / 2 - randomx, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
+        draw.DrawText("Military Project", "mrp-Font100-ShadowItalic", ScrW() / 2 - randomx, 50, mrp.Config.BaseColor, TEXT_ALIGN_CENTER)
     end
 end
 

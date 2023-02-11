@@ -28,5 +28,21 @@ if ( CLIENT ) then
             shadow = true,
             outline = true
         })
+        
+        mrp.font.Define("mrp-Font"..tostring(i).."Italic", {
+            font = mrp.Config.Font,
+            size = i,
+            antialias = true,
+            italic = true
+        })
+        
+        mrp.font.Define("mrp-Font"..tostring(i).."-ShadowItalic", {
+            font = mrp.Config.Font,
+            size = i,
+            antialias = true,
+            shadow = true,
+            outline = true,
+            italic = true
+        })
     end
 end
